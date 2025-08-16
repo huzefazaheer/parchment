@@ -1,0 +1,137 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id               String             @id @unique @default(uuid())
+  role             UserRole           @default(USER)
+  password         String
+  email            String             @unique
+  username         String
+  displayName      String
+  photo            String?
+  account_type     UserAccountPrivacy @default(PRIVATE)
+  followers        Follow[]           @relation("user-followers")
+  following        Follow[]           @relation("user-following")
+  posts            Post[]             @relation("post-user")
+  starredPosts     Post[]             @relation("post-star")
+  comments         Comment[]          @relation("comment-user")
+  liked_comments   Comment[]          @relation("comment-like")
+  chats            Chat[]             @relation("chat-user")
+  messages         ChatMessage[]      @relation("user-message")
+  reshares         Post[]             @relation("post-reshare")
+  sentRequests     FollowRequest[]    @relation("user-request-sender")
+  receivedRequests FollowRequest[]    @relation("user-request-receiver")
+  createdAt        DateTime           @default(now())
+
+  @@index([username])
+}
+
+model Post {
+  id              String         @id @unique @default(uuid())
+  post_visibility PostVisibility @default(PUBLIC)
+  text            String // How to best store this, especially embeds?
+  post_embed      Json?
+  date_published  DateTime       @default(now())
+  author          User           @relation("post-user", fields: [authorId], references: [id])
+  authorId        String
+  comments        Comment[]      @relation("comment-post")
+  starredBy       User[]         @relation("post-star")
+  resharedBy      User[]         @relation("post-reshare")
+  createdAt       DateTime       @default(now())
+  hashtags        Hashtag[]      @relation("post-hashtags")
+
+  @@index([authorId])
+}
+
+model Comment {
+  id              String   @id @unique @default(uuid())
+  text            String
+  author          User     @relation("comment-user", fields: [authorId], references: [id])
+  authorId        String
+  commentedPost   Post     @relation("comment-post", fields: [commentedPostId], references: [id])
+  commentedPostId String
+  likedBy         User[]   @relation("comment-like")
+  createdAt       DateTime @default(now())
+
+  @@index([commentedPostId])
+}
+
+model Chat {
+  id            String        @id @unique @default(uuid())
+  type          ChatType      @default(DIRECT)
+  users         User[]        @relation("chat-user")
+  messages      ChatMessage[] @relation("chat-message")
+  name          String
+  photo         String?
+  lastMessage   ChatMessage?  @relation("message-last", fields: [lastMessageId], references: [id])
+  lastMessageId String?       @unique
+  createdAt     DateTime      @default(now())
+}
+
+model ChatMessage {
+  id            String   @id @unique @default(uuid())
+  text          String
+  timestamp     DateTime @default(now())
+  sender        User     @relation("user-message", fields: [senderId], references: [id])
+  senderId      String
+  chat          Chat     @relation("chat-message", fields: [chatId], references: [id])
+  chatId        String
+  lastMessageOf Chat?    @relation("message-last")
+
+  @@index([chatId])
+}
+
+model FollowRequest {
+  id         String   @id @unique @default(uuid())
+  sender     User     @relation("user-request-sender", fields: [senderId], references: [id])
+  receiver   User     @relation("user-request-receiver", fields: [receiverId], references: [id])
+  senderId   String
+  receiverId String
+  accepted   Boolean  @default(false)
+  createdAt  DateTime @default(now())
+}
+
+model Follow {
+  id          String   @id @default(uuid())
+  follower    User     @relation("user-followers", fields: [followerId], references: [id])
+  followerId  String
+  following   User     @relation("user-following", fields: [followingId], references: [id])
+  followingId String
+  createdAt   DateTime @default(now())
+
+  @@unique([followerId, followingId]) // prevents duplicate follows
+}
+
+model Hashtag {
+  id    String @id @default(uuid())
+  name  String @unique
+  posts Post[] @relation("post-hashtags")
+}
+
+enum UserRole {
+  USER
+  ADMIN
+}
+
+enum UserAccountPrivacy {
+  PUBLIC
+  PRIVATE
+}
+
+enum PostVisibility {
+  PUBLIC
+  FOLLOWERS
+  UNLISTED
+}
+
+enum ChatType {
+  DIRECT
+  GROUP
+}
