@@ -115,6 +115,30 @@ model Hashtag {
   posts Post[] @relation("post-hashtags")
 }
 
+model AnalyticsEvent {
+  id        String    @id @default(uuid())
+  eventType EventType
+  userId    String
+  targetId  String?
+  metadata  Json?
+  timestamp DateTime  @default(now())
+
+  @@index([eventType, timestamp])
+  @@index([userId, timestamp])
+  @@index([timestamp])
+}
+
+enum EventType {
+  USER_REGISTERED
+  USER_LOGGED_IN
+  POST_CREATED
+  POST_LIKED
+  POST_COMMENTED
+  USER_FOLLOWED
+  MESSAGE_SENT
+  PROFILE_VIEWED
+}
+
 enum UserRole {
   USER
   ADMIN
