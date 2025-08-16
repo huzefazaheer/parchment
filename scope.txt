@@ -1,0 +1,5 @@
+ Real-time notifications + chat
+ Beautiful, responsive UI with dark mode
+ Search with autocomplete
+ Simple analytics dashboard
+ Deploy with proper documentation
