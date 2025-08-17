@@ -3,3 +3,7 @@
  Search with autocomplete
  Simple analytics dashboard
  Deploy with proper documentation
+ Posts, Comments, Chats
+ Proper front and backend testing
+ Express validator for security
+ Fluid UI with great animations
