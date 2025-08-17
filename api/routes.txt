@@ -1,0 +1,5 @@
+Auth /auth
+
+/update
+/login
+/signup

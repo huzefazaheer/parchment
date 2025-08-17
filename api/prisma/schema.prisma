@@ -13,7 +13,7 @@ model User {
   role             UserRole           @default(USER)
   password         String
   email            String             @unique
-  username         String
+  username         String             @unique
   displayName      String
   photo            String?
   account_type     UserAccountPrivacy @default(PRIVATE)
