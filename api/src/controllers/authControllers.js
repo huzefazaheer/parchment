@@ -41,7 +41,7 @@ async function createUserController(req, res) {
       req.body.displayName,
     )
 
-    const jwt = signUserJwt(user)
+    const jwt = await signUserJwt(user)
 
     return status.CREATED(res, jwt)
   } catch (error) {
@@ -57,16 +57,22 @@ async function loginUserWithUsernameController(req, res) {
   if (!(req.body && req.body.username && req.body.password))
     return status.BAD_REQUEST(res)
 
-  if (validator.isEmpty(req.body.email) || validator.isEmpty(req.body.password))
+  if (
+    validator.isEmpty(req.body.username) ||
+    validator.isEmpty(req.body.password)
+  )
     return status.BAD_REQUEST(res)
 
   try {
     const user = await getUserByUsername(req.body.username)
+
+    if (!user) return status.UNAUTHORIZED(res)
+
     const userIsSecure = await bcrypt.compare(req.body.password, user.password)
 
     if (!userIsSecure) return status.UNAUTHORIZED(res)
 
-    const jwt = signUserJwt(user)
+    const jwt = await signUserJwt(user)
 
     return status.OK(res, 'User logged in', jwt)
   } catch (error) {
@@ -87,11 +93,13 @@ async function loginUserWithEmailController(req, res) {
   try {
     const user = await getUserByEmail(req.body.email)
 
+    if (!user) return status.UNAUTHORIZED(res)
+
     const userIsSecure = await bcrypt.compare(req.body.password, user.password)
 
     if (!userIsSecure) return status.UNAUTHORIZED(res)
 
-    const jwt = signUserJwt(user)
+    const jwt = await signUserJwt(user)
 
     return status.OK(res, 'User logged in', jwt)
   } catch (error) {
@@ -103,7 +111,7 @@ async function updateJwtController(req, res) {
   try {
     const user = await getUserByUsername(req.user.username)
 
-    const jwt = signUserJwt(user)
+    const jwt = await signUserJwt(user)
 
     return status.OK(res, 'User jwt updated', jwt)
   } catch (error) {

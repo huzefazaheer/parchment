@@ -10,7 +10,7 @@ async function signUserJwt(user) {
     },
     process.env.SECRET_KEY,
   )
-  return updateJwtController
+  return jwt
 }
 
 module.exports = signUserJwt
