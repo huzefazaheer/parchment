@@ -1,5 +1,6 @@
 const bcrypt = require('bcrypt')
 const jsonwebtoken = require('jsonwebtoken')
+const validator = require('validator')
 const {
   createUser,
   getUserByUsername,
@@ -18,6 +19,16 @@ async function createUserController(req, res) {
       req.body.displayName &&
       req.body.email
     )
+  )
+    return status.BAD_REQUEST(res)
+
+  if (
+    validator.isEmpty(req.body.email) ||
+    !validator.isEmail(req.body.email) ||
+    validator.isEmpty(req.body.password) ||
+    validator.isEmpty(req.body.username) ||
+    validator.isEmpty(req.body.displayName) ||
+    !validator.isStrongPassword(req.body.password)
   )
     return status.BAD_REQUEST(res)
 
@@ -46,6 +57,9 @@ async function loginUserWithUsernameController(req, res) {
   if (!(req.body && req.body.username && req.body.password))
     return status.BAD_REQUEST(res)
 
+  if (validator.isEmpty(req.body.email) || validator.isEmpty(req.body.password))
+    return status.BAD_REQUEST(res)
+
   try {
     const user = await getUserByUsername(req.body.username)
     const userIsSecure = await bcrypt.compare(req.body.password, user.password)
@@ -63,9 +77,16 @@ async function loginUserWithUsernameController(req, res) {
 async function loginUserWithEmailController(req, res) {
   if (!(req.body && req.body.email && req.body.password))
     return status.BAD_REQUEST(res)
+  if (
+    validator.isEmpty(req.body.email) ||
+    !validator.isEmail(req.body.email) ||
+    validator.isEmpty(req.body.password)
+  )
+    return status.BAD_REQUEST(res)
 
   try {
     const user = await getUserByEmail(req.body.email)
+
     const userIsSecure = await bcrypt.compare(req.body.password, user.password)
 
     if (!userIsSecure) return status.UNAUTHORIZED(res)
