@@ -48,10 +48,10 @@ function NOT_FOUND(res) {
   })
 }
 
-function CONFLICT(res) {
+function CONFLICT(res, conflict) {
   res.status(409).json({
     success: false,
-    message: 'Username or Email already exists',
+    message: conflict + ' already exists',
     error: 'CONFLICT',
   })
 }

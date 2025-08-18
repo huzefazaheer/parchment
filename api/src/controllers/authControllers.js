@@ -7,6 +7,7 @@ const {
   getUserRole,
 } = require('../models/authdb')
 const status = require('../utils/status')
+const signUserJwt = require('../utils/jwt')
 
 async function createUserController(req, res) {
   if (
@@ -18,7 +19,7 @@ async function createUserController(req, res) {
       req.body.email
     )
   )
-    status.BAD_REQUEST(res)
+    return status.BAD_REQUEST(res)
 
   try {
     const hashedPassword = await bcrypt.hash(req.body.password, 10)
@@ -29,110 +30,76 @@ async function createUserController(req, res) {
       req.body.displayName,
     )
 
-    const jwt = await jsonwebtoken.sign(
-      {
-        id: user.id,
-        username: user.username,
-        email: user.email,
-        displayName: user.displayName,
-      },
-      process.env.SECRET_KEY,
-      {
-        expiresIn: '24h',
-      },
-    )
+    const jwt = signUserJwt(user)
 
-    status.CREATED(res, jwt)
+    return status.CREATED(res, jwt)
   } catch (error) {
-    // add unique constraint handler
+    if (error.code === 'P2002') {
+      return status.CONFLICT(res, error.meta.target[0])
+    }
 
-    status.INTERNAL_SERVER_ERROR(res)
+    return status.INTERNAL_SERVER_ERROR(res)
   }
 }
 
 async function loginUserWithUsernameController(req, res) {
   if (!(req.body && req.body.username && req.body.password))
-    status.BAD_REQUEST(res)
+    return status.BAD_REQUEST(res)
 
   try {
     const user = await getUserByUsername(req.body.username)
     const userIsSecure = await bcrypt.compare(req.body.password, user.password)
 
-    if (!userIsSecure) status.UNAUTHORIZED(res)
+    if (!userIsSecure) return status.UNAUTHORIZED(res)
 
-    const jwt = await jsonwebtoken.sign(
-      {
-        id: user.id,
-        username: user.username,
-        email: user.email,
-        displayName: user.displayName,
-      },
-      process.env.SECRET_KEY,
-    )
+    const jwt = signUserJwt(user)
 
-    status.OK(res, 'User logged in', jwt)
+    return status.OK(res, 'User logged in', jwt)
   } catch (error) {
-    status.INTERNAL_SERVER_ERROR(res)
+    return status.INTERNAL_SERVER_ERROR(res)
   }
 }
 
 async function loginUserWithEmailController(req, res) {
   if (!(req.body && req.body.email && req.body.password))
-    status.BAD_REQUEST(res)
+    return status.BAD_REQUEST(res)
 
   try {
     const user = await getUserByEmail(req.body.email)
     const userIsSecure = await bcrypt.compare(req.body.password, user.password)
 
-    if (!userIsSecure) status.UNAUTHORIZED(res)
+    if (!userIsSecure) return status.UNAUTHORIZED(res)
 
-    const jwt = await jsonwebtoken.sign(
-      {
-        id: user.id,
-        username: user.username,
-        email: user.email,
-        displayName: user.displayName,
-      },
-      process.env.SECRET_KEY,
-      {
-        expiresIn: '24h',
-      },
-    )
+    const jwt = signUserJwt(user)
 
-    status.OK(res, 'User logged in', jwt)
+    return status.OK(res, 'User logged in', jwt)
   } catch (error) {
-    status.INTERNAL_SERVER_ERROR(res)
+    return status.INTERNAL_SERVER_ERROR(res)
   }
 }
 
 async function updateJwtController(req, res) {
   try {
     const user = await getUserByUsername(req.user.username)
-    const jwt = await jsonwebtoken.sign(
-      {
-        id: user.id,
-        username: user.username,
-        email: user.email,
-        displayName: user.displayName,
-      },
-      process.env.SECRET_KEY,
-    )
-    status.OK(res, 'User jwt updated', jwt)
+
+    const jwt = signUserJwt(user)
+
+    return status.OK(res, 'User jwt updated', jwt)
   } catch (error) {
-    status.INTERNAL_SERVER_ERROR(res)
+    return status.INTERNAL_SERVER_ERROR(res)
   }
 }
 
 async function isAuth(req, res, next) {
   const authHeader = req.headers['authorization']
   if (!authHeader) {
-    status.UNAUTHORIZED(res, 'No jwt provided')
+    return status.UNAUTHORIZED(res, 'No jwt provided')
   }
   const jwt = authHeader.split(' ')[1]
 
   jsonwebtoken.verify(jwt, process.env.SECRET_KEY, (error, decoded) => {
     if (error) {
-      status.UNAUTHORIZED(res, 'JWT error')
+      return status.UNAUTHORIZED(res, 'JWT error')
     } else {
       req.user = decoded
       next()
@@ -142,14 +109,14 @@ async function isAuth(req, res, next) {
 
 async function isAdmin(req, res, next) {
   if (!req.user) {
-    status.UNAUTHORIZED(res, 'You are not logged in')
+    return status.UNAUTHORIZED(res, 'You are not logged in')
   }
   try {
     const user = await getUserRole(req.user.id)
-    if (user.role != ADMIN) status.FORBIDDEN(res)
+    if (user.role != ADMIN) return status.FORBIDDEN(res)
     else next()
   } catch (error) {
-    status.INTERNAL_SERVER_ERROR(res)
+    return status.INTERNAL_SERVER_ERROR(res)
   }
 }
 
