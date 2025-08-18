@@ -1,7 +1,10 @@
 const { execSync } = require('child_process')
 
 afterAll(() => {
-  execSync('npx prisma db push --force-reset', {
-    env: process.env,
-  })
+  try {
+    execSync('npx prisma migrate reset --force', {
+      env: process.env,
+      stdio: 'pipe',
+    })
+  } catch (error) {}
 })

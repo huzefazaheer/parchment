@@ -17,7 +17,9 @@ postRouter.post('/', isAuth, createPostController)
 
 postRouter.post('/:id', getPostController)
 
-postRouter.get('/:id/comments', (req, res) => res.redirect('/comments'))
+postRouter.get('/:id/comments', (req, res) =>
+  res.redirect('/comments?postid=' + req.params.id),
+)
 
 postRouter.get('/:id/comments/:id', (req, res) =>
   res.redirect('/comments/' + req.params.id),
@@ -27,6 +29,6 @@ postRouter.patch('/:id/visibility', isAuth, updatePostVisibilityController)
 
 postRouter.delete('/:id', isAuth, deletePostController)
 
-postRouter.get('/post/all', isAuth, isAdmin, getAllPostsController)
+postRouter.get('/all', isAuth, isAdmin, getAllPostsController)
 
 module.exports = postRouter

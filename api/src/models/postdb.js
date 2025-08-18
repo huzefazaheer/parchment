@@ -8,7 +8,7 @@ async function getPostById(id) {
   return post
 }
 
-async function getPosts(jump = 1) {
+async function getPosts(jump = 0) {
   const posts = await prisma.post.findMany({
     where: { post_visibility: 'PUBLIC' },
     take: 20,

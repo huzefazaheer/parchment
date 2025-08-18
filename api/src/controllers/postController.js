@@ -1,4 +1,5 @@
 const { getUserRole } = require('../models/authdb')
+const validator = require('validator')
 const {
   getPosts,
   getAllPosts,
@@ -28,17 +29,18 @@ async function getPostsController(req, res) {
   }
 }
 
-async function createPostController() {
-  if (!(req.boy && req.body.text)) return status.BAD_REQUEST(res)
+async function createPostController(req, res) {
+  if (!(req.body && req.body.text)) return status.BAD_REQUEST(res)
   if (validator.isEmpty(req.body.text)) return status.BAD_REQUEST(res)
   try {
-    const posts = await createPost(
+    const post = await createPost(
       req.user.id,
       req.body.text,
       req.body?.post_embed,
     )
-    return status.OK(res, 'Posts retrevied', posts)
+    return status.CREATED(res, 'Post created', post)
   } catch (error) {
+    console.log(error)
     return status.INTERNAL_SERVER_ERROR(res)
   }
 }
@@ -55,9 +57,9 @@ async function getAllPostsController(req, res) {
 async function updatePostVisibilityController(req, res) {
   if (!(req.body && req.body.visibility)) return status.BAD_REQUEST(res)
   try {
-    const post = await updatePostVisibility(req.params.id)
+    const post = await updatePostVisibility(req.params.id, req.body.visibility)
     if (post.authorId != req.user.id) return status.FORBIDDEN(res)
-    return status.OK(res, 'Post visibility updates', post)
+    return status.OK(res, 'Post visibility updated', post)
   } catch (error) {
     return status.INTERNAL_SERVER_ERROR(res)
   }
@@ -67,7 +69,7 @@ async function deletePostController(req, res) {
   try {
     const _post = await getPostById(req.params.id)
     const user = await getUserRole(req.user.id)
-    if (_post.authorId != req.params.id || user.role != admin)
+    if (_post.authorId !== req.user.id && user.role != 'ADMIN')
       return status.FORBIDDEN(res)
     const post = await deletePost(req.params.id)
     return status.OK(res, 'Post deleted', post)
