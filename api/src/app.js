@@ -5,11 +5,13 @@ const app = express()
 const PORT = process.env.PORT || 8080
 
 const status = require('./utils/status')
+const postRouter = require('./routes/postRoutes')
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
 app.use('/auth', authRouter)
+app.use('/posts', postRouter)
 
 app.use((req, res) => {
   status.NOT_FOUND(res)

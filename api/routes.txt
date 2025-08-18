@@ -3,3 +3,16 @@ Auth /auth
 /update
 /login
 /signup
+
+Users /users
+
+/
+/:id
+/:id/posts
+
+Posts /posts
+
+/
+/:id
+/:id/comments
+/all
