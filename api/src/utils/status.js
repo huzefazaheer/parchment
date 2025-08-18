@@ -53,6 +53,7 @@ function CONFLICT(res, conflict) {
     success: false,
     message: conflict + ' already exists',
     error: 'CONFLICT',
+    conflict: conflict,
   })
 }
 
