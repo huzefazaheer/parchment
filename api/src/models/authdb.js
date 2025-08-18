@@ -9,6 +9,7 @@ async function createUser(username, email, password, displayName) {
       displayName: displayName,
     },
     select: {
+      id: true,
       username: true,
       email: true,
       displayName: true,
@@ -24,6 +25,7 @@ async function getUserByUsername(username) {
       username: username,
     },
     select: {
+      id: true,
       username: true,
       email: true,
       displayName: true,
@@ -40,6 +42,7 @@ async function getUserByEmail(email) {
       email: email,
     },
     select: {
+      id: true,
       username: true,
       email: true,
       displayName: true,
@@ -50,4 +53,17 @@ async function getUserByEmail(email) {
   return user
 }
 
-module.exports = { createUser, getUserByUsername, getUserByEmail }
+async function getUserRole(id) {
+  const user = await prisma.user.findUnique({
+    where: {
+      id: id,
+    },
+    select: {
+      role: true,
+    },
+  })
+
+  return user
+}
+
+module.exports = { createUser, getUserByUsername, getUserByEmail, getUserRole }

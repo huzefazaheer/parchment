@@ -4,159 +4,160 @@ const {
   createUser,
   getUserByUsername,
   getUserByEmail,
+  getUserRole,
 } = require('../models/authdb')
+const status = require('../utils/status')
 
 async function createUserController(req, res) {
   if (
-    req.body &&
-    req.body.username &&
-    req.body.password &&
-    req.body.displayName &&
-    req.body.email
-  ) {
-    try {
-      const hashedPassword = await bcrypt.hash(req.body.password, 10)
-      const user = await createUser(
-        req.body.username,
-        req.body.email,
-        hashedPassword,
-        req.body.displayName,
-      )
+    !(
+      req.body &&
+      req.body.username &&
+      req.body.password &&
+      req.body.displayName &&
+      req.body.email
+    )
+  )
+    status.BAD_REQUEST(res)
 
-      const jwt = await jsonwebtoken.sign(user, process.env.SECRET_KEY, {
+  try {
+    const hashedPassword = await bcrypt.hash(req.body.password, 10)
+    const user = await createUser(
+      req.body.username,
+      req.body.email,
+      hashedPassword,
+      req.body.displayName,
+    )
+
+    const jwt = await jsonwebtoken.sign(
+      {
+        id: user.id,
+        username: user.username,
+        email: user.email,
+        displayName: user.displayName,
+      },
+      process.env.SECRET_KEY,
+      {
         expiresIn: '24h',
-      })
+      },
+    )
 
-      res.status(201).json({
-        success: true,
-        message: 'User created successfully',
-        error: 'CREATED',
-        data: jwt,
-      })
-    } catch (error) {
-      // add unique constraint handler
+    status.CREATED(res, jwt)
+  } catch (error) {
+    // add unique constraint handler
 
-      res.status(500).json({
-        success: false,
-        message: 'Internal database error',
-        error: 'INTERNAL_SERVER_ERROR',
-      })
-    }
-  } else
-    res.status(400).json({
-      success: false,
-      message: 'Invalid input data',
-      error: 'BAD_REQUEST',
-    })
+    status.INTERNAL_SERVER_ERROR(res)
+  }
 }
 
 async function loginUserWithUsernameController(req, res) {
-  if (req.body && req.body.username && req.body.password) {
-    try {
-      const user = await getUserByUsername(req.body.username)
-      const userIsSecure = await bcrypt.compare(
-        req.body.password,
-        user.password,
-      )
+  if (!(req.body && req.body.username && req.body.password))
+    status.BAD_REQUEST(res)
 
-      if (userIsSecure) {
-        const jwt = await jsonwebtoken.sign(
-          {
-            username: user.username,
-            password: user.password,
-            email: user.email,
-            displayName: user.displayName,
-          },
-          process.env.SECRET_KEY,
-          {
-            expiresIn: '24h',
-          },
-        )
+  try {
+    const user = await getUserByUsername(req.body.username)
+    const userIsSecure = await bcrypt.compare(req.body.password, user.password)
 
-        res.status(200).json({
-          success: true,
-          message: 'User logged in successfully',
-          error: 'OK',
-          data: jwt,
-        })
-      } else {
-        res.status(401).json({
-          success: false,
-          message: 'Invalid credentials',
-          error: 'Unauthorized ',
-          data: jwt,
-        })
-      }
-    } catch (error) {
-      res.status(500).json({
-        success: false,
-        message: 'Internal database error',
-        error: 'INTERNAL_SERVER_ERROR',
-      })
-    }
-  } else
-    res.status(400).json({
-      success: false,
-      message: 'Invalid input data',
-      error: 'BAD_REQUEST',
-    })
+    if (!userIsSecure) status.UNAUTHORIZED(res)
+
+    const jwt = await jsonwebtoken.sign(
+      {
+        id: user.id,
+        username: user.username,
+        email: user.email,
+        displayName: user.displayName,
+      },
+      process.env.SECRET_KEY,
+    )
+
+    status.OK(res, 'User logged in', jwt)
+  } catch (error) {
+    status.INTERNAL_SERVER_ERROR(res)
+  }
 }
 
 async function loginUserWithEmailController(req, res) {
-  if (req.body && req.body.email && req.body.password) {
-    try {
-      const user = await getUserByEmail(req.body.email)
-      const userIsSecure = await bcrypt.compare(
-        req.body.password,
-        user.password,
-      )
+  if (!(req.body && req.body.email && req.body.password))
+    status.BAD_REQUEST(res)
 
-      if (userIsSecure) {
-        const jwt = await jsonwebtoken.sign(
-          {
-            username: user.username,
-            password: user.password,
-            email: user.email,
-            displayName: user.displayName,
-          },
-          process.env.SECRET_KEY,
-          {
-            expiresIn: '24h',
-          },
-        )
+  try {
+    const user = await getUserByEmail(req.body.email)
+    const userIsSecure = await bcrypt.compare(req.body.password, user.password)
 
-        res.status(200).json({
-          success: true,
-          message: 'User logged in successfully',
-          error: 'OK',
-          data: jwt,
-        })
-      } else {
-        res.status(401).json({
-          success: false,
-          message: 'Invalid credentials',
-          error: 'Unauthorized ',
-          data: jwt,
-        })
-      }
-    } catch (error) {
-      console.log(error)
-      res.status(500).json({
-        success: false,
-        message: 'Internal database error',
-        error: 'INTERNAL_SERVER_ERROR',
-      })
+    if (!userIsSecure) status.UNAUTHORIZED(res)
+
+    const jwt = await jsonwebtoken.sign(
+      {
+        id: user.id,
+        username: user.username,
+        email: user.email,
+        displayName: user.displayName,
+      },
+      process.env.SECRET_KEY,
+      {
+        expiresIn: '24h',
+      },
+    )
+
+    status.OK(res, 'User logged in', jwt)
+  } catch (error) {
+    status.INTERNAL_SERVER_ERROR(res)
+  }
+}
+
+async function updateJwtController(req, res) {
+  try {
+    const user = await getUserByUsername(req.user.username)
+    const jwt = await jsonwebtoken.sign(
+      {
+        id: user.id,
+        username: user.username,
+        email: user.email,
+        displayName: user.displayName,
+      },
+      process.env.SECRET_KEY,
+    )
+    status.OK(res, 'User jwt updated', jwt)
+  } catch (error) {
+    status.INTERNAL_SERVER_ERROR(res)
+  }
+}
+
+async function isAuth(req, res, next) {
+  const authHeader = req.headers['authorization']
+  if (!authHeader) {
+    status.UNAUTHORIZED(res, 'No jwt provided')
+  }
+  const jwt = authHeader.split(' ')[1]
+
+  jsonwebtoken.verify(jwt, process.env.SECRET_KEY, (error, decoded) => {
+    if (error) {
+      status.UNAUTHORIZED(res, 'JWT error')
+    } else {
+      req.user = decoded
+      next()
     }
-  } else
-    res.status(400).json({
-      success: false,
-      message: 'Invalid input data',
-      error: 'BAD_REQUEST',
-    })
+  })
+}
+
+async function isAdmin(req, res, next) {
+  if (!req.user) {
+    status.UNAUTHORIZED(res, 'You are not logged in')
+  }
+  try {
+    const user = await getUserRole(req.user.id)
+    if (user.role != ADMIN) status.FORBIDDEN(res)
+    else next()
+  } catch (error) {
+    status.INTERNAL_SERVER_ERROR(res)
+  }
 }
 
 module.exports = {
   createUserController,
   loginUserWithUsernameController,
   loginUserWithEmailController,
+  updateJwtController,
+  isAuth,
+  isAdmin,
 }

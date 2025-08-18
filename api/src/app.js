@@ -4,17 +4,15 @@ const authRouter = require('./routes/authRoutes')
 const app = express()
 const PORT = process.env.PORT || 8080
 
+const status = require('./utils/status')
+
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
 app.use('/auth', authRouter)
 
 app.use((req, res) => {
-  res.status(404).json({
-    success: false,
-    message: 'Endpoint not found',
-    error: 'NOT_FOUND',
-  })
+  status.NOT_FOUND(res)
 })
 
 app.listen(PORT, () => {
