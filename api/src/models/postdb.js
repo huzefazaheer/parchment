@@ -1,4 +1,3 @@
-const { text } = require('express')
 const prisma = require('./prisma')
 
 async function getPostById(id) {
