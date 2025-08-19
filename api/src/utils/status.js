@@ -10,7 +10,7 @@ function OK(res, message, data) {
 function CREATED(res, data) {
   res.status(201).json({
     success: true,
-    message: 'User created successfully',
+    message: 'Item created successfully',
     status: 'CREATED',
     data: data,
   })

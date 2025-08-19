@@ -15,7 +15,7 @@ postRouter.get('/', getPostsController)
 
 postRouter.post('/', isAuth, createPostController)
 
-postRouter.post('/:id', getPostController)
+postRouter.get('/:id', getPostController)
 
 postRouter.get('/:id/comments', (req, res) =>
   res.redirect('/comments?postid=' + req.params.id),
