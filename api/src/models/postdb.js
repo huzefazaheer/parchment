@@ -1,3 +1,5 @@
+const { connect } = require('../routes/postRoutes')
+const { createHashtag } = require('./hashtag')
 const prisma = require('./prisma')
 
 async function getPostById(id) {
@@ -16,9 +18,19 @@ async function getPosts(jump = 0) {
   return posts
 }
 
-async function createPost(id, text, post_embed = '') {
+async function createPost(id, text, post_embed = '', hashtags = []) {
   const post = await prisma.post.create({
-    data: { text: text, post_embed: post_embed, authorId: id },
+    data: {
+      text: text,
+      post_embed: post_embed,
+      authorId: id,
+      hashtags: {
+        connectOrCreate: hashtags.map((hashtag) => ({
+          where: { name: hashtag },
+          create: { name: prisma.hashtag },
+        })),
+      },
+    },
   })
   return post
 }
@@ -59,6 +71,13 @@ async function deletePost(id) {
   return post
 }
 
+async function getPostsByHashtag(tag) {
+  const posts = await prisma.post.findMany({
+    where: { hashtags: { some: { name: tag } } },
+  })
+  return posts
+}
+
 module.exports = {
   getPosts,
   getAllPosts,
@@ -68,4 +87,5 @@ module.exports = {
   getPostById,
   updatePostVisibility,
   deletePost,
+  getPostsByHashtag,
 }

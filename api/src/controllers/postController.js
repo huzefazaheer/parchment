@@ -36,7 +36,8 @@ async function createPostController(req, res) {
     const post = await createPost(
       req.user.id,
       req.body.text,
-      req.body?.post_embed,
+      req.body?.post_embed ? req.body.post_embed : '',
+      req.body?.hashtags ? req.body.hashtags : [],
     )
     return status.CREATED(res, 'Post created', post)
   } catch (error) {
@@ -77,6 +78,8 @@ async function deletePostController(req, res) {
     return status.INTERNAL_SERVER_ERROR(res)
   }
 }
+
+async function getHashtagPostsController(req, res) {}
 
 module.exports = {
   getPostsController,
