@@ -38,9 +38,27 @@ async function getUserReshares(id) {
   return posts
 }
 
+async function getUserFollowers(id) {
+  const users = await prisma.user.findUnique({
+    where: { id: id },
+    select: { followers },
+  })
+  return users
+}
+
+async function getUserFollowing(id) {
+  const users = await prisma.user.findUnique({
+    where: { id: id },
+    select: { following },
+  })
+  return users
+}
+
 module.exports = {
   getUserProfile,
   getUserPosts,
   getUserComments,
   getUserReshares,
+  getUserFollowers,
+  getUserFollowing,
 }
