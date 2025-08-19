@@ -8,6 +8,7 @@ const status = require('./utils/status')
 const postRouter = require('./routes/postRoutes')
 const commentRouter = require('./routes/commentRoutes')
 const userRouter = require('./routes/userRoutes')
+const followreqRouter = require('./routes/followreqRoutes')
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
@@ -16,6 +17,7 @@ app.use('/auth', authRouter)
 app.use('/posts', postRouter)
 app.use('/comments', commentRouter)
 app.use('/user', userRouter)
+app.use('/followreq', followreqRouter)
 
 app.use((req, res) => {
   status.NOT_FOUND(res)

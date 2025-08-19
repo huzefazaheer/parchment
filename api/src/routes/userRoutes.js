@@ -8,6 +8,7 @@ const {
   getUserFollowersController,
   getUserFollowingController,
 } = require('../controllers/userController')
+const { isAuth } = require('../controllers/authControllers')
 
 const userRouter = Router()
 

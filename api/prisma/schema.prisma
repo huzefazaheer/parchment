@@ -94,7 +94,6 @@ model FollowRequest {
   receiver   User     @relation("user-request-receiver", fields: [receiverId], references: [id])
   senderId   String
   receiverId String
-  accepted   Boolean  @default(false)
   createdAt  DateTime @default(now())
 }
 
