@@ -10,12 +10,18 @@ async function getChatById(id) {
   return chat
 }
 
-async function createChat(name, members = [], type = 'DIRECT') {
+async function createChat(
+  name,
+  members = [],
+  type = 'DIRECT',
+  photo = 'https://cdn-icons-png.flaticon.com/512/33/33308.png',
+) {
   const chat = await prisma.chat.create({
     data: {
       name: name,
       users: { connect: members.map((user) => ({ id: user.id })) },
       type: type,
+      photo: photo,
     },
   })
   return chat
