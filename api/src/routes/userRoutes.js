@@ -7,12 +7,15 @@ const {
   getUserResharesController,
   getUserFollowersController,
   getUserFollowingController,
+  getUserChatsController,
 } = require('../controllers/userController')
 const { isAuth } = require('../controllers/authControllers')
 
 const userRouter = Router()
 
 userRouter.get('/:id', getUserProfileController)
+
+userRouter.get('/:id/chats', getUserChatsController)
 
 userRouter.get('/:id/posts', getUserPostsController)
 

@@ -5,6 +5,7 @@ const {
   getUserReshares,
   getUserFollowers,
   getUserFollowing,
+  getUserChats,
 } = require('../models/userdb')
 const status = require('../utils/status')
 
@@ -62,6 +63,15 @@ async function getUserFollowingController(req, res) {
   }
 }
 
+async function getUserChatsController(req, res) {
+  try {
+    const chats = await getUserChats(req.user.id)
+    status.OK(res, 'User chats reterived', chats)
+  } catch (error) {
+    status.INTERNAL_SERVER_ERROR(res)
+  }
+}
+
 module.exports = {
   getUserCommentsController,
   getUserPostsController,
@@ -69,4 +79,5 @@ module.exports = {
   getUserResharesController,
   getUserFollowersController,
   getUserFollowingController,
+  getUserChatsController,
 }

@@ -54,6 +54,14 @@ async function getUserFollowing(id) {
   return users
 }
 
+async function getUserChats(id) {
+  const users = await prisma.user.findUnique({
+    where: { id: id },
+    select: { chats: true },
+  })
+  return users
+}
+
 module.exports = {
   getUserProfile,
   getUserPosts,
@@ -61,4 +69,5 @@ module.exports = {
   getUserReshares,
   getUserFollowers,
   getUserFollowing,
+  getUserChats,
 }
