@@ -8,10 +8,13 @@ const {
   getUserFollowersController,
   getUserFollowingController,
   getUserChatsController,
+  searchUserController,
 } = require('../controllers/userController')
 const { isAuth } = require('../controllers/authControllers')
 
 const userRouter = Router()
+
+userRouter.get('/', searchUserController)
 
 userRouter.get('/:id', getUserProfileController)
 
