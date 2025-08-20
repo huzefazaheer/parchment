@@ -7,6 +7,7 @@ const {
   getPostById,
   updatePostVisibility,
   deletePost,
+  getPostsByHashtag,
 } = require('../models/postdb')
 const status = require('../utils/status')
 
@@ -22,9 +23,12 @@ async function getPostController(req, res) {
 
 async function getPostsController(req, res) {
   try {
-    const posts = await getPosts()
+    let posts
+    if (req.query?.tag) posts = await getPostsByHashtag(req.query.tag)
+    else posts = await getPosts()
     return status.OK(res, 'Posts retrevied', posts)
   } catch (error) {
+    console.log(error)
     return status.INTERNAL_SERVER_ERROR(res)
   }
 }
@@ -41,7 +45,6 @@ async function createPostController(req, res) {
     )
     return status.CREATED(res, 'Post created', post)
   } catch (error) {
-    console.log(error)
     return status.INTERNAL_SERVER_ERROR(res)
   }
 }

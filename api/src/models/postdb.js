@@ -1,5 +1,3 @@
-const { connect } = require('../routes/postRoutes')
-const { createHashtag } = require('./hashtag')
 const prisma = require('./prisma')
 
 async function getPostById(id) {
@@ -27,7 +25,7 @@ async function createPost(id, text, post_embed = '', hashtags = []) {
       hashtags: {
         connectOrCreate: hashtags.map((hashtag) => ({
           where: { name: hashtag },
-          create: { name: prisma.hashtag },
+          create: { name: hashtag },
         })),
       },
     },

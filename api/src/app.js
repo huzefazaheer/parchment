@@ -9,6 +9,7 @@ const postRouter = require('./routes/postRoutes')
 const commentRouter = require('./routes/commentRoutes')
 const userRouter = require('./routes/userRoutes')
 const followreqRouter = require('./routes/followreqRoutes')
+const chatRouter = require('./routes/chatRoutes')
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
@@ -17,6 +18,7 @@ app.use('/auth', authRouter)
 app.use('/posts', postRouter)
 app.use('/comments', commentRouter)
 app.use('/user', userRouter)
+app.use('/chats', chatRouter)
 app.use('/followreq', followreqRouter)
 
 app.use((req, res) => {
@@ -24,6 +26,7 @@ app.use((req, res) => {
 })
 
 app.use((error, req, res, next) => {
+  console.log(error)
   status.INTERNAL_SERVER_ERROR(res)
 })
 

@@ -68,7 +68,7 @@ model Chat {
   type          ChatType      @default(DIRECT)
   users         User[]        @relation("chat-user")
   messages      ChatMessage[] @relation("chat-message")
-  name          String
+  name          String?
   photo         String?
   lastMessage   ChatMessage?  @relation("message-last", fields: [lastMessageId], references: [id])
   lastMessageId String?       @unique

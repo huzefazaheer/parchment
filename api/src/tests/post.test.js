@@ -41,6 +41,7 @@ describe('POST /posts', () => {
       .send({
         text: 'Hello world',
         post_embed: { type: 'img', url: 'google.com' },
+        hashtags: ['devpost'],
       })
       .expect('Content-Type', /json/)
       .expect(201)
@@ -55,6 +56,15 @@ describe('GET /posts', () => {
       .expect(200)
     expect(res.body.data).not.toHaveLength(0)
     id = res.body.data[0].id
+  })
+
+  it('OK with get by hashtag', async () => {
+    const res = await request(app)
+      .get('/')
+      .query('tag=devpost')
+      .expect('Content-Type', /json/)
+      .expect(200)
+    expect(res.body.data).not.toHaveLength(0)
   })
 })
 

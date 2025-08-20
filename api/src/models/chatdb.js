@@ -6,7 +6,10 @@ async function getChatMessages(id) {
 }
 
 async function getChatById(id) {
-  const chat = await prisma.chat.findUnique({ where: { id: id } })
+  const chat = await prisma.chat.findUnique({
+    where: { id: id },
+    include: { users: true },
+  })
   return chat
 }
 
@@ -18,8 +21,8 @@ async function createChat(
 ) {
   const chat = await prisma.chat.create({
     data: {
-      name: name,
-      users: { connect: members.map((user) => ({ id: user.id })) },
+      name: type == 'DIRECT' ? null : '',
+      users: { connect: members.map((user) => ({ id: user })) },
       type: type,
       photo: photo,
     },
