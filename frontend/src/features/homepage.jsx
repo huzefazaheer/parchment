@@ -1,7 +1,12 @@
 import { useContext } from 'react'
 import { appContext } from '../App'
+import Post from '../components/post/post'
+import PostEmbed from '../components/post/components/postembed'
 
 export default function Home() {
-  const { jwt } = useContext(appContext)
-  return <h1>{jwt ? jwt : 'no jwt'}</h1>
+  return (
+    <>
+      <div className={stylesnody}></div>
+    </>
+  )
 }

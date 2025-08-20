@@ -1,0 +1,92 @@
+.post {
+  max-width: 600px;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 10px;
+  transition: background-color 100ms linear;
+  padding: 15px;
+  border-bottom: 1px solid #bca890;
+}
+
+.post > * {
+  cursor: default;
+}
+
+.right {
+  width: 500px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.header {
+  display: flex;
+  flex-direction: row;
+  align-items: first baseline;
+  gap: 5px;
+  margin-top: 0;
+  margin-bottom: 5px;
+}
+
+.post .profilephoto {
+  width: 48px;
+  height: 48px;
+  border-radius: 48px;
+  cursor: pointer;
+}
+
+.displayname {
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.dot {
+  font-size: 20px;
+  color: #413d36;
+}
+
+.username,
+.time {
+  color: #413d36;
+  font-size: 14px;
+}
+
+.text {
+  margin-top: 0;
+  font-size: 15px;
+  color: #413d36;
+}
+
+.post ul {
+  list-style: none;
+  display: flex;
+  gap: 40px;
+  padding: 0;
+  margin-left: 20px;
+}
+
+.post ul li p {
+  text-align: center;
+  margin-top: 0px;
+  font-size: 12px;
+}
+
+.post ul li img {
+  width: 24px;
+  height: 24px;
+  transition: transform 200ms ease-in-out;
+}
+
+.post ul li img:hover {
+  transform: translateY(-2px);
+}
+
+.post ul li img:active {
+  transform: translateY(1px);
+}
+
+.post:hover {
+  background-color: #d0bfa5;
+}
