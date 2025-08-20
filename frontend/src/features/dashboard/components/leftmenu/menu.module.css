@@ -1,0 +1,28 @@
+.menu {
+  position: fixed;
+  left: 0;
+  margin-left: 45px;
+  width: 29vw;
+  padding-top: 20px;
+}
+
+.title {
+  color: #675752;
+  font-size: 24px;
+  font-weight: 900;
+}
+
+.calltoaction {
+  margin-top: 8vh;
+  width: 236px;
+}
+
+.actionheading {
+  color: #4a2c2c;
+  font-size: 24px;
+  font-weight: 800;
+}
+
+.calltoaction button:last-of-type {
+  margin-top: 10px;
+}

@@ -5,7 +5,7 @@ export function PrimaryButton({ children, onClick, width = '' }) {
     <button
       className={styles['button--primary']}
       onClick={onClick}
-      style={width != '' ? { width: width } : ''}
+      style={width != '' ? { width: width } : { width: 'fit' }}
     >
       {children}
     </button>
@@ -17,7 +17,7 @@ export function SecondaryButton({ children, onClick, width = '' }) {
     <button
       className={styles['button--secondary']}
       onClick={onClick}
-      style={width != '' ? { width: width } : ''}
+      style={width != '' ? { width: width } : { width: 'fit' }}
     >
       {children}
     </button>
