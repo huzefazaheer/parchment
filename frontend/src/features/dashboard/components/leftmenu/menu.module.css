@@ -12,7 +12,8 @@
   font-weight: 900;
 }
 
-.calltoaction {
+.calltoaction,
+.menuitems {
   margin-top: 8vh;
   width: 236px;
 }
@@ -25,4 +26,54 @@
 
 .calltoaction button:last-of-type {
   margin-top: 10px;
+}
+
+.hidden {
+  display: none;
+}
+
+.profile {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.profile img {
+  width: 64px;
+  height: 64px;
+}
+
+.profiletext p {
+  margin: 0;
+  color: #413d36;
+  font-size: 16px;
+}
+
+.profiletext p:last-of-type {
+  font-weight: 600;
+  font-size: 15px;
+}
+
+.menuitems {
+  list-style: none;
+  padding: 0;
+}
+
+.menuitems li {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding-left: 30px;
+  text-align: left;
+}
+
+.menuitems li img {
+  width: 24px;
+  height: 24px;
+}
+
+.menuitems li p {
+  color: #675752;
+  font-weight: 500;
+  font-size: 18px;
 }
