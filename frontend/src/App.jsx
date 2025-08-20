@@ -13,6 +13,7 @@ function App() {
         placeholder="Enter your email address"
         value={value}
         setValue={setValue}
+        icon1={'/email.svg'}
       ></InputField>
       <div className="card">
         <SecondaryButton onClick={() => setCount((count) => count + 1)}>
