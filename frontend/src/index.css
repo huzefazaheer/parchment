@@ -9,6 +9,8 @@ body {
   background-color: var(--color-bg);
   font-family: 'Inter', sans-serif;
   color: black;
+  margin: 0;
+  padding: 0;
 }
 
 a {
@@ -18,4 +20,24 @@ a {
 
 a:hover {
   text-decoration: underline;
+}
+
+.date-input-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.date-input-wrapper input[type='date'] {
+  padding-right: 30px; /* Make space for overlay */
+}
+
+.date-input-wrapper::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 30px;
+  height: 100%;
+  background: white; /* Match your input background */
+  pointer-events: none;
 }

@@ -11,21 +11,23 @@
   font-size: 16px;
   font-weight: 700;
   margin-bottom: 5px;
+  width: 100%;
   margin-left: 5px;
   text-transform: capitalize;
   transition: transform 200ms ease;
 }
 
 .input input {
+  font-family: 'Inter', sans-serif;
   border: none;
   height: 52px;
-  width: 100%;
+  width: 90%;
   padding-left: 10px;
   border-radius: 6px;
   font-size: 16px;
-  font-weight: 600;
+  font-weight: 500;
   opacity: 1;
-  transition: opacity 200ms ease;
+  transition: opacity 150ms ease;
 }
 
 .input input:focus {
@@ -38,13 +40,20 @@
 }
 
 .inputwrapper img.last {
+  display: block;
   margin-right: 15px;
   padding-left: 15px;
   border-left: 2px solid var(--color-bg);
+  opacity: 0.7;
+  cursor: default;
 }
 
-.input::placeholder {
-  font-size: 18px;
+.inputwrapper img.last:hover {
+  opacity: 1;
+}
+
+.input input::placeholder {
+  font-size: 16px;
   font-weight: 600;
 }
 
@@ -53,7 +62,7 @@
   cursor: text;
 }
 
-.input.unselected input::placeholder {
+.input.unselected input {
   opacity: 0;
 }
 
