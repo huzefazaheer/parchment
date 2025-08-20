@@ -1,26 +1,26 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { PrimaryButton, SecondaryButton } from './components/ui/buttons/buttons'
+import { InputField } from './components/ui/inputfield/inputfield'
 
 function App() {
   const [count, setCount] = useState(0)
-
+  const [value, setValue] = useState('')
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
       <h1>Vite + React</h1>
+      <InputField
+        label={'email'}
+        placeholder="Enter your email address"
+        value={value}
+        setValue={setValue}
+      ></InputField>
       <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
+        <SecondaryButton onClick={() => setCount((count) => count + 1)}>
           count is {count}
-        </button>
+        </SecondaryButton>
+        <PrimaryButton onClick={() => setCount((count) => count + 1)}>
+          Sign in
+        </PrimaryButton>
         <p>
           Edit <code>src/App.jsx</code> and save to test HMR
         </p>

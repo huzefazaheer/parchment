@@ -1,0 +1,44 @@
+.input--primary label {
+  display: block;
+  color: var(--color-accent2);
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 5px;
+  margin-left: 10px;
+  text-transform: capitalize;
+  transition: transform 200ms ease;
+}
+
+.input--primary input {
+  background-color: var(--color-secondary);
+  border: none;
+  border-radius: 6px;
+  height: 52px;
+  width: 600px;
+  padding-left: 10px;
+  color: var(--color-accent2);
+  font-size: 16px;
+  font-weight: 600;
+  opacity: 1;
+  transition: opacity 200ms ease;
+}
+
+.input--primary input::placeholder {
+  font-size: 18px;
+  color: var(--color-accent2);
+  font-weight: 600;
+}
+
+.input--primary input:focus {
+  outline: 2px solid var(--color-accent2);
+  /* outline: none; */
+}
+
+.input--primary.unselected label {
+  transform: translateY(42px);
+  cursor: text;
+}
+
+.input--primary.unselected input::placeholder {
+  opacity: 0;
+}
