@@ -15,6 +15,6 @@ followreqRouter.patch('/:id', isAuth, acceptFollowReqController)
 
 followreqRouter.get('/sent', isAuth, getSentReqController)
 
-followreqRouter.get('/received', getReceivedReqController)
+followreqRouter.get('/received', isAuth, getReceivedReqController)
 
 module.exports = followreqRouter

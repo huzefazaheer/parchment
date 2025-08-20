@@ -41,7 +41,7 @@ async function getUserReshares(id) {
 async function getUserFollowers(id) {
   const users = await prisma.user.findUnique({
     where: { id: id },
-    select: { followers },
+    select: { followers: true },
   })
   return users
 }
@@ -49,7 +49,7 @@ async function getUserFollowers(id) {
 async function getUserFollowing(id) {
   const users = await prisma.user.findUnique({
     where: { id: id },
-    select: { following },
+    select: { following: true },
   })
   return users
 }

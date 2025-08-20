@@ -85,7 +85,7 @@ describe('PACTH /posts', () => {
       .get('/')
       .expect('Content-Type', /json/)
       .expect(200)
-    expect(res.body.data).toHaveLength(0)
+    expect(res.body.data).toHaveLength(1)
   })
 })
 

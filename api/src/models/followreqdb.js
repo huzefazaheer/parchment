@@ -1,14 +1,14 @@
 const prisma = require('./prisma')
 
 async function getReceivedFollowRequests(id) {
-  const followreq = await prisma.followRequest.findUnique({
+  const followreq = await prisma.followRequest.findMany({
     where: { receiverId: id },
   })
   return followreq
 }
 
 async function getSentFollowRequests(id) {
-  const followreq = await prisma.followRequest.findUnique({
+  const followreq = await prisma.followRequest.findMany({
     where: { senderId: id },
   })
   return followreq

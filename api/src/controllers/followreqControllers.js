@@ -11,6 +11,7 @@ async function getSentReqController(req, res) {
     const reqs = await getSentFollowRequests(req.user.id)
     status.OK(res, 'User reqs reterived', reqs)
   } catch (error) {
+    console.log(error)
     status.INTERNAL_SERVER_ERROR(res)
   }
 }
@@ -20,6 +21,7 @@ async function getReceivedReqController(req, res) {
     const reqs = await getReceivedFollowRequests(req.user.id)
     status.OK(res, 'User reqs reterived', reqs)
   } catch (error) {
+    console.log(error)
     status.INTERNAL_SERVER_ERROR(res)
   }
 }
@@ -27,8 +29,8 @@ async function getReceivedReqController(req, res) {
 async function createFollowReqController(req, res) {
   if (!(req.body && req.body.id)) return status.BAD_REQUEST(res)
   try {
-    const req = await createFollowRequest(req.user.id, req.body.id)
-    status.CREATED(res, req)
+    const request = await createFollowRequest(req.user.id, req.body.id)
+    status.CREATED(res, request)
   } catch (error) {
     status.INTERNAL_SERVER_ERROR(res)
   }
@@ -37,9 +39,10 @@ async function createFollowReqController(req, res) {
 async function acceptFollowReqController(req, res) {
   if (!(req.body && req.body.id)) return status.BAD_REQUEST(res)
   try {
-    const req = await acceptFollowRequest(req.body.id)
-    status.OK(res, 'Follow request accepted', req)
+    const request = await acceptFollowRequest(req.body.id)
+    status.OK(res, 'Follow request accepted', request)
   } catch (error) {
+    console.log(error)
     status.INTERNAL_SERVER_ERROR(res)
   }
 }

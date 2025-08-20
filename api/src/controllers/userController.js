@@ -59,6 +59,7 @@ async function getUserFollowingController(req, res) {
     const user = await getUserFollowing(req.params.id)
     status.OK(res, 'User following reterived', user)
   } catch (error) {
+    console.log(error)
     status.INTERNAL_SERVER_ERROR(res)
   }
 }
