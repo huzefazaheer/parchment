@@ -12,10 +12,6 @@ export default function LoginPage() {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
 
-  function togglePassword(e) {
-    console.log(e)
-  }
-
   return (
     <div className={styles.login}>
       <h1>Parchment</h1>
@@ -37,7 +33,6 @@ export default function LoginPage() {
             icon2={'/eye.svg'}
             value={password}
             setValue={setPassword}
-            onClickIcon2={(e) => togglePassword(e)}
           ></InputField>
         </div>
         <p>
