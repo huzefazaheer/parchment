@@ -1,13 +1,6 @@
 const { Router } = require('express')
-const {
-  getPostsController,
-  createPostController,
-  getAllPostsController,
-  getPostController,
-  updatePostVisibilityController,
-  deletePostController,
-} = require('../controllers/postController')
-const { isAuth, isAdmin } = require('../controllers/authControllers')
+
+const { isAuth } = require('../controllers/authControllers')
 const {
   getPostCommentsController,
   createCommentController,

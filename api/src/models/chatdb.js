@@ -21,7 +21,7 @@ async function createChat(
 ) {
   const chat = await prisma.chat.create({
     data: {
-      name: type == 'DIRECT' ? null : '',
+      name: type == 'DIRECT' ? null : name,
       users: { connect: members.map((user) => ({ id: user })) },
       type: type,
       photo: photo,

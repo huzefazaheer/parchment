@@ -43,7 +43,7 @@ async function createPostController(req, res) {
       req.body?.post_embed ? req.body.post_embed : '',
       req.body?.hashtags ? req.body.hashtags : [],
     )
-    return status.CREATED(res, 'Post created', post)
+    return status.CREATED(res, post)
   } catch (error) {
     return status.INTERNAL_SERVER_ERROR(res)
   }

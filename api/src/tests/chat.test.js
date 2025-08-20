@@ -13,6 +13,7 @@ app.use('/', chatRouter)
 app.use('/auth', authRouter)
 
 let jwt
+let jwt2
 let users = []
 let chatid
 
@@ -99,5 +100,22 @@ describe('GET /chats/:id/messages', () => {
       .expect('Content-Type', /json/)
       .expect(200)
     expect(res.body.data).not.toHaveLength(0)
+  })
+
+  it('FORBIDDEN with user not in chat', async () => {
+    const res = await request(app).post('/auth/signup').send({
+      password: 'RandomPassword123!',
+      username: 'user-1',
+      displayName: 'user-1',
+      email: 'user-1@example.com',
+    })
+
+    jwt2 = res.body.data
+
+    await request(app)
+      .get('/' + chatid + '/messages')
+      .set('Authorization', 'Bearer ' + jwt2)
+      .expect('Content-Type', /json/)
+      .expect(403)
   })
 })

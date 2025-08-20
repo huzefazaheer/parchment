@@ -30,6 +30,7 @@ async function getChatController(req, res) {
 async function createChatController(req, res) {
   if (!(req.body && req.body.users)) return status.BAD_REQUEST(res)
   let users = [req.user.id, ...req.body.users]
+  if (users.length < 2) return status.BAD_REQUEST(res)
   try {
     const chat = await createChat(
       req.body?.name,
