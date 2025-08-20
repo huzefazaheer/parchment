@@ -1,16 +1,24 @@
 import styles from './buttons.module.css'
 
-export function PrimaryButton({ children, onClick }) {
+export function PrimaryButton({ children, onClick, width = '' }) {
   return (
-    <button className={styles['button--primary']} onClick={onClick}>
+    <button
+      className={styles['button--primary']}
+      onClick={onClick}
+      style={width != '' ? { width: width } : ''}
+    >
       {children}
     </button>
   )
 }
 
-export function SecondaryButton({ children, onClick }) {
+export function SecondaryButton({ children, onClick, width = '' }) {
   return (
-    <button className={styles['button--secondary']} onClick={onClick}>
+    <button
+      className={styles['button--secondary']}
+      onClick={onClick}
+      style={width != '' ? { width: width } : ''}
+    >
       {children}
     </button>
   )

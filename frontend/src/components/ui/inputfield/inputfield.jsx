@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import styles from './inputfield.module.css'
 
 export function InputField({
@@ -8,8 +8,21 @@ export function InputField({
   setValue,
   icon1,
   icon2 = '',
+  onClickIcon2,
 }) {
   const [isSelected, setIsSelected] = useState(false)
+  const [inputType, setInputType] = useState('text')
+
+  useEffect(() => {
+    if (label == 'email' || label == 'password') setInputType(label)
+    else setInputType('text')
+  }, [])
+
+  function togglePassword() {
+    if (inputType == 'text') setInputType('password')
+    else setInputType('text')
+    console.log(inputType)
+  }
 
   return (
     <div
@@ -30,8 +43,20 @@ export function InputField({
           }}
           value={value}
           onChange={(e) => setValue(e.target.value)}
+          type={inputType}
         ></input>
-        {icon2 != '' ? <img className={styles.last} src={icon2} alt="" /> : ''}
+        {icon2 != '' ? (
+          <img
+            className={styles.last}
+            src={icon2}
+            alt=""
+            onClick={() => {
+              label == 'password' ? togglePassword() : onClickIcon2()
+            }}
+          />
+        ) : (
+          ''
+        )}
       </div>
     </div>
   )

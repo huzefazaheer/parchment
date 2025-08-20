@@ -10,3 +10,12 @@ body {
   font-family: 'Inter', sans-serif;
   color: black;
 }
+
+a {
+  color: var(--color-accent);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
