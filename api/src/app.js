@@ -1,6 +1,7 @@
 require('dotenv').config()
 const express = require('express')
 const authRouter = require('./routes/authRoutes')
+const cors = require('cors')
 const app = express()
 const PORT = process.env.PORT || 8080
 
@@ -11,6 +12,7 @@ const userRouter = require('./routes/userRoutes')
 const followreqRouter = require('./routes/followreqRoutes')
 const chatRouter = require('./routes/chatRoutes')
 
+app.use(cors())
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
