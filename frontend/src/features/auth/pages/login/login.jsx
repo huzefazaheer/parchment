@@ -10,6 +10,7 @@ import { appContext } from '../../../../App'
 
 export default function LoginPage() {
   const [formData, setFormData] = useState({ email: '', password: '' })
+  const [error, setError] = useState('')
   const loginFetch = useData('/auth/login/email', 'POST', formData)
   const { setJwt } = useContext(appContext)
   const navigate = useNavigate()
@@ -20,6 +21,8 @@ export default function LoginPage() {
       setJwt(data.data)
       localStorage.setItem('jsonwebtoken', data.data)
       navigate('/')
+    } else {
+      setError(data.message)
     }
   }
 
@@ -29,7 +32,12 @@ export default function LoginPage() {
       <form method="GET">
         <p className={styles.step}>Step 1 of 1</p>
         <h3 className={styles.subhead}>Login to your account</h3>
-
+        <div
+          className={`${styles.error} ${error == '' ? styles.errorhidden : ''}`}
+        >
+          <img src="/error.svg" alt="" />
+          <p>{error}</p>
+        </div>
         <EmailInputField
           value={formData.email}
           onChange={(e) => setFormData({ ...formData, email: e.target.value })}

@@ -13,6 +13,7 @@ import { appContext } from '../../../../App'
 
 export default function SignUpPage() {
   const [index, setIndex] = useState(1)
+  const [error, setError] = useState('')
   const [formData, setFormData] = useState({
     username: '',
     password: '',
@@ -30,6 +31,8 @@ export default function SignUpPage() {
       setJwt(data.data)
       localStorage.setItem('jsonwebtoken', data.data)
       navigate('/')
+    } else {
+      setError(data.message)
     }
   }
 
@@ -39,6 +42,12 @@ export default function SignUpPage() {
       <form method="GET">
         <p className={styles.step}>{`Step ${index} of 2`}</p>
         <h3 className={styles.subhead}>Create your account</h3>
+        <div
+          className={`${styles.error} ${error == '' ? styles.errorhidden : ''}`}
+        >
+          <img src="/error.svg" alt="" />
+          <p>{error}</p>
+        </div>
 
         {index == 1 ? (
           <>

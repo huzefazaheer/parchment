@@ -69,3 +69,27 @@
   transform: translateX(-50px);
   transition: opacity 500ms, transform 500ms;
 }
+
+.error {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  border: 2px solid #4a2c2c;
+  color: #4a2c2c;
+  border-radius: 2px;
+  padding: 10px 20px;
+  width: calc(100% - 45px);
+  margin-bottom: 2vh;
+}
+
+.error img {
+  width: 18px;
+}
+
+.error p {
+  margin: 0;
+}
+
+.errorhidden {
+  display: none;
+}
