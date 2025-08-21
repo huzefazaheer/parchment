@@ -90,6 +90,10 @@
   margin: 0;
 }
 
+.error p::first-letter {
+  text-transform: uppercase;
+}
+
 .errorhidden {
   display: none;
 }

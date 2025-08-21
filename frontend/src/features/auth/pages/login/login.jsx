@@ -7,6 +7,7 @@ import { EmailInputField } from '../../../../components/ui/inputfield/emailinput
 import { PasswordInputField } from '../../../../components/ui/inputfield/passwordinputfield'
 import useData from '../../../../utils/useData'
 import { appContext } from '../../../../App'
+import checkLoginErrorsEmail from '../../utils/loginutils'
 
 export default function LoginPage() {
   const [formData, setFormData] = useState({ email: '', password: '' })
@@ -16,6 +17,14 @@ export default function LoginPage() {
   const navigate = useNavigate()
 
   async function handleLogin() {
+    const errorHandler = checkLoginErrorsEmail(
+      formData.email,
+      formData.password,
+    )
+    if (errorHandler != true) {
+      setError(errorHandler)
+      return
+    }
     const data = await loginFetch.fetchData()
     if (data.success) {
       setJwt(data.data)

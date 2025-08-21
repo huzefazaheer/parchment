@@ -10,6 +10,7 @@ import Form1 from './components/form1'
 import Form2 from './components/form2'
 import useData from '../../../../utils/useData'
 import { appContext } from '../../../../App'
+import checkSignupErrors from '../../utils/signuputils'
 
 export default function SignUpPage() {
   const [index, setIndex] = useState(1)
@@ -26,6 +27,17 @@ export default function SignUpPage() {
   const navigate = useNavigate()
 
   async function handleSignup() {
+    const errorHandler = checkSignupErrors(
+      formData.email,
+      formData.password,
+      formData.date,
+      formData.username,
+      formData.displayName,
+    )
+    if (errorHandler != true) {
+      setError(errorHandler)
+      return
+    }
     const data = await signupFetch.fetchData()
     if (data.success) {
       setJwt(data.data)
