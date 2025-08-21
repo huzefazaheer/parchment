@@ -1,4 +1,3 @@
-import PostEmbed from '../../../../components/post/components/postembed'
 import Post from '../../../../components/post/post'
 import LeftMenu from '../../../../components/menu/leftmenu/menu'
 import RightMenu from '../../../../components/menu/rightmenu/menu'
@@ -6,6 +5,7 @@ import styles from './homepage.module.css'
 import NewItemModal from '../../components/newitemmodal/newitem'
 import { useEffect, useState } from 'react'
 import useData from '../../../../utils/useData'
+import PostEmbed from '../../../../components/post/components/postembed'
 
 export default function Home() {
   const [showModal, setShowModal] = useState(false)
@@ -20,7 +20,14 @@ export default function Home() {
   ) : getPostsFetch.error != null ? (
     <p>An unknown error occured</p>
   ) : getPostsFetch.data ? (
-    getPostsFetch.data.data.map((post) => <Post text={post.text} />)
+    getPostsFetch.data.data.map((post) => {
+      console.log(post)
+      return (
+        <Post text={post.text} author={post.author} date={post.createdAt}>
+          <PostEmbed />
+        </Post>
+      )
+    })
   ) : (
     ''
   )

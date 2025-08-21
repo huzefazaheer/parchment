@@ -1,22 +1,27 @@
 import PostEmbed from './components/postembed'
+import postTime from './getposttime'
 import styles from './post.module.css'
 
-export default function Post({ children, text }) {
+export default function Post({ children, text, author, date }) {
+  const createdAt = new Date(date)
+  const now = new Date()
+  const time = now - createdAt
+
   return (
     <article className={styles.post}>
       <img
         className={styles.profilephoto}
-        src="https://images.seeklogo.com/logo-png/28/1/reuters-logo-png_seeklogo-286647.png"
+        src={author?.photo ? author.photo : '/exampleprofile.png'}
         alt=""
       />
 
       <div className={styles.right}>
         <div>
           <p className={styles.header}>
-            <span className={styles.displayname}>Reuters</span>
-            <span className={styles.username}>@reuters.com</span>
-            <span className={styles.dot}>.</span>
-            <span className={styles.time}>10m</span>
+            <span className={styles.displayname}>{author.displayName}</span>
+            <span className={styles.username}>@{author.username}</span>
+            <span className={styles.dot}>•</span>
+            <span className={styles.time}>{postTime(time)}</span>
           </p>
           <p className={styles.text}>{text}</p>
         </div>

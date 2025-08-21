@@ -19,6 +19,7 @@
 
 .topheading {
   z-index: 1000;
+  width: 588px;
   background-color: var(--color-bg);
   display: block;
   position: sticky;

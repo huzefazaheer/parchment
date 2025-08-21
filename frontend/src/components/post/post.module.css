@@ -43,7 +43,7 @@
 }
 
 .dot {
-  font-size: 20px;
+  font-size: 12px;
   color: #413d36;
 }
 
@@ -64,13 +64,22 @@
   display: flex;
   gap: 40px;
   padding: 0;
-  margin-left: 20px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.post ul li {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
 }
 
 .post ul li p {
   text-align: center;
-  margin-top: 0px;
-  font-size: 12px;
+  margin: 0;
+  font-size: 14px;
+  color: var(--color-accent2);
 }
 
 .post ul li img {
