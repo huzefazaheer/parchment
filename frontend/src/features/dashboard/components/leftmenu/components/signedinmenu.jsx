@@ -1,5 +1,8 @@
+import { useContext } from 'react'
 import { PrimaryButton } from '../../../../../components/ui/buttons/buttons'
 import styles from '../menu.module.css'
+import { appContext } from '../../../../../App'
+import { useNavigate } from 'react-router-dom'
 
 export default function SignedInMenu({ user }) {
   return (
@@ -17,6 +20,15 @@ export default function SignedInMenu({ user }) {
 }
 
 function MenuItems() {
+  const { setJwt, setUser } = useContext(appContext)
+  const navigate = useNavigate()
+  function logout() {
+    setJwt(null)
+    setUser(null)
+    setJwt(localStorage.removeItem('jsonwebtoken'))
+    navigate('/')
+  }
+
   return (
     <ul className={styles.menuitems}>
       <li>
@@ -31,7 +43,7 @@ function MenuItems() {
         <img src="/profile.svg" alt="" />
         <p>Profile</p>
       </li>
-      <li>
+      <li onClick={logout}>
         <img src="/settings.svg" alt="" />
         <p>Settings</p>
       </li>

@@ -19,5 +19,5 @@ export default function useApp() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [jwt])
 
-  return { jwt, setJwt, user }
+  return { jwt, setJwt, user, setUser }
 }
