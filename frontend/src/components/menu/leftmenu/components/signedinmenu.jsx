@@ -1,7 +1,7 @@
 import { useContext, useState } from 'react'
-import { PrimaryButton } from '../../../../../components/ui/buttons/buttons'
+import { PrimaryButton } from '../../../ui/buttons/buttons'
 import styles from '../menu.module.css'
-import { appContext } from '../../../../../App'
+import { appContext } from '../../../../App'
 import { useNavigate } from 'react-router-dom'
 
 export default function SignedInMenu({ user }) {
@@ -21,7 +21,7 @@ export default function SignedInMenu({ user }) {
 
 function MenuItems() {
   const [index, setIndex] = useState(0)
-  const { setJwt, setUser } = useContext(appContext)
+  const { setJwt, setUser, setShowModal } = useContext(appContext)
   const navigate = useNavigate()
 
   function logout() {
@@ -59,7 +59,9 @@ function MenuItems() {
         <p>Settings</p>
       </li>
       <li>
-        <PrimaryButton width="180px">Create Post</PrimaryButton>
+        <PrimaryButton onClick={() => setShowModal(true)} width="180px">
+          Create Post
+        </PrimaryButton>
       </li>
     </ul>
   )

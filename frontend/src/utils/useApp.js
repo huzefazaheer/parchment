@@ -4,6 +4,7 @@ import { jwtDecode } from 'jwt-decode'
 export default function useApp() {
   const [jwt, setJwt] = useState(null)
   const [user, setUser] = useState(null)
+  const [showModal, setShowModal] = useState(false)
 
   useEffect(() => {
     if (localStorage.getItem('jsonwebtoken')) {
@@ -19,5 +20,5 @@ export default function useApp() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [jwt])
 
-  return { jwt, setJwt, user, setUser }
+  return { jwt, setJwt, user, setUser, showModal, setShowModal }
 }

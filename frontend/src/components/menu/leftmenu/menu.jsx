@@ -1,11 +1,8 @@
 import { useNavigate } from 'react-router-dom'
-import {
-  PrimaryButton,
-  SecondaryButton,
-} from '../../../../components/ui/buttons/buttons'
+import { PrimaryButton, SecondaryButton } from '../../ui/buttons/buttons'
 import styles from './menu.module.css'
 import { useContext } from 'react'
-import { appContext } from '../../../../App'
+import { appContext } from '../../../App'
 import SignedInMenu from './components/signedinmenu'
 
 export default function LeftMenu() {
