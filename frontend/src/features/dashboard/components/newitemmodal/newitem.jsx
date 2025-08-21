@@ -3,14 +3,22 @@ import {
   PrimaryButton,
   SecondaryButton,
 } from '../../../../components/ui/buttons/buttons'
-import { useContext } from 'react'
+import { useContext, useState } from 'react'
 import { appContext } from '../../../../App'
+import useData from '../../../../utils/useData'
 
 export default function NewItemModal() {
   const { showModal, setShowModal } = useContext(appContext)
+  const [text, setText] = useState('')
+  const createPostFetch = useData('/posts', 'POST', { text })
 
   function exitModal() {
     setShowModal(false)
+  }
+
+  async function createPost() {
+    console.log(await createPostFetch.fetchData())
+    exitModal()
   }
 
   return (
@@ -27,6 +35,8 @@ export default function NewItemModal() {
               name=""
               id=""
               placeholder="Share your thoughts"
+              onChange={(e) => setText(e.target.value)}
+              value={text}
             ></textarea>
           </div>
         </div>
@@ -34,7 +44,9 @@ export default function NewItemModal() {
           <SecondaryButton width="100px" onClick={exitModal}>
             Cancel
           </SecondaryButton>
-          <PrimaryButton width="100px">Post</PrimaryButton>
+          <PrimaryButton width="100px" onClick={createPost}>
+            Post
+          </PrimaryButton>
         </div>
       </div>
     </div>

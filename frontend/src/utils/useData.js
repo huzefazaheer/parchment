@@ -19,16 +19,18 @@ export default function useData(endpoint, method, body = {}) {
           'Content-Type': 'application/json',
           Authorization: 'Bearer ' + jwt,
         },
-        body: JSON.stringify(_body),
+        body:
+          Object.keys(_body).length === 0 ? undefined : JSON.stringify(_body),
       })
       const data = await res.json()
       setData(data)
+      setLoading(false)
+      setError(null)
       return data
     } catch (error) {
       setError(error)
+      return error
     }
-    setLoading(false)
-    setError(null)
   }
 
   return { data, loading, error, fetchData }

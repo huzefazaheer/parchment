@@ -1,7 +1,7 @@
 import PostEmbed from './components/postembed'
 import styles from './post.module.css'
 
-export default function Post({ children }) {
+export default function Post({ children, text }) {
   return (
     <article className={styles.post}>
       <img
@@ -18,12 +18,7 @@ export default function Post({ children }) {
             <span className={styles.dot}>.</span>
             <span className={styles.time}>10m</span>
           </p>
-          <p className={styles.text}>
-            Donald Trump and Vladimir Putin hold talks in Alaska, focused on the
-            US president's push to seal a ceasefire deal on Ukraine but with a
-            last-gasp offer from Putin of a possible face-saving nuclear accord
-            on the table too. Follow our live coverage:
-          </p>
+          <p className={styles.text}>{text}</p>
         </div>
 
         {children}

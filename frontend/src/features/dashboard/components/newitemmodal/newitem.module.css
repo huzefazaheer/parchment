@@ -58,6 +58,7 @@
   border: none;
   font-family: 'Inter', serif;
   margin-top: 15px;
+  color: #413d36;
 }
 
 .right textarea:focus {
