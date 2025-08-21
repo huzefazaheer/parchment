@@ -14,16 +14,21 @@ export default function Post({ id, children, text, author, date }) {
     navigate('/posts/' + id)
   }
 
+  function goToProfile() {
+    navigate('/profile/' + author.id)
+  }
+
   return (
     <article className={styles.post} onClick={postClick}>
       <img
+        onClick={goToProfile}
         className={styles.profilephoto}
         src={author?.photo ? author.photo : '/exampleprofile.png'}
         alt=""
       />
 
       <div className={styles.right}>
-        <div>
+        <div onClick={goToProfile}>
           <p className={styles.header}>
             <span className={styles.displayname}>{author.displayName}</span>
             <span className={styles.username}>@{author.username}</span>

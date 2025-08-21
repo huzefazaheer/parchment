@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom'
 import styles from './comment.module.css'
 import commentTime from './getcommenttime'
 
@@ -6,16 +7,23 @@ export default function Comment({ text, author, date }) {
   const now = new Date()
   const time = now - createdAt
 
+  const navigate = useNavigate()
+
+  function goToProfile() {
+    navigate('/profile/' + author.id)
+  }
+
   return (
     <article className={styles.comment}>
       <img
+        onClick={goToProfile}
         className={styles.profilephoto}
         src={author?.photo ? author.photo : '/exampleprofile.png'}
         alt=""
       />
 
       <div className={styles.right}>
-        <div>
+        <div onClick={goToProfile}>
           <p className={styles.header}>
             <span className={styles.displayname}>{author.displayName}</span>
             <span className={styles.username}>@{author.username}</span>

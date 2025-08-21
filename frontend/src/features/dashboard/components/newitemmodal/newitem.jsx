@@ -57,11 +57,12 @@ export default function NewItemModal() {
           </div>
         </div>
         <div className={styles.control}>
-          <SecondaryButton width="100px" onClick={exitModal}>
+          <SecondaryButton width="100px" height="40px" onClick={exitModal}>
             Cancel
           </SecondaryButton>
           <PrimaryButton
             width="100px"
+            height="40px"
             onClick={showModal.type == 'post' ? createPost : createComment}
           >
             {showModal.type == 'post' ? 'Post' : 'Comment'}

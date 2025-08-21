@@ -3,7 +3,9 @@ const prisma = require('./prisma')
 async function getPostComments(postId) {
   const comments = await prisma.comment.findMany({
     where: { commentedPostId: postId },
-    include: { author: { select: { username: true, displayName: true } } },
+    include: {
+      author: { select: { username: true, displayName: true, id: true } },
+    },
   })
   return comments
 }

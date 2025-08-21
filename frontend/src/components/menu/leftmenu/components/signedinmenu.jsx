@@ -24,6 +24,11 @@ function MenuItems() {
   const { setJwt, setUser, setShowModal } = useContext(appContext)
   const navigate = useNavigate()
 
+  function home() {
+    setIndex(0)
+    navigate('/')
+  }
+
   function logout() {
     setJwt(null)
     setUser(null)
@@ -31,12 +36,14 @@ function MenuItems() {
     navigate('/')
   }
 
+  function profile() {
+    setIndex(2)
+    navigate('/profile')
+  }
+
   return (
     <ul className={styles.menuitems}>
-      <li
-        onClick={() => setIndex(0)}
-        className={`${index == 0 ? styles.active : ''}`}
-      >
+      <li onClick={home} className={`${index == 0 ? styles.active : ''}`}>
         <img src="/home.svg" alt="" />
         <p>Home</p>
       </li>
@@ -47,10 +54,7 @@ function MenuItems() {
         <img src="/chat.svg" alt="" />
         <p>Chat</p>
       </li>
-      <li
-        onClick={() => setIndex(2)}
-        className={`${index == 2 ? styles.active : ''}`}
-      >
+      <li onClick={profile} className={`${index == 2 ? styles.active : ''}`}>
         <img src="/profile.svg" alt="" />
         <p>Profile</p>
       </li>
