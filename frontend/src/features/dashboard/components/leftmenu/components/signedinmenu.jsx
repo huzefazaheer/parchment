@@ -1,4 +1,4 @@
-import { useContext } from 'react'
+import { useContext, useState } from 'react'
 import { PrimaryButton } from '../../../../../components/ui/buttons/buttons'
 import styles from '../menu.module.css'
 import { appContext } from '../../../../../App'
@@ -20,8 +20,10 @@ export default function SignedInMenu({ user }) {
 }
 
 function MenuItems() {
+  const [index, setIndex] = useState(0)
   const { setJwt, setUser } = useContext(appContext)
   const navigate = useNavigate()
+
   function logout() {
     setJwt(null)
     setUser(null)
@@ -31,19 +33,28 @@ function MenuItems() {
 
   return (
     <ul className={styles.menuitems}>
-      <li>
+      <li
+        onClick={() => setIndex(0)}
+        className={`${index == 0 ? styles.active : ''}`}
+      >
         <img src="/home.svg" alt="" />
         <p>Home</p>
       </li>
-      <li>
+      <li
+        onClick={() => setIndex(1)}
+        className={`${index == 1 ? styles.active : ''}`}
+      >
         <img src="/chat.svg" alt="" />
         <p>Chat</p>
       </li>
-      <li>
+      <li
+        onClick={() => setIndex(2)}
+        className={`${index == 2 ? styles.active : ''}`}
+      >
         <img src="/profile.svg" alt="" />
         <p>Profile</p>
       </li>
-      <li onClick={logout}>
+      <li onClick={logout} className={`${index == 3 ? styles.active : ''}`}>
         <img src="/settings.svg" alt="" />
         <p>Settings</p>
       </li>
