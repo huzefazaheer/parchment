@@ -1,4 +1,4 @@
-export default function postTime(timeMs) {
+export default function commentTime(timeMs) {
   let seconds = Math.round(timeMs / 1000)
 
   if (seconds < 60) return seconds + ' s'

@@ -4,6 +4,7 @@ import SignUpPage from './features/auth/pages/signup/signup'
 import { createContext } from 'react'
 import useApp from './utils/useApp'
 import Home from './features/dashboard/pages/homepage/homepage'
+import PostsPage from './features/dashboard/pages/posts/postspage'
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const appContext = createContext({ jwt: null, setJwt: null })
@@ -17,6 +18,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<SignUpPage />} />
+          <Route path="/posts/:id" element={<PostsPage />} />
         </Routes>
       </BrowserRouter>
     </appContext.Provider>

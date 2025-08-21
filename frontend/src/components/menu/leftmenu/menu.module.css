@@ -80,7 +80,7 @@
 }
 
 .menuitems li p:hover {
-  color: #88746e;
+  color: var(--color-accent);
 }
 
 .menuitems li button {

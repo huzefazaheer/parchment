@@ -6,9 +6,9 @@ import NewItemModal from '../../components/newitemmodal/newitem'
 import { useEffect, useState } from 'react'
 import useData from '../../../../utils/useData'
 import PostEmbed from '../../../../components/post/components/postembed'
+import Comment from '../../../../components/comment/comment'
 
 export default function Home() {
-  const [showModal, setShowModal] = useState(false)
   const getPostsFetch = useData('/posts', 'GET')
 
   useEffect(() => {
@@ -23,9 +23,12 @@ export default function Home() {
     getPostsFetch.data.data.map((post) => {
       console.log(post)
       return (
-        <Post text={post.text} author={post.author} date={post.createdAt}>
-          <PostEmbed />
-        </Post>
+        <Post
+          id={post.id}
+          text={post.text}
+          author={post.author}
+          date={post.createdAt}
+        ></Post>
       )
     })
   ) : (
@@ -34,7 +37,7 @@ export default function Home() {
 
   return (
     <>
-      <NewItemModal showModal={showModal} setShowModal={setShowModal} />
+      <NewItemModal />
       <div className={styles.body}>
         <LeftMenu />
         <div className={styles.posts}>

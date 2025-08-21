@@ -12,9 +12,8 @@ const {
 const status = require('../utils/status')
 
 async function getPostController(req, res) {
-  if (!(req.body && req.body.id)) return status.BAD_REQUEST(res)
   try {
-    const post = getPostById(req.body.id)
+    const post = await getPostById(req.params.id)
     return status.OK(res, 'Post retrevied', post)
   } catch (error) {
     return status.INTERNAL_SERVER_ERROR(res)

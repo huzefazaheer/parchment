@@ -1,0 +1,101 @@
+.comment {
+  max-width: 600px;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 10px;
+  transition: background-color 100ms linear;
+  padding: 15px;
+  border-bottom: 1px solid #bca890;
+}
+
+.comment > * {
+  cursor: default;
+}
+
+.right {
+  width: 500px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.header {
+  display: flex;
+  flex-direction: row;
+  align-items: first baseline;
+  gap: 5px;
+  margin-top: 0;
+  margin-bottom: 5px;
+}
+
+.comment .profilephoto {
+  width: 48px;
+  height: 48px;
+  border-radius: 48px;
+  cursor: pointer;
+}
+
+.displayname {
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.dot {
+  font-size: 12px;
+  color: #413d36;
+}
+
+.username,
+.time {
+  color: #413d36;
+  font-size: 14px;
+}
+
+.text {
+  margin-top: 0;
+  font-size: 15px;
+  color: #413d36;
+}
+
+.comment ul {
+  list-style: none;
+  display: flex;
+  gap: 40px;
+  padding: 0;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.comment ul li {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.comment ul li p {
+  text-align: center;
+  margin: 0;
+  font-size: 14px;
+  color: var(--color-accent2);
+}
+
+.comment ul li img {
+  width: 24px;
+  height: 24px;
+  transition: transform 200ms ease-in-out;
+}
+
+.comment ul li img:hover {
+  transform: translateY(-2px);
+}
+
+.comment ul li img:active {
+  transform: translateY(1px);
+}
+
+.comment:hover {
+  background-color: #d0bfa5;
+}

@@ -4,7 +4,7 @@ import { jwtDecode } from 'jwt-decode'
 export default function useApp() {
   const [jwt, setJwt] = useState(null)
   const [user, setUser] = useState(null)
-  const [showModal, setShowModal] = useState(false)
+  const [showModal, setShowModal] = useState({ show: false, type: 'post' })
 
   useEffect(() => {
     if (localStorage.getItem('jsonwebtoken')) {

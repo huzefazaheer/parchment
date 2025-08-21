@@ -3,6 +3,7 @@ const prisma = require('./prisma')
 async function getPostById(id) {
   const post = await prisma.post.findUnique({
     where: { id: id },
+    include: { author: { select: { username: true, displayName: true } } },
   })
   return post
 }
@@ -12,6 +13,7 @@ async function getPosts(jump = 0) {
     where: { post_visibility: 'PUBLIC' },
     take: 20,
     skip: jump * 20,
+    include: { author: { select: { username: true, displayName: true } } },
   })
   return posts
 }
@@ -34,7 +36,9 @@ async function createPost(id, text, post_embed = '', hashtags = []) {
 }
 
 async function getAllPosts() {
-  const posts = await prisma.post.findUnique()
+  const posts = await prisma.post.findMany({
+    include: { author: { select: { username: true, displayName: true } } },
+  })
   return posts
 }
 
@@ -72,6 +76,7 @@ async function deletePost(id) {
 async function getPostsByHashtag(tag) {
   const posts = await prisma.post.findMany({
     where: { hashtags: { some: { name: tag } } },
+    include: { author: { select: { username: true, displayName: true } } },
   })
   return posts
 }

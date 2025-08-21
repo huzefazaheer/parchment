@@ -59,7 +59,10 @@ function MenuItems() {
         <p>Settings</p>
       </li>
       <li>
-        <PrimaryButton onClick={() => setShowModal(true)} width="180px">
+        <PrimaryButton
+          onClick={() => setShowModal({ show: true, type: 'post' })}
+          width="180px"
+        >
           Create Post
         </PrimaryButton>
       </li>
