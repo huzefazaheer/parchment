@@ -1,15 +1,27 @@
 import styles from './login.module.css'
 
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import { PrimaryButton } from '../../../../components/ui/buttons/buttons'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { EmailInputField } from '../../../../components/ui/inputfield/emailinputfield'
 import { PasswordInputField } from '../../../../components/ui/inputfield/passwordinputfield'
 import useData from '../../../../utils/useData'
+import { appContext } from '../../../../App'
 
 export default function LoginPage() {
   const [formData, setFormData] = useState({ email: '', password: '' })
   const loginFetch = useData('/auth/login/email', 'POST', formData)
+  const { setJwt } = useContext(appContext)
+  const navigate = useNavigate()
+
+  async function handleLogin() {
+    const data = await loginFetch.fetchData()
+    if (data.success) {
+      setJwt(data.data)
+      localStorage.setItem('jsonwebtoken', data.data)
+      navigate('/')
+    }
+  }
 
   return (
     <div className={styles.login}>
@@ -40,7 +52,7 @@ export default function LoginPage() {
             width="140px"
             onClick={(e) => {
               e.preventDefault()
-              console.log(loginFetch.fetchData())
+              handleLogin()
             }}
           >
             Login

@@ -5,7 +5,7 @@ import {
   PrimaryButton,
   SecondaryButton,
 } from '../../../../components/ui/buttons/buttons'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import Form1 from './components/form1'
 import Form2 from './components/form2'
 import useData from '../../../../utils/useData'
@@ -22,11 +22,15 @@ export default function SignUpPage() {
   })
   const { setJwt } = useContext(appContext)
   const signupFetch = useData('/auth/signup', 'POST', formData)
+  const navigate = useNavigate()
 
   async function handleSignup() {
     const data = await signupFetch.fetchData()
-    console.log(data)
-    setJwt(data.data)
+    if (data.success) {
+      setJwt(data.data)
+      localStorage.setItem('jsonwebtoken', data.data)
+      navigate('/')
+    }
   }
 
   return (

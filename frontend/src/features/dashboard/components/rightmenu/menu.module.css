@@ -19,6 +19,7 @@
   flex-direction: row;
   gap: 15px;
   align-items: center;
+  transition: all 100ms linear;
 }
 
 .searchbar input {
@@ -50,3 +51,28 @@
   margin-left: 15px;
   margin-right: 0;
 }
+
+.searchbar:hover {
+  transform: scale(1.02) translateY(10px);
+}
+
+/* .searchbar:focus-within {
+  animation-name: searchopen;
+  animation-duration: 400ms;
+  animation-fill-mode: forwards;
+}
+
+@keyframes searchopen {
+  from {
+    left: auto;
+  }
+  to {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    margin-left: 40px;
+    margin-top: 60px;
+    margin-right: 40px;
+  }
+} */

@@ -77,3 +77,7 @@
   font-weight: 500;
   font-size: 18px;
 }
+
+.menuitems li button {
+  margin-top: 6vh;
+}
