@@ -11,7 +11,7 @@ export default function Comment({ id, text, author, date, isLiked = false }) {
   const now = new Date()
   const time = now - createdAt
   const commentLikesFetch = useData('/comments/' + id + '/likes', 'GET')
-  const commentLikesPostFetch = useData('/comments/' + id + '/like', 'POST', {
+  const commentLikesPostFetch = useData('/comments/' + id + '/likes', 'POST', {
     id: user.id,
   })
 
@@ -26,7 +26,7 @@ export default function Comment({ id, text, author, date, isLiked = false }) {
   }
 
   async function likeComment() {
-    if (!isLiked) await commentLikesPostFetch.fetchData()
+    await commentLikesPostFetch.fetchData()
   }
 
   return (

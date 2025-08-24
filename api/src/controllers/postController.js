@@ -8,6 +8,11 @@ const {
   updatePostVisibility,
   deletePost,
   getPostsByHashtag,
+  getPostLikes,
+  likePost,
+  getPostComments,
+  getPostReshares,
+  resharePost,
 } = require('../models/postdb')
 const status = require('../utils/status')
 
@@ -81,7 +86,52 @@ async function deletePostController(req, res) {
   }
 }
 
-async function getHashtagPostsController(req, res) {}
+async function getPostCommentsCountController(req, res) {
+  try {
+    const commentcount = await getPostComments(req.params.id)
+    return status.OK(res, 'Comments reterived', commentcount)
+  } catch (error) {
+    return status.INTERNAL_SERVER_ERROR(res)
+  }
+}
+
+async function getPostLikesController(req, res) {
+  try {
+    const likecount = await getPostLikes(req.params.id)
+    return status.OK(res, 'Likes reterived', likecount)
+  } catch (error) {
+    return status.INTERNAL_SERVER_ERROR(res)
+  }
+}
+
+async function likePostController(req, res) {
+  if (!(req.body && req.body.id)) return status.BAD_REQUEST(res)
+  try {
+    const like = await likePost(req.params.id, req.body.id)
+    return status.OK(res, 'Liked', like)
+  } catch (error) {
+    return status.INTERNAL_SERVER_ERROR(res)
+  }
+}
+
+async function getPostResharesController(req, res) {
+  try {
+    const resharecount = await getPostReshares(req.params.id)
+    return status.OK(res, 'Reshares reterived', resharecount)
+  } catch (error) {
+    return status.INTERNAL_SERVER_ERROR(res)
+  }
+}
+
+async function resharePostController(req, res) {
+  if (!(req.body && req.body.id)) return status.BAD_REQUEST(res)
+  try {
+    const reshare = await resharePost(req.params.id, req.body.id)
+    return status.OK(res, 'reshared', reshare)
+  } catch (error) {
+    return status.INTERNAL_SERVER_ERROR(res)
+  }
+}
 
 module.exports = {
   getPostsController,
@@ -90,4 +140,10 @@ module.exports = {
   getPostController,
   updatePostVisibilityController,
   deletePostController,
+  getPostLikesController,
+  likePostController,
+  getPostComments,
+  getPostCommentsCountController,
+  resharePostController,
+  getPostResharesController,
 }

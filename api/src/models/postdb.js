@@ -87,6 +87,92 @@ async function getPostsByHashtag(tag) {
   return posts
 }
 
+async function getPostLikes(id) {
+  const post = await prisma.post.findMany({
+    where: { id: id },
+    select: {
+      _count: {
+        select: {
+          likedBy: true,
+        },
+      },
+    },
+  })
+  return post
+}
+
+async function likePost(postId, userId) {
+  const alreadyLiked = await prisma.post.findUnique({
+    where: { id: postId },
+    select: {
+      likedBy: { where: { id: userId }, select: { id: true } },
+    },
+  })
+  if (alreadyLiked.likedBy.length < 1) {
+    const post = await prisma.post.update({
+      where: { id: postId },
+      data: { likedBy: { connect: { id: userId } } },
+    })
+    return post
+  } else {
+    const post = await prisma.post.update({
+      where: { id: postId },
+      data: { likedBy: { disconnect: { id: userId } } },
+    })
+    return post
+  }
+}
+
+async function getPostComments(id) {
+  const post = await prisma.post.findMany({
+    where: { id: id },
+    select: {
+      _count: {
+        select: {
+          comments: true,
+        },
+      },
+    },
+  })
+  return post
+}
+
+async function getPostReshares(id) {
+  const post = await prisma.post.findMany({
+    where: { id: id },
+    select: {
+      _count: {
+        select: {
+          resharedBy: true,
+        },
+      },
+    },
+  })
+  return post
+}
+
+async function resharePost(postId, userId) {
+  const alreadyReshared = await prisma.post.findUnique({
+    where: { id: postId },
+    select: {
+      resharedBy: { where: { id: userId }, select: { id: true } },
+    },
+  })
+  if (alreadyReshared.resharedBy.length < 1) {
+    const post = await prisma.post.update({
+      where: { id: postId },
+      data: { resharedBy: { connect: { id: userId } } },
+    })
+    return post
+  } else {
+    const post = await prisma.post.update({
+      where: { id: postId },
+      data: { resharedBy: { disconnect: { id: userId } } },
+    })
+    return post
+  }
+}
+
 module.exports = {
   getPosts,
   getAllPosts,
@@ -97,4 +183,9 @@ module.exports = {
   updatePostVisibility,
   deletePost,
   getPostsByHashtag,
+  likePost,
+  getPostLikes,
+  getPostComments,
+  getPostReshares,
+  resharePost,
 }

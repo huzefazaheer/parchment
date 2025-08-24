@@ -42,7 +42,7 @@ model Post {
   author          User           @relation("post-user", fields: [authorId], references: [id])
   authorId        String
   comments        Comment[]      @relation("comment-post")
-  starredBy       User[]         @relation("post-star")
+  likedBy         User[]         @relation("post-star")
   resharedBy      User[]         @relation("post-reshare")
   createdAt       DateTime       @default(now())
   hashtags        Hashtag[]      @relation("post-hashtags")

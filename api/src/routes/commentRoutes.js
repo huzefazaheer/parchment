@@ -20,7 +20,7 @@ commentRouter.get('/:id', isAuth, getCommentController)
 
 commentRouter.get('/:id/likes', getCommentLikesController)
 
-commentRouter.post('/:id/like', isAuth, likeCommentController)
+commentRouter.post('/:id/likes', isAuth, likeCommentController)
 
 commentRouter.delete('/:id', isAuth, deleteCommentController)
 

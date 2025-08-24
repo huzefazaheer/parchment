@@ -23,6 +23,11 @@ export default function useData(endpoint, method, body = {}) {
           Object.keys(_body).length === 0 ? undefined : JSON.stringify(_body),
       })
       const data = await res.json()
+      if (!data.success) {
+        setError(data)
+        setLoading(false)
+        return data
+      }
       setData(data)
       setLoading(false)
       setError(null)

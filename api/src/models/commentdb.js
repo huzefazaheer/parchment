@@ -44,11 +44,25 @@ async function getCommentLikes(id) {
 }
 
 async function likeComment(commentId, userId) {
-  const comment = await prisma.comment.update({
+  const alreadyLiked = await prisma.comment.findUnique({
     where: { id: commentId },
-    data: { likedBy: { connect: { id: userId } } },
+    select: {
+      likedBy: { where: { id: userId }, select: { id: true } },
+    },
   })
-  return comment
+  if (alreadyLiked.likedBy.length < 1) {
+    const comment = await prisma.comment.update({
+      where: { id: commentId },
+      data: { likedBy: { connect: { id: userId } } },
+    })
+    return comment
+  } else {
+    const comment = await prisma.comment.update({
+      where: { id: commentId },
+      data: { likedBy: { disconnect: { id: userId } } },
+    })
+    return comment
+  }
 }
 
 module.exports = {
