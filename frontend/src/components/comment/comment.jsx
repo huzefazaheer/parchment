@@ -1,20 +1,36 @@
 import { useNavigate } from 'react-router-dom'
 import styles from './comment.module.css'
 import commentTime from './getcommenttime'
+import useData from '../../utils/useData'
+import { useContext, useEffect } from 'react'
+import { appContext } from '../../App'
 
-export default function Comment({ text, author, date }) {
+export default function Comment({ id, text, author, date, isLiked = false }) {
+  const { user } = useContext(appContext)
   const createdAt = new Date(date)
   const now = new Date()
   const time = now - createdAt
+  const commentLikesFetch = useData('/comments/' + id + '/likes', 'GET')
+  const commentLikesPostFetch = useData('/comments/' + id + '/like', 'POST', {
+    id: user.id,
+  })
 
   const navigate = useNavigate()
+
+  useEffect(() => {
+    commentLikesFetch.fetchData()
+  }, [])
 
   function goToProfile() {
     navigate('/profile/' + author.id)
   }
 
+  async function likeComment() {
+    if (!isLiked) await commentLikesPostFetch.fetchData()
+  }
+
   return (
-    <article className={styles.comment}>
+    <article className={styles.comment} key={id}>
       <img
         onClick={goToProfile}
         className={styles.profilephoto}
@@ -33,12 +49,20 @@ export default function Comment({ text, author, date }) {
           <p className={styles.text}>{text}</p>
         </div>
 
-        <ul>
-          <li>
-            <img src="/star.svg" alt="" />
-            <p>0</p>
-          </li>
-        </ul>
+        {user != null ? (
+          <ul>
+            <li>
+              <img src="/star.svg" alt="" onClick={likeComment} />
+              <p>
+                {commentLikesFetch?.data
+                  ? commentLikesFetch.data.data[0]._count.likedBy
+                  : '0'}
+              </p>
+            </li>
+          </ul>
+        ) : (
+          ''
+        )}
       </div>
     </article>
   )

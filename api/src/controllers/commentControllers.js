@@ -4,6 +4,8 @@ const {
   getCommentById,
   createComment,
   deleteComment,
+  getCommentLikes,
+  likeComment,
 } = require('../models/commentdb')
 const status = require('../utils/status')
 
@@ -19,10 +21,8 @@ async function getPostCommentsController(req, res) {
 }
 
 async function getCommentController(req, res) {
-  if (!(req.body && req.body.id)) return status.BAD_REQUEST(res)
-
   try {
-    const comment = await getCommentById(req.body.id)
+    const comment = await getCommentById(req.params.id)
     return status.OK(res, 'Comment reterived', comment)
   } catch (error) {
     return status.INTERNAL_SERVER_ERROR(res)
@@ -58,9 +58,30 @@ async function deleteCommentController(req, res) {
   }
 }
 
+async function getCommentLikesController(req, res) {
+  try {
+    const likecount = await getCommentLikes(req.params.id)
+    return status.OK(res, 'Likes reterived', likecount)
+  } catch (error) {
+    return status.INTERNAL_SERVER_ERROR(res)
+  }
+}
+
+async function likeCommentController(req, res) {
+  if (!(req.body && req.body.id)) return status.BAD_REQUEST(res)
+  try {
+    const like = await likeComment(req.params.id, req.body.id)
+    return status.OK(res, 'Liked', like)
+  } catch (error) {
+    return status.INTERNAL_SERVER_ERROR(res)
+  }
+}
+
 module.exports = {
   createCommentController,
   deleteCommentController,
   getPostCommentsController,
   getCommentController,
+  getCommentLikesController,
+  likeCommentController,
 }

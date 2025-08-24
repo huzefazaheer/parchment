@@ -29,9 +29,33 @@ async function getCommentById(id) {
   return comment
 }
 
+async function getCommentLikes(id) {
+  const comment = await prisma.comment.findMany({
+    where: { id: id },
+    select: {
+      _count: {
+        select: {
+          likedBy: true,
+        },
+      },
+    },
+  })
+  return comment
+}
+
+async function likeComment(commentId, userId) {
+  const comment = await prisma.comment.update({
+    where: { id: commentId },
+    data: { likedBy: { connect: { id: userId } } },
+  })
+  return comment
+}
+
 module.exports = {
   getPostComments,
   createComment,
   deleteComment,
   getCommentById,
+  getCommentLikes,
+  likeComment,
 }

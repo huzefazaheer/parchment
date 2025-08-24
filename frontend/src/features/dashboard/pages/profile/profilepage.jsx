@@ -63,6 +63,7 @@ export default function ProfilePage() {
     itemFetch.data.data.map((comment) => {
       return (
         <Comment
+          id={comment.id}
           text={comment.text}
           author={comment.author}
           date={comment.createdAt}

@@ -6,6 +6,8 @@ const {
   createCommentController,
   getCommentController,
   deleteCommentController,
+  getCommentLikesController,
+  likeCommentController,
 } = require('../controllers/commentControllers')
 
 const commentRouter = Router()
@@ -15,6 +17,10 @@ commentRouter.get('/', getPostCommentsController)
 commentRouter.post('/', isAuth, createCommentController)
 
 commentRouter.get('/:id', isAuth, getCommentController)
+
+commentRouter.get('/:id/likes', getCommentLikesController)
+
+commentRouter.post('/:id/like', isAuth, likeCommentController)
 
 commentRouter.delete('/:id', isAuth, deleteCommentController)
 

@@ -19,7 +19,7 @@ export default function PostsPage() {
 
   useEffect(() => {
     getPostFetch.fetchData()
-    console.log(getCommentFetch.fetchData())
+    getCommentFetch.fetchData()
   }, [])
 
   const post = getPostFetch.loading ? (
