@@ -3,10 +3,8 @@ import LeftMenu from '../../../../components/menu/leftmenu/menu'
 import RightMenu from '../../../../components/menu/rightmenu/menu'
 import styles from './homepage.module.css'
 import NewItemModal from '../../components/newitemmodal/newitem'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import useData from '../../../../utils/useData'
-import PostEmbed from '../../../../components/post/components/postembed'
-import Comment from '../../../../components/comment/comment'
 
 export default function Home() {
   const getPostsFetch = useData('/posts', 'GET')
@@ -21,7 +19,6 @@ export default function Home() {
     <p>An unknown error occured</p>
   ) : getPostsFetch.data ? (
     getPostsFetch.data.data.map((post) => {
-      console.log(post)
       return (
         <Post
           id={post.id}
