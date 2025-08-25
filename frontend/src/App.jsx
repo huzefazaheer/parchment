@@ -8,6 +8,7 @@ import PostsPage from './features/dashboard/pages/posts/postspage'
 import ProfilePage from './features/dashboard/pages/profile/profilepage'
 import ChatsPage from './features/chat/pages/chats/chatspage'
 import ChatPage from './features/chat/pages/chat/chatpage'
+import SettingsPage from './features/dashboard/pages/settings/settingspage'
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const appContext = createContext({ jwt: null, setJwt: null })
@@ -19,6 +20,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/settings" element={<SettingsPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<SignUpPage />} />
           <Route path="/posts/:id" element={<PostsPage />} />

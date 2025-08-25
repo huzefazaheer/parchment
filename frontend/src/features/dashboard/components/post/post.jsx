@@ -22,10 +22,10 @@ export default function Post({
   const postCommentsFetch = useData('/posts/' + id + '/commentscount', 'GET')
   const postReshareFetch = useData('/posts/' + id + '/reshares', 'GET')
   const postLikesPostFetch = useData('/posts/' + id + '/likes', 'POST', {
-    id: user.id,
+    id: user?.id,
   })
   const postResharePostFetch = useData('/posts/' + id + '/reshares', 'POST', {
-    id: user.id,
+    id: user?.id,
   })
 
   const navigate = useNavigate()

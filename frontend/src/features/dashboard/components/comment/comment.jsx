@@ -12,7 +12,7 @@ export default function Comment({ id, text, author, date, isLiked = false }) {
   const time = now - createdAt
   const commentLikesFetch = useData('/comments/' + id + '/likes', 'GET')
   const commentLikesPostFetch = useData('/comments/' + id + '/likes', 'POST', {
-    id: user.id,
+    id: user?.id,
   })
 
   const navigate = useNavigate()

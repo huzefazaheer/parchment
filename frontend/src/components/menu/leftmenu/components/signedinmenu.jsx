@@ -29,13 +29,6 @@ function MenuItems() {
     navigate('/')
   }
 
-  function logout() {
-    setJwt(null)
-    setUser(null)
-    setJwt(localStorage.removeItem('jsonwebtoken'))
-    navigate('/')
-  }
-
   function profile() {
     setIndex(2)
     navigate('/profile')
@@ -44,6 +37,11 @@ function MenuItems() {
   function chats() {
     setIndex(1)
     navigate('/chats')
+  }
+
+  function settings() {
+    setIndex(3)
+    navigate('/settings')
   }
 
   return (
@@ -60,7 +58,7 @@ function MenuItems() {
         <img src="/profile.svg" alt="" />
         <p>Profile</p>
       </li>
-      <li onClick={logout} className={`${index == 3 ? styles.active : ''}`}>
+      <li onClick={settings} className={`${index == 3 ? styles.active : ''}`}>
         <img src="/settings.svg" alt="" />
         <p>Settings</p>
       </li>
