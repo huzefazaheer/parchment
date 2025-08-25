@@ -1,4 +1,4 @@
-import Post from '../../../../components/post/post'
+import Post from '../../components/post/post'
 import LeftMenu from '../../../../components/menu/leftmenu/menu'
 import RightMenu from '../../../../components/menu/rightmenu/menu'
 import styles from './homepage.module.css'

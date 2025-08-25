@@ -1,12 +1,6 @@
 .topheading {
   text-align: left;
-  z-index: 1000;
-  width: 588px;
-  background-color: var(--color-bg);
   display: block;
-  position: sticky;
-  top: 0;
-  margin: 0;
   padding-bottom: 15px;
   color: #675752;
   font-size: 18px;
@@ -33,7 +27,7 @@
 .profilephoto {
   position: absolute;
   left: 20px;
-  bottom: -20px;
+  bottom: 160px;
   width: 84px;
   height: 84px;
   border: 1px solid #d9cab3;
@@ -91,4 +85,18 @@
   font-weight: 700;
   position: relative;
   display: inline-block;
+  cursor: pointer;
+}
+
+.heading {
+  position: sticky;
+  z-index: 1000;
+  width: 588px;
+  background-color: var(--color-bg);
+  top: 0;
+  margin: 0;
+}
+
+.active {
+  color: var(--color-accent) !important;
 }

@@ -1,10 +1,9 @@
 import { useNavigate } from 'react-router-dom'
-import PostEmbed from './components/postembed'
 import postTime from './getposttime'
 import styles from './post.module.css'
 import { useContext, useEffect } from 'react'
-import { appContext } from '../../App'
-import useData from '../../utils/useData'
+import useData from '../../../../utils/useData'
+import { appContext } from '../../../../App'
 
 export default function Post({
   id,

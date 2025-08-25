@@ -22,7 +22,7 @@ export default function ProfileHeader({ id, setIndex, index }) {
     )
 
   return (
-    <>
+    <div className={styles.heading}>
       <div className={styles.topheading}>
         {backarrow}
         <img className={styles.coverphoto} src="/exampleback.png" alt="" />
@@ -54,19 +54,19 @@ export default function ProfileHeader({ id, setIndex, index }) {
             Posts
           </li>
           <li
-            className={index == 0 ? styles.active : ''}
+            className={index == 1 ? styles.active : ''}
             onClick={() => setIndex(1)}
           >
             Comments
           </li>
           <li
-            className={index == 0 ? styles.active : ''}
+            className={index == 2 ? styles.active : ''}
             onClick={() => setIndex(2)}
           >
             Reshares
           </li>
         </ul>
       </div>
-    </>
+    </div>
   )
 }

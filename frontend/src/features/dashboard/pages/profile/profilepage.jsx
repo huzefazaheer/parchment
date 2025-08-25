@@ -6,8 +6,8 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { useContext, useEffect, useState } from 'react'
 import { appContext } from '../../../../App'
 import useData from '../../../../utils/useData'
-import Post from '../../../../components/post/post'
-import Comment from '../../../../components/comment/comment'
+import Post from '../../components/post/post'
+import Comment from '../../components/comment/comment'
 import ProfileHeader from './components/profileheader/profileheader'
 
 export default function ProfilePage() {
@@ -83,7 +83,6 @@ export default function ProfilePage() {
           <ProfileHeader id={id} index={index} setIndex={setIndex} />
           <div>{index == 0 ? posts : index == 1 ? comments : posts}</div>
         </div>
-
         <RightMenu />
       </div>
     </>

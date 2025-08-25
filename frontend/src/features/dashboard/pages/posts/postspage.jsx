@@ -1,4 +1,4 @@
-import Post from '../../../../components/post/post'
+import Post from '../../components/post/post'
 import LeftMenu from '../../../../components/menu/leftmenu/menu'
 import RightMenu from '../../../../components/menu/rightmenu/menu'
 import styles from './postpage.module.css'
@@ -8,7 +8,7 @@ import useData from '../../../../utils/useData'
 
 import { useNavigate, useParams } from 'react-router-dom'
 import { appContext } from '../../../../App'
-import Comment from '../../../../components/comment/comment'
+import Comment from '../../components/comment/comment'
 
 export default function PostsPage() {
   const { setShowModal } = useContext(appContext)

@@ -6,6 +6,8 @@ import useApp from './utils/useApp'
 import Home from './features/dashboard/pages/home/homepage'
 import PostsPage from './features/dashboard/pages/posts/postspage'
 import ProfilePage from './features/dashboard/pages/profile/profilepage'
+import ChatsPage from './features/chat/pages/chats/chatspage'
+import ChatPage from './features/chat/pages/chat/chatpage'
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const appContext = createContext({ jwt: null, setJwt: null })
@@ -22,6 +24,8 @@ function App() {
           <Route path="/posts/:id" element={<PostsPage />} />
           <Route path="/profile" element={<ProfilePage />} />
           <Route path="/profile/:id" element={<ProfilePage />} />
+          <Route path="/chats" element={<ChatsPage />} />
+          <Route path="/chats/:id" element={<ChatPage />} />
         </Routes>
       </BrowserRouter>
     </appContext.Provider>

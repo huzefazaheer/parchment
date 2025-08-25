@@ -41,16 +41,18 @@ function MenuItems() {
     navigate('/profile')
   }
 
+  function chats() {
+    setIndex(1)
+    navigate('/chats')
+  }
+
   return (
     <ul className={styles.menuitems}>
       <li onClick={home} className={`${index == 0 ? styles.active : ''}`}>
         <img src="/home.svg" alt="" />
         <p>Home</p>
       </li>
-      <li
-        onClick={() => setIndex(1)}
-        className={`${index == 1 ? styles.active : ''}`}
-      >
+      <li onClick={chats} className={`${index == 1 ? styles.active : ''}`}>
         <img src="/chat.svg" alt="" />
         <p>Chat</p>
       </li>

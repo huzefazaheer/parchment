@@ -1,9 +1,9 @@
 import { useNavigate } from 'react-router-dom'
 import styles from './comment.module.css'
 import commentTime from './getcommenttime'
-import useData from '../../utils/useData'
 import { useContext, useEffect } from 'react'
-import { appContext } from '../../App'
+import useData from '../../../../utils/useData'
+import { appContext } from '../../../../App'
 
 export default function Comment({ id, text, author, date, isLiked = false }) {
   const { user } = useContext(appContext)
