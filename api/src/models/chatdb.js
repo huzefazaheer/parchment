@@ -1,7 +1,10 @@
 const prisma = require('./prisma')
 
 async function getChatMessages(id) {
-  const messages = await prisma.chatMessage.findMany({ where: { chatId: id } })
+  const messages = await prisma.chatMessage.findMany({
+    where: { chatId: id },
+    include: { sender: { select: { displayName: true } } },
+  })
   return messages
 }
 
@@ -36,4 +39,23 @@ async function createMessage(text, userId, chatId) {
   })
 }
 
-module.exports = { getChatMessages, getChatById, createChat, createMessage }
+async function findChatByUsers(users) {
+  const chat = await prisma.chat.findFirst({
+    where: {
+      type: 'DIRECT',
+      users: {
+        every: { id: { in: users } },
+      },
+    },
+    select: { id: true },
+  })
+  return chat
+}
+
+module.exports = {
+  getChatMessages,
+  getChatById,
+  createChat,
+  createMessage,
+  findChatByUsers,
+}

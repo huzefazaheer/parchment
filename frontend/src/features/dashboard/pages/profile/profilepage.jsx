@@ -80,7 +80,12 @@ export default function ProfilePage() {
       <div className={styles.body}>
         <LeftMenu />
         <div className={styles.profile}>
-          <ProfileHeader id={id} index={index} setIndex={setIndex} />
+          <ProfileHeader
+            id={id}
+            index={index}
+            setIndex={setIndex}
+            userId={userId}
+          />
           <div>{index == 0 ? posts : index == 1 ? comments : posts}</div>
         </div>
         <RightMenu />

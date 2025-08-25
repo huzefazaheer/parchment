@@ -27,7 +27,7 @@
 .profilephoto {
   position: absolute;
   left: 20px;
-  bottom: 160px;
+  bottom: 170px;
   width: 84px;
   height: 84px;
   border: 1px solid #d9cab3;
@@ -41,15 +41,12 @@
   margin-right: 20px;
 }
 
-.profileinfo .left {
-  margin-top: 25px;
-}
-
 .displayname {
   font-size: 22px;
   font-weight: 600;
   color: black;
   margin: 0;
+  margin-top: 35px;
 }
 
 .username {

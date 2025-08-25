@@ -1,12 +1,28 @@
 import styles from './profileheader.module.css'
-import { useContext } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { appContext } from '../../../../../../App'
 import { useNavigate } from 'react-router-dom'
 import { PrimaryButton } from '../../../../../../components/ui/buttons/buttons'
+import useData from '../../../../../../utils/useData'
+import MultiButton from '../../../../../../components/ui/multibutton/multibutton'
 
-export default function ProfileHeader({ id, setIndex, index }) {
+export default function ProfileHeader({ id, setIndex, index, userId }) {
   const { user } = useContext(appContext)
   const navigate = useNavigate()
+  const userFetch = useData('/user/' + userId, 'GET')
+  const [currUser, setCurrUser] = useState({ username: '', displayName: '' })
+
+  const isSelf = userId == user.id
+
+  useEffect(() => {
+    async function getUser() {
+      const data = await userFetch.fetchData()
+      setCurrUser(data.data)
+    }
+    if (!isSelf) {
+      getUser()
+    }
+  }, [isSelf])
 
   // Show backarrow only when profile is not from left menu
   const backarrow =
@@ -31,8 +47,12 @@ export default function ProfileHeader({ id, setIndex, index }) {
       <div>
         <div className={styles.profileinfo}>
           <div className={styles.left}>
-            <p className={styles.displayname}>{user.displayName}</p>
-            <p className={styles.username}>@{user.username}</p>
+            <p className={styles.displayname}>
+              {isSelf ? user.displayName : currUser.displayName}
+            </p>
+            <p className={styles.username}>
+              @{isSelf ? user.username : currUser.username}
+            </p>
             {/* Make this Work */}
             <p className={styles.stats}>
               <strong>10m</strong> followers
@@ -42,9 +62,7 @@ export default function ProfileHeader({ id, setIndex, index }) {
               <strong>172</strong> posts
             </p>
           </div>
-          <PrimaryButton width="140px" height="32px">
-            + Follow
-          </PrimaryButton>
+          <MultiButton isSelf={isSelf} userId={userId} />
         </div>
         <ul className={styles.menu}>
           <li

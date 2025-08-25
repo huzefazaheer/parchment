@@ -9,16 +9,10 @@ export default function useApp() {
   useEffect(() => {
     if (localStorage.getItem('jsonwebtoken')) {
       setJwt(localStorage.getItem('jsonwebtoken'))
-    }
-  }, [])
-
-  useEffect(() => {
-    if (jwt != null) {
-      const _user = jwtDecode(jwt)
+      const _user = jwtDecode(localStorage.getItem('jsonwebtoken'))
       setUser(_user)
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [jwt])
+  }, [])
 
   return { jwt, setJwt, user, setUser, showModal, setShowModal }
 }

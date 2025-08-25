@@ -3,6 +3,7 @@ const {
   getChatById,
   createChat,
   createMessage,
+  findChatByUsers,
 } = require('../models/chatdb')
 const status = require('../utils/status')
 
@@ -32,6 +33,13 @@ async function createChatController(req, res) {
   let users = [req.user.id, ...req.body.users]
   if (users.length < 2) return status.BAD_REQUEST(res)
   try {
+    if (users.length == 2) {
+      const chat = await findChatByUsers(users)
+      if (chat != null) {
+        return status.CONFLICT(res, chat.id)
+      }
+    }
+
     const chat = await createChat(
       req.body?.name,
       users,

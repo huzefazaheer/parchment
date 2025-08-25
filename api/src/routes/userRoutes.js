@@ -16,9 +16,9 @@ const userRouter = Router()
 
 userRouter.get('/', searchUserController)
 
-userRouter.get('/:id', getUserProfileController)
+userRouter.get('/chats', isAuth, getUserChatsController)
 
-userRouter.get('/:id/chats', getUserChatsController)
+userRouter.get('/:id', getUserProfileController)
 
 userRouter.get('/:id/posts', getUserPostsController)
 

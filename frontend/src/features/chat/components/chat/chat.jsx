@@ -1,11 +1,17 @@
 import { useNavigate } from 'react-router-dom'
 import styles from './chat.module.css'
+import { getOtherUser } from '../utils/directchat_utils'
+import { useContext } from 'react'
+import { appContext } from '../../../../App'
 
-export default function Chat({ id, text, author }) {
+export default function Chat({ id, text, users }) {
   const navigate = useNavigate()
+  const { user } = useContext(appContext)
+
+  const otherUser = getOtherUser(user, users)
 
   function goToProfile() {
-    navigate('/profile/' + author.id)
+    navigate('/profile/' + otherUser.id)
   }
 
   function openChat() {
@@ -17,15 +23,15 @@ export default function Chat({ id, text, author }) {
       <img
         onClick={goToProfile}
         className={styles.profilephoto}
-        src={author?.photo ? author.photo : '/exampleprofile.png'}
+        src={otherUser?.photo ? otherUser.photo : '/exampleprofile.png'}
         alt=""
       />
 
       <div className={styles.right}>
         <div onClick={goToProfile}>
           <p className={styles.header}>
-            <span className={styles.displayname}>{author.displayName}</span>
-            <span className={styles.username}>@{author.username}</span>
+            <span className={styles.displayname}>{otherUser.displayName}</span>
+            <span className={styles.username}>@{otherUser.username}</span>
           </p>
           <p className={styles.text}>{text}</p>
         </div>

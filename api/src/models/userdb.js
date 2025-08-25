@@ -68,7 +68,13 @@ async function getUserFollowing(id) {
 async function getUserChats(id) {
   const users = await prisma.user.findUnique({
     where: { id: id },
-    select: { chats: true },
+    select: {
+      chats: {
+        include: {
+          users: { select: { username: true, displayName: true, id: true } },
+        },
+      },
+    },
   })
   return users
 }

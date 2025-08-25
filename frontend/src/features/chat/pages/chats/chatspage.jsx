@@ -1,9 +1,29 @@
+import { useEffect } from 'react'
 import LeftMenu from '../../../../components/menu/leftmenu/menu'
 import RightMenu from '../../../../components/menu/rightmenu/menu'
 import Chat from '../../components/chat/chat'
 import styles from './chatspage.module.css'
+import useData from '../../../../utils/useData'
 
 export default function ChatsPage() {
+  const chatsFetch = useData('/user/chats', 'GET')
+
+  useEffect(() => {
+    chatsFetch.fetchData()
+  }, [])
+
+  const chats = chatsFetch.loading ? (
+    <p>Loading</p>
+  ) : chatsFetch.error != null ? (
+    <p>An unknown error occured</p>
+  ) : chatsFetch.data ? (
+    chatsFetch.data.data.chats.map((chat) => {
+      return <Chat id={chat.id} text={'aa'} users={chat.users}></Chat>
+    })
+  ) : (
+    ''
+  )
+
   return (
     <>
       <div className={styles.body}>
@@ -13,15 +33,7 @@ export default function ChatsPage() {
           <div className={styles.topheading}>
             <h4>Chats</h4>
           </div>
-          <div>
-            <Chat
-              author={{ username: 'sirronrex.so', displayName: 'SirronRex' }}
-              id={1}
-              text={
-                'Ceasefire and nuclear talks in Alaska… feels like Cold War history repeating itself, but hopefully with a better ending this time.'
-              }
-            />
-          </div>
+          <div>{chats}</div>
         </div>
         <RightMenu />
       </div>
