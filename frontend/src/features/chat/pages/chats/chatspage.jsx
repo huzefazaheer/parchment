@@ -18,7 +18,14 @@ export default function ChatsPage() {
     <p>An unknown error occured</p>
   ) : chatsFetch.data ? (
     chatsFetch.data.data.chats.map((chat) => {
-      return <Chat id={chat.id} text={'aa'} users={chat.users}></Chat>
+      console.log(chat)
+      return (
+        <Chat
+          id={chat.id}
+          lastmsg={chat?.lastMessage}
+          users={chat.users}
+        ></Chat>
+      )
     })
   ) : (
     ''

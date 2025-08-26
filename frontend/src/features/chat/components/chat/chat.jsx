@@ -4,7 +4,7 @@ import { getOtherUser } from '../utils/directchat_utils'
 import { useContext } from 'react'
 import { appContext } from '../../../../App'
 
-export default function Chat({ id, text, users }) {
+export default function Chat({ id, lastmsg, users }) {
   const navigate = useNavigate()
   const { user } = useContext(appContext)
 
@@ -17,9 +17,14 @@ export default function Chat({ id, text, users }) {
   function openChat() {
     navigate('/chats/' + id)
   }
+  const text = lastmsg
+    ? lastmsg.senderId == user.id
+      ? `You: ${lastmsg.text}`
+      : `${otherUser.displayName}:  ${lastmsg.text}`
+    : 'Nothing here yet'
 
   return (
-    <article className={styles.comment} key={id} onClick={openChat}>
+    <article className={styles.chat} key={id} onClick={openChat}>
       <img
         onClick={goToProfile}
         className={styles.profilephoto}

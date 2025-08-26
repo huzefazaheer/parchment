@@ -84,6 +84,7 @@ async function getUserChats(id) {
               photo: true,
             },
           },
+          lastMessage: true,
         },
       },
     },

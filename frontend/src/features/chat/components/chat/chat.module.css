@@ -1,4 +1,4 @@
-.comment {
+.chat {
   max-width: 600px;
   display: flex;
   flex-direction: row;
@@ -9,7 +9,7 @@
   border-bottom: 1px solid #bca890;
 }
 
-.comment > * {
+.chat > * {
   cursor: default;
 }
 
@@ -29,7 +29,7 @@
   margin-bottom: 5px;
 }
 
-.comment .profilephoto {
+.chat .profilephoto {
   width: 48px;
   height: 48px;
   border-radius: 48px;
@@ -57,45 +57,10 @@
   margin-top: 0;
   font-size: 15px;
   color: #413d36;
+  max-height: 40px;
+  overflow: hidden;
 }
 
-.comment ul {
-  list-style: none;
-  display: flex;
-  gap: 40px;
-  padding: 0;
-  margin-top: 10px;
-  margin-bottom: 10px;
-}
-
-.comment ul li {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-}
-
-.comment ul li p {
-  text-align: center;
-  margin: 0;
-  font-size: 14px;
-  color: var(--color-accent2);
-}
-
-.comment ul li img {
-  width: 24px;
-  height: 24px;
-  transition: transform 200ms ease-in-out;
-}
-
-.comment ul li img:hover {
-  transform: translateY(-2px);
-}
-
-.comment ul li img:active {
-  transform: translateY(1px);
-}
-
-.comment:hover {
+.chat:hover {
   background-color: #d0bfa5;
 }
