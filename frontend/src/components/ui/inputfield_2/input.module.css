@@ -1,0 +1,21 @@
+.input {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 4px;
+}
+
+.input input {
+  height: 25px;
+  border: none;
+  background-color: rgba(240, 248, 255, 0);
+  border: 1.5px solid var(--color-accent2);
+}
+
+.input input:focus {
+  outline: 1px solid var(--color-accent);
+}
+
+.input label {
+  font-size: 15px;
+}

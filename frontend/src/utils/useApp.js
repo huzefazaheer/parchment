@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react'
 import { jwtDecode } from 'jwt-decode'
+import useData from './useData'
 
 export default function useApp() {
   const [jwt, setJwt] = useState(null)
-  const [user, setUser] = useState(null)
+  const [user, setUser] = useState({ photo: '', displayName: '', username: '' })
   const [showModal, setShowModal] = useState({ show: false, type: 'post' })
 
   useEffect(() => {
@@ -11,8 +12,16 @@ export default function useApp() {
       setJwt(localStorage.getItem('jsonwebtoken'))
       const _user = jwtDecode(localStorage.getItem('jsonwebtoken'))
       setUser(_user)
+      console.log(_user)
     }
-  }, [])
+  }, [jwt])
 
-  return { jwt, setJwt, user, setUser, showModal, setShowModal }
+  const jwtFetch = useData('/auth/update', 'GET')
+  async function updateJwt() {
+    const { data } = await jwtFetch.fetchData(undefined, undefined, jwt)
+    localStorage.setItem('jsonwebtoken', data)
+    setJwt(data)
+  }
+
+  return { jwt, setJwt, user, setUser, showModal, setShowModal, updateJwt }
 }

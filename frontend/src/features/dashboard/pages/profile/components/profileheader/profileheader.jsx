@@ -4,7 +4,7 @@ import { appContext } from '../../../../../../App'
 import { useNavigate } from 'react-router-dom'
 import { PrimaryButton } from '../../../../../../components/ui/buttons/buttons'
 import useData from '../../../../../../utils/useData'
-import MultiButton from '../../../../../../components/ui/multibutton/multibutton'
+import MultiButton from '../../../../components/multibutton/multibutton'
 
 export default function ProfileHeader({ id, setIndex, index, userId }) {
   const { user } = useContext(appContext)
@@ -18,6 +18,7 @@ export default function ProfileHeader({ id, setIndex, index, userId }) {
     async function getUser() {
       const data = await userFetch.fetchData()
       setCurrUser(data.data)
+      console.log(data)
     }
     if (!isSelf) {
       getUser()
@@ -41,8 +42,16 @@ export default function ProfileHeader({ id, setIndex, index, userId }) {
     <div className={styles.heading}>
       <div className={styles.topheading}>
         {backarrow}
-        <img className={styles.coverphoto} src="/exampleback.png" alt="" />
-        <img className={styles.profilephoto} src="/exampleprofile.png" alt="" />
+        <img
+          className={styles.coverphoto}
+          src={isSelf ? user.backdrop : currUser.backdrop}
+          alt=""
+        />
+        <img
+          className={styles.profilephoto}
+          src={isSelf ? user.photo : currUser.photo}
+          alt=""
+        />
       </div>
       <div>
         <div className={styles.profileinfo}>

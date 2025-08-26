@@ -14,6 +14,7 @@ async function getUserProfile(id) {
           reshares: true,
         },
       },
+      backdrop: true,
     },
   })
   return user
@@ -23,7 +24,9 @@ async function getUserPosts(id) {
   const posts = await prisma.post.findMany({
     where: { authorId: id },
     include: {
-      author: { select: { username: true, displayName: true, id: true } },
+      author: {
+        select: { username: true, displayName: true, id: true, photo: true },
+      },
     },
   })
   return posts
@@ -33,7 +36,9 @@ async function getUserComments(id) {
   const comments = await prisma.comment.findMany({
     where: { authorId: id },
     include: {
-      author: { select: { username: true, displayName: true, id: true } },
+      author: {
+        select: { username: true, displayName: true, id: true, photo: true },
+      },
     },
   })
   return comments
@@ -71,9 +76,33 @@ async function getUserChats(id) {
     select: {
       chats: {
         include: {
-          users: { select: { username: true, displayName: true, id: true } },
+          users: {
+            select: {
+              username: true,
+              displayName: true,
+              id: true,
+              photo: true,
+            },
+          },
         },
       },
+    },
+  })
+  return users
+}
+
+async function updateUserProfile(id, displayName, photo, backdrop) {
+  const users = await prisma.user.update({
+    where: { id: id },
+    data: {
+      displayName: displayName,
+      backdrop: backdrop,
+      photo: photo,
+    },
+    select: {
+      displayName: true,
+      backdrop: true,
+      photo: true,
     },
   })
   return users
@@ -87,4 +116,5 @@ module.exports = {
   getUserFollowers,
   getUserFollowing,
   getUserChats,
+  updateUserProfile,
 }

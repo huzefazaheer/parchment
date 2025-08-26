@@ -7,12 +7,18 @@ async function createUser(username, email, password, displayName) {
       email: email,
       password: password,
       displayName: displayName,
+      photo:
+        'https://mbudazveliyoyiklaszj.supabase.co/storage/v1/object/public/profilephotos/defaultprofile.png',
+      backdrop:
+        'https://mbudazveliyoyiklaszj.supabase.co/storage/v1/object/public/backdrop/defaultbackdrop.png',
     },
     select: {
       id: true,
       username: true,
       email: true,
       displayName: true,
+      photo: true,
+      backdrop: true,
     },
   })
 
@@ -30,6 +36,8 @@ async function getUserByUsername(username) {
       email: true,
       displayName: true,
       password: true,
+      photo: true,
+      backdrop: true,
     },
   })
 

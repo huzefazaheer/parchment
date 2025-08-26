@@ -10,14 +10,14 @@ export default function useData(endpoint, method, body = {}) {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
 
-  async function fetchData(_endpoint = endpoint, _body = body) {
+  async function fetchData(_endpoint = endpoint, _body = body, _jwt = jwt) {
     setLoading(true)
     try {
       const res = await fetch(api + _endpoint, {
         method: method,
         headers: {
           'Content-Type': 'application/json',
-          Authorization: 'Bearer ' + jwt,
+          Authorization: 'Bearer ' + _jwt,
         },
         body:
           Object.keys(_body).length === 0 ? undefined : JSON.stringify(_body),

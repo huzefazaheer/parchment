@@ -7,6 +7,7 @@ const {
   getUserFollowers,
   getUserFollowing,
   getUserChats,
+  updateUserProfile,
 } = require('../models/userdb')
 const status = require('../utils/status')
 
@@ -84,6 +85,24 @@ async function searchUserController(req, res) {
   }
 }
 
+async function updateUserProfileController(req, res) {
+  if (
+    !(req.body && req.body.displayName && req.body.photo && req.body.backdrop)
+  )
+    return status.BAD_REQUEST(res)
+  try {
+    const user = await updateUserProfile(
+      req.user.id,
+      req.body.displayName,
+      req.body.photo,
+      req.body.backdrop,
+    )
+    return status.OK(res, 'User updated', user)
+  } catch (error) {
+    return status.INTERNAL_SERVER_ERROR(res)
+  }
+}
+
 module.exports = {
   getUserCommentsController,
   getUserPostsController,
@@ -93,4 +112,5 @@ module.exports = {
   getUserFollowingController,
   getUserChatsController,
   searchUserController,
+  updateUserProfileController,
 }

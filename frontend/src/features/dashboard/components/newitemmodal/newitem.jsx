@@ -13,6 +13,7 @@ export default function NewItemModal() {
   const [text, setText] = useState('')
   const createPostFetch = useData('/posts', 'POST', { text })
   const createCommentFetch = useData('/comments?postid=', 'POST', { text })
+  const { user } = useContext(appContext)
 
   const location = useLocation()
 
@@ -41,7 +42,7 @@ export default function NewItemModal() {
     >
       <div className={styles.modal}>
         <div className={styles.top}>
-          <img src="/exampleprofile.png" alt="" />
+          <img src={user.photo} alt="" />
           <div className={styles.right}>
             <textarea
               name=""

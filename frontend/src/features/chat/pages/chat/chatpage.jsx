@@ -46,6 +46,7 @@ export default function ChatPage() {
           text={msg.text}
           date={msg.timestamp}
           username={msg.sender.displayName}
+          photo={chatUser.photo}
         />
       )
     })

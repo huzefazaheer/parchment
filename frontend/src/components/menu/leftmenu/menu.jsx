@@ -6,7 +6,7 @@ import { appContext } from '../../../App'
 import SignedInMenu from './components/signedinmenu'
 
 export default function LeftMenu() {
-  const { user } = useContext(appContext)
+  const { user, jwt } = useContext(appContext)
   const navigate = useNavigate()
 
   const calltoaction = (
@@ -22,7 +22,7 @@ export default function LeftMenu() {
   return (
     <div className={styles.menu}>
       <header className={styles.title}>Parchment</header>
-      {user == null ? calltoaction : <SignedInMenu user={user} />}
+      {jwt == null ? calltoaction : <SignedInMenu user={user} />}
     </div>
   )
 }

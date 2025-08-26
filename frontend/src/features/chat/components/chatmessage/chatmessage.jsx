@@ -2,7 +2,7 @@ import { useContext } from 'react'
 import styles from './chatmessage.module.css'
 import { appContext } from '../../../../App'
 
-export default function ChatMessage({ text, username, date }) {
+export default function ChatMessage({ text, username, date, photo = '' }) {
   const { user } = useContext(appContext)
 
   const isSent = username == user.displayName ? true : false
@@ -25,7 +25,11 @@ export default function ChatMessage({ text, username, date }) {
   return (
     <div className={`${styles.message} ${isSent ? styles.messagesent : ''}`}>
       <div className={styles.userdetail}>
-        <img className={styles.photo} src="/exampleprofile.png" alt="" />
+        <img
+          className={styles.photo}
+          src={isSent ? user.photo : photo}
+          alt=""
+        />
         <div>
           <p className={styles.username}>{isSent ? 'You' : username}</p>
           <p className={styles.date}>{formatDate(msgDate)}</p>

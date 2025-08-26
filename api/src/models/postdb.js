@@ -16,7 +16,9 @@ async function getPosts(jump = 0) {
     take: 20,
     skip: jump * 20,
     include: {
-      author: { select: { username: true, displayName: true, id: true } },
+      author: {
+        select: { username: true, displayName: true, id: true, photo: true },
+      },
     },
   })
   return posts
