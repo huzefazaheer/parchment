@@ -34,7 +34,7 @@ export default function SettingsPage() {
             <h4>Settings</h4>
           </div>
           <div className={styles.userprofile}>
-            <img src="/exampleprofile.png" alt="" />
+            <img src={user.photo} alt="" />
             <p className={styles.displayname}>{user.displayName}</p>
             <p className={styles.username}>@{user.username}</p>
           </div>

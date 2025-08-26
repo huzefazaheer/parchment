@@ -1,0 +1,39 @@
+.sendMessage {
+  position: absolute;
+  display: flex;
+  bottom: 0;
+  align-items: center;
+  width: 510px;
+  gap: 20px;
+  padding: 10px 20px;
+}
+
+.sendMessage input {
+  flex-basis: 96%;
+  resize: none;
+  margin: 0;
+  height: 100%;
+  flex-shrink: 0;
+  flex-grow: 1;
+  font-family: 'Inter', sans-serif;
+  background-color: #d0bfa500;
+  border: 1px solid var(--color-border);
+  font-size: 15px;
+  color: #3e3932;
+  height: 34px;
+  padding-left: 10px;
+}
+
+.sendMessage input:focus {
+  outline: solid 1px #5c3838;
+}
+
+.sendMessage button {
+  flex-shrink: 0;
+  flex-grow: 0;
+}
+
+.sendMessage button img {
+  width: 18px;
+  height: 18px;
+}

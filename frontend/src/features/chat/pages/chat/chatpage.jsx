@@ -5,21 +5,17 @@ import styles from './chatpage.module.css'
 import ChatMessage from '../../components/chatmessage/chatmessage'
 import useData from '../../../../utils/useData'
 import { useContext, useEffect, useState } from 'react'
-import { PrimaryButton } from '../../../../components/ui/buttons/buttons'
 import { getOtherUser } from '../../components/utils/directchat_utils'
 import { appContext } from '../../../../App'
+import MsgSender from './component/messagesender'
 
 export default function ChatPage() {
   const navigate = useNavigate()
   const { user } = useContext(appContext)
   const { id } = useParams()
   const [chatUser, setChatUser] = useState({ username: '', displayName: '' })
-  const [text, setText] = useState('')
   const getChatFetch = useData('/chats/' + id, 'GET')
   const getChatMessage = useData('/chats/' + id + '/messages', 'get')
-  const sendChatMessage = useData('/chats/' + id + '/messages', 'post', {
-    text: text,
-  })
 
   useEffect(() => {
     async function getChat() {
@@ -29,11 +25,6 @@ export default function ChatPage() {
     getChat()
     getChatMessage.fetchData()
   }, [])
-
-  async function sendMessage() {
-    await sendChatMessage.fetchData()
-    setText('')
-  }
 
   const messages = getChatMessage.loading ? (
     <p>Loading</p>
@@ -72,15 +63,7 @@ export default function ChatPage() {
             </h4>
           </div>
           <div>{messages}</div>
-          <div className={styles.sendMessage}>
-            <textarea
-              value={text}
-              onChange={(e) => setText(e.target.value)}
-            ></textarea>
-            <PrimaryButton width="24%" onClick={sendMessage}>
-              Send
-            </PrimaryButton>
-          </div>
+          <MsgSender id={id} />
         </div>
         <RightMenu />
       </div>

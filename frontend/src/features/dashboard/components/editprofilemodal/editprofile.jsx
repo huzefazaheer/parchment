@@ -5,10 +5,9 @@ import {
 } from '../../../../components/ui/buttons/buttons'
 import { useContext, useRef, useState } from 'react'
 import { TextInputField } from '../../../../components/ui/inputfield/textinputfield'
-import InputAlt from '../../../../components/ui/inputfield_2/input'
 import { appContext } from '../../../../App'
-import { supabase } from '../../../../utils/supabase'
 import useData from '../../../../utils/useData'
+import uploadPhoto from './uploadphoto'
 
 export default function EditProfileModal({ show, toggleShow }) {
   const { user, updateJwt } = useContext(appContext)
@@ -31,30 +30,18 @@ export default function EditProfileModal({ show, toggleShow }) {
 
   async function updateProfile() {
     let updatedData = data
-    let backdropurl, photourl
     const newphoto = photouploadRef.current.files[0]
     const newbackdrop = backdropuploadRef.current.files[0]
     if (newbackdrop != undefined) {
-      const { data, error } = await supabase.storage
-        .from('backdrop') // your bucket name
-        .upload(crypto.randomUUID(), newbackdrop)
-      console.log(error)
-      const { data: publicData } = supabase.storage
-        .from('backdrop')
-        .getPublicUrl(data.path)
-      backdropurl = publicData.publicUrl
-      updatedData = { ...updatedData, backdrop: backdropurl }
+      const photo = await uploadPhoto('backdrop', newbackdrop)
+      updatedData = {
+        ...updatedData,
+        backdrop: photo,
+      }
     }
     if (newphoto != undefined) {
-      const { data, error } = await supabase.storage
-        .from('profilephotos') // your bucket name
-        .upload(crypto.randomUUID(), newphoto)
-      console.log(error)
-      const { data: publicData } = supabase.storage
-        .from('profilephotos')
-        .getPublicUrl(data.path)
-      photourl = publicData.publicUrl
-      updatedData = { ...updatedData, photo: photourl }
+      const photo = await uploadPhoto('profilephotos', newphoto)
+      updatedData = { ...updatedData, photo: photo }
     }
     console.log(updatedData)
     setData(updatedData)
@@ -116,14 +103,10 @@ export default function EditProfileModal({ show, toggleShow }) {
         </div>
         <ul>
           <li>
-            <InputAlt
-              label={'Username'}
-              value={user.username}
-              readonly={true}
-            />
+            <TextInputField label={'Username'} value={user.username} />
           </li>
           <li>
-            <InputAlt
+            <TextInputField
               label={'Display Name'}
               value={data.displayName}
               onChange={(e) =>

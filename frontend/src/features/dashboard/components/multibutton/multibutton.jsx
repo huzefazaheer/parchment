@@ -36,12 +36,14 @@ export default function MultiButton({ isSelf, userId }) {
     <>
       <EditProfileModal show={show} toggleShow={toggleShow} />
       <div className={styles.button}>
-        <button className={styles.firstbutton}>
+        <button
+          className={`${styles.firstbutton} ${isSelf ? styles.selfbtn : ''}`}
+        >
           <img src="/follow.svg" alt="" /> <p>Follow</p>
         </button>
         <button
           onClick={() => setMenuActive((prev) => !prev)}
-          className={styles.secondbutton}
+          className={`${styles.secondbutton} ${isSelf ? styles.self2 : ''}`}
         >
           <img src="/option_red.svg" alt="" />
         </button>

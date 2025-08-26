@@ -6,6 +6,7 @@ button {
   font-family: 'Inter';
   font-weight: 600;
   transition: all 200ms ease;
+  box-sizing: border-box;
 }
 
 .button--primary {

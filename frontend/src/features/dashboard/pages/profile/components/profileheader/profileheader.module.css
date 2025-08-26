@@ -18,6 +18,10 @@
   height: 200px;
 }
 
+.coverphoto {
+  background-image: url('/grain_overlay.png');
+}
+
 .backarrow {
   position: absolute;
   margin-top: 20px;

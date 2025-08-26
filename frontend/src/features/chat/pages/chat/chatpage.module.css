@@ -52,32 +52,3 @@
   font-weight: 400;
   margin-left: 6px;
 }
-
-.sendMessage {
-  position: absolute;
-  bottom: 4px;
-  display: flex;
-  align-items: center;
-  width: 509px;
-  gap: 20px;
-}
-.sendMessage textarea {
-  flex-basis: 90%;
-  resize: none;
-  margin: 0;
-  height: 100%;
-  flex-shrink: 0;
-  font-family: 'Inter', sans-serif;
-  background-color: #d0bfa500;
-  border: 1px solid var(--color-border);
-  font-size: 15px;
-  color: #3e3932;
-}
-
-.sendMessage textarea:focus {
-  outline: solid 1px #5c3838;
-}
-
-.sendMessage button {
-  flex-shrink: 0;
-}
