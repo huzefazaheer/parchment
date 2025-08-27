@@ -3,7 +3,7 @@
   position: relative;
 }
 
-.posts {
+.profile {
   flex-shrink: 1fr;
   scrollbar-width: none;
   -ms-overflow-style: none;
@@ -11,10 +11,10 @@
   border-left: 1px solid var(--color-border);
   margin-left: 29vw;
   width: fit-content;
-  height: 100vh;
+  min-height: 100vh;
 }
 
-.posts::-webkit-scrollbar {
+.profile::-webkit-scrollbar {
   display: none;
 }
 
@@ -73,4 +73,27 @@
   font-weight: 600;
   margin-top: 6px;
   margin-bottom: 0;
+}
+
+.changepass {
+  padding-left: 15%;
+  padding-right: 15%;
+  padding-bottom: 30px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 30px;
+  border-bottom: 1px solid var(--color-border);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.changepass p {
+  margin: 0;
+  color: var(--color-accent);
+  font-size: 14px;
+}
+
+.changepass button {
+  /* margin-top: 20px; */
 }

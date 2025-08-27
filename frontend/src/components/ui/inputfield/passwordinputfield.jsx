@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import styles from './inputfield.module.css'
 
-export function PasswordInputField({ value, onChange }) {
+export function PasswordInputField({ value, onChange, label = 'password' }) {
   const [isSelected, setIsSelected] = useState(value == '' ? false : true)
   const [inputType, setInputType] = useState('password')
 
@@ -16,7 +16,7 @@ export function PasswordInputField({ value, onChange }) {
         isSelected ? styles.selected : styles.unselected
       }`}
     >
-      <label htmlFor={'password'}>{'password'}</label>
+      <label htmlFor={'password'}>{label}</label>
       <div className={styles.inputwrapper}>
         <img src={'/password.svg'} alt="" />
         <input

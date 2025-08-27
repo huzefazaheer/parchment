@@ -13,10 +13,13 @@ export default function Setting({ name, icon, isActive = false, children }) {
   )
 }
 
-export function SettingAction({ name, clickfn }) {
+export function SettingAction({ name, clickfn, children }) {
   return (
-    <p onClick={clickfn} className={styles.action}>
-      {name}
-    </p>
+    <div onClick={(e) => e.stopPropagation()}>
+      <p onClick={clickfn} className={styles.action}>
+        {name}
+      </p>
+      {children}
+    </div>
   )
 }

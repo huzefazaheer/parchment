@@ -59,6 +59,7 @@
   color: #413d36;
   max-height: 40px;
   overflow: hidden;
+  margin-bottom: 0;
 }
 
 .chat:hover {

@@ -1,4 +1,5 @@
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/
+import validator from 'validator'
 
 export default function checkSignupErrors(
   email,
@@ -9,6 +10,8 @@ export default function checkSignupErrors(
 ) {
   if (email == '') return 'Please fill out your email'
   if (password == '') return 'Please enter your password'
+  if (!validator.isStrongPassword(password))
+    return 'Please choose a stronger password'
   if (date == '') return 'Please enter your birth date'
   if (username == '') return 'Please enter your user name'
   if (displayname == '') return 'Please enter your display name'

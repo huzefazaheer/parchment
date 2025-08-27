@@ -6,9 +6,12 @@ const {
   getUserByUsername,
   getUserByEmail,
   getUserRole,
+  updatePassword,
+  getUserPassword,
 } = require('../models/authdb')
 const status = require('../utils/status')
 const signUserJwt = require('../utils/jwt')
+const { response } = require('express')
 
 async function createUserController(req, res) {
   if (
@@ -149,6 +152,30 @@ async function isAdmin(req, res, next) {
   }
 }
 
+async function updatePasswordController(req, res) {
+  if (!(req.body && req.body.oldpassword && req.body.newpassword))
+    return status.BAD_REQUEST(res)
+  if (
+    validator.isEmpty(req.body.oldpassword) ||
+    validator.isEmpty(req.body.newpassword) ||
+    !validator.isStrongPassword(req.body.newpassword)
+  )
+    return status.BAD_REQUEST(res)
+  try {
+    const userPassword = await getUserPassword(req.user.id)
+    const userIsSecure = await bcrypt.compare(
+      req.body.oldpassword,
+      userPassword.password,
+    )
+    if (!userIsSecure) return status.UNAUTHORIZED(res)
+    const hashedPassword = await bcrypt.hash(req.body.newpassword, 10)
+    updatePassword(req.user.id, hashedPassword)
+    return status.OK(res, 'Password updated', null)
+  } catch (error) {
+    return status.INTERNAL_SERVER_ERROR(res)
+  }
+}
+
 module.exports = {
   createUserController,
   loginUserWithUsernameController,
@@ -156,4 +183,5 @@ module.exports = {
   updateJwtController,
   isAuth,
   isAdmin,
+  updatePasswordController,
 }
