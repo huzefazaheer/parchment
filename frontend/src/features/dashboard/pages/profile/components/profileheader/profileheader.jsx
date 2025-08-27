@@ -58,16 +58,25 @@ export default function ProfileHeader({ id, setIndex, index, userId }) {
     <div className={styles.heading}>
       <div className={styles.topheading}>
         {backarrow}
-        <img
-          className={styles.coverphoto}
-          src={isSelf ? user.backdrop : currUser.backdrop}
-          alt=""
-        />
-        <img
-          className={styles.profilephoto}
-          src={isSelf ? user.photo : currUser.photo}
-          alt=""
-        />
+        {user.backdrop || currUser.backdrop ? (
+          <img
+            className={styles.coverphoto}
+            src={isSelf ? user.backdrop : currUser.backdrop}
+            alt=""
+          />
+        ) : (
+          <div className={styles.skeletonbackdrop}></div>
+        )}
+
+        {user.photo || currUser.photo ? (
+          <img
+            className={styles.profilephoto}
+            src={isSelf ? user.photo : currUser.photo}
+            alt=""
+          />
+        ) : (
+          <div className={styles.skeletonimg}></div>
+        )}
       </div>
       <div>
         <div className={styles.profileinfo}>

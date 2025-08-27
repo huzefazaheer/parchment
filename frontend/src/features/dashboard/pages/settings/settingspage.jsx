@@ -61,7 +61,11 @@ export default function SettingsPage() {
             <h4>Settings</h4>
           </div>
           <div className={styles.userprofile}>
-            <img src={user.photo} alt="" />
+            {user.photo ? (
+              <img src={user.photo} alt="" />
+            ) : (
+              <div className={styles.photoskeleton}></div>
+            )}
             <p className={styles.displayname}>{user.displayName}</p>
             <p className={styles.username}>@{user.username}</p>
           </div>

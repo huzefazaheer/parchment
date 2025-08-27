@@ -91,3 +91,21 @@
 .active p {
   font-weight: 700 !important;
 }
+
+.skeletonimg {
+  width: 64px;
+  height: 64px;
+  border-radius: 64px;
+  background: linear-gradient(90deg, #c9b89f 25%, #b8a085 50%, #c9b89f 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}

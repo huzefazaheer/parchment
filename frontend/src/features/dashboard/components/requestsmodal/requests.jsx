@@ -1,12 +1,10 @@
 import styles from './requests.module.css'
 import { SecondaryButton } from '../../../../components/ui/buttons/buttons'
-import { useContext, useEffect, useState } from 'react'
-import { appContext } from '../../../../App'
+import { useEffect, useState } from 'react'
 import useData from '../../../../utils/useData'
 import FollowRequest from '../followrequest/followrequest'
 
 export default function RequestsModal({ show, toggleShow }) {
-  const { user, updateJwt } = useContext(appContext)
   const [index, setIndex] = useState(0)
   const sentRequestsFetch = useData('/followreq/sent', 'GET')
   const receivedRequestsFetch = useData('/followreq/received', 'GET')

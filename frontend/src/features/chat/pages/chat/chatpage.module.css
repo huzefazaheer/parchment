@@ -52,3 +52,22 @@
   font-weight: 400;
   margin-left: 6px;
 }
+
+.chatdetailskeleton {
+  width: 180px;
+  background: linear-gradient(90deg, #c9b89f 25%, #b8a085 50%, #c9b89f 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  height: 16px;
+  border-radius: 6px;
+  margin-top: 4px;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}

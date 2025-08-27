@@ -1,0 +1,128 @@
+.post {
+  max-width: 600px;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 10px;
+  transition: background-color 100ms linear;
+  padding: 15px;
+  align-items: center;
+}
+
+.post:first-of-type {
+  margin-top: 10px;
+}
+
+.post:not(:first-of-type) {
+  margin-top: 20px;
+}
+
+.embed:not(:first-of-type) {
+  margin-bottom: 20px;
+}
+
+.right {
+  width: 500px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.header {
+  display: flex;
+  flex-direction: row;
+  align-items: first baseline;
+  gap: 5px;
+  margin-top: 0;
+  margin-bottom: 5px;
+}
+
+.post .profilephoto {
+  width: 48px;
+  height: 48px;
+  border-radius: 48px;
+  background: linear-gradient(90deg, #c9b89f 25%, #b8a085 50%, #c9b89f 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+.displayname {
+  height: 16px;
+  width: 40px;
+  border-radius: 6px;
+  background: linear-gradient(90deg, #c9b89f 25%, #b8a085 50%, #c9b89f 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+.text {
+  height: 14px;
+  border-radius: 6px;
+  background: linear-gradient(90deg, #c9b89f 25%, #b8a085 50%, #c9b89f 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  width: 40%;
+}
+
+.text:last-of-type {
+  margin-top: 10px;
+  width: 80%;
+}
+
+.embed {
+  max-width: 500px;
+  border: 1px solid #bca890;
+  border-radius: 24px;
+  margin-bottom: 15px;
+  margin-left: 70px;
+}
+
+.embed_text {
+  height: 14px;
+  border-radius: 6px;
+  background: linear-gradient(90deg, #c9b89f 25%, #b8a085 50%, #c9b89f 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  width: 55%;
+  margin-left: 20px;
+}
+
+.link_text {
+  height: 16px;
+  border-radius: 6px;
+  background: linear-gradient(90deg, #c9b89f 25%, #b8a085 50%, #c9b89f 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  width: 80%;
+  margin-left: 20px;
+}
+
+.emded_img {
+  width: 500px;
+  height: 260px;
+  background: linear-gradient(90deg, #c9b89f 25%, #b8a085 50%, #c9b89f 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-top-left-radius: 24px;
+  border-top-right-radius: 24px;
+}
+
+.link {
+  height: 12px;
+  width: 60px;
+  border-radius: 6px;
+  background: linear-gradient(90deg, #c9b89f 25%, #b8a085 50%, #c9b89f 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  margin-left: 20px;
+  margin-bottom: 20px;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}

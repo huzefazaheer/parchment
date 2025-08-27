@@ -55,6 +55,8 @@ async function getUserByEmail(email) {
       email: true,
       displayName: true,
       password: true,
+      photo: true,
+      backdrop: true,
     },
   })
 

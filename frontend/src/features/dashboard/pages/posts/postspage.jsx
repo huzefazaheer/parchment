@@ -9,6 +9,8 @@ import useData from '../../../../utils/useData'
 import { useNavigate, useParams } from 'react-router-dom'
 import { appContext } from '../../../../App'
 import Comment from '../../components/comment/comment'
+import PostSkeleton from '../../components/post/skeleton/postskeleton'
+import CommentSkeleton from '../../components/comment/skeleton/commentskeleton'
 
 export default function PostsPage() {
   const { setShowModal } = useContext(appContext)
@@ -23,7 +25,9 @@ export default function PostsPage() {
   }, [])
 
   const post = getPostFetch.loading ? (
-    <p>Loading</p>
+    <div style={{ borderBottom: '1px solid var(--color-border)' }}>
+      <PostSkeleton />
+    </div>
   ) : getPostFetch.error != null ? (
     <p>An unknown error occured</p>
   ) : getPostFetch.data ? (
@@ -38,7 +42,10 @@ export default function PostsPage() {
   )
 
   const comments = getCommentFetch.loading ? (
-    <p>Loading</p>
+    <div>
+      <CommentSkeleton />
+      <CommentSkeleton />
+    </div>
   ) : getCommentFetch.error != null ? (
     <p>An unknown error occured</p>
   ) : getCommentFetch.data ? (

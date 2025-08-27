@@ -4,6 +4,7 @@ import RightMenu from '../../../../components/menu/rightmenu/menu'
 import Chat from '../../components/chat/chat'
 import styles from './chatspage.module.css'
 import useData from '../../../../utils/useData'
+import CommentSkeleton from '../../../dashboard/components/comment/skeleton/commentskeleton'
 
 export default function ChatsPage() {
   const chatsFetch = useData('/user/chats', 'GET')
@@ -13,7 +14,11 @@ export default function ChatsPage() {
   }, [])
 
   const chats = chatsFetch.loading ? (
-    <p>Loading</p>
+    <div>
+      <CommentSkeleton />
+      <CommentSkeleton />
+      <CommentSkeleton />
+    </div>
   ) : chatsFetch.error != null ? (
     <p>An unknown error occured</p>
   ) : chatsFetch.data ? (

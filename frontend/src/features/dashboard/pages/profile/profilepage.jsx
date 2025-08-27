@@ -9,6 +9,8 @@ import useData from '../../../../utils/useData'
 import Post from '../../components/post/post'
 import Comment from '../../components/comment/comment'
 import ProfileHeader from './components/profileheader/profileheader'
+import CommentSkeleton from '../../components/comment/skeleton/commentskeleton'
+import PostSkeleton from '../../components/post/skeleton/postskeleton'
 
 export default function ProfilePage() {
   const [index, setIndex] = useState(0)
@@ -37,7 +39,10 @@ export default function ProfilePage() {
   }, [index])
 
   const posts = itemFetch.loading ? (
-    <p>Loading</p>
+    <div>
+      <PostSkeleton />
+      <PostSkeleton />
+    </div>
   ) : itemFetch.error != null ? (
     <p>An unknown error occured</p>
   ) : itemFetch.data ? (
@@ -56,7 +61,11 @@ export default function ProfilePage() {
   )
 
   const comments = itemFetch.loading ? (
-    <p>Loading</p>
+    <div>
+      <CommentSkeleton />
+      <CommentSkeleton />
+      <CommentSkeleton />
+    </div>
   ) : itemFetch.error != null ? (
     <p>An unknown error occured</p>
   ) : itemFetch.data ? (

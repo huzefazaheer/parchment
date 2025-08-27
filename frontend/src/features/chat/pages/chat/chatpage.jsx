@@ -8,6 +8,8 @@ import { useContext, useEffect, useState } from 'react'
 import { getOtherUser } from '../../components/utils/directchat_utils'
 import { appContext } from '../../../../App'
 import MsgSender from './component/messagesender'
+import CommentSkeleton from '../../../dashboard/components/comment/skeleton/commentskeleton'
+import MessageSkeleton from '../../components/chatmessage/skeleton/messageskeleton'
 
 export default function ChatPage() {
   const navigate = useNavigate()
@@ -27,7 +29,12 @@ export default function ChatPage() {
   }, [])
 
   const messages = getChatMessage.loading ? (
-    <p>Loading</p>
+    <div>
+      <MessageSkeleton isSent={false} />
+      <MessageSkeleton isSent={true} />
+      <MessageSkeleton isSent={true} />
+      <MessageSkeleton isSent={false} />
+    </div>
   ) : getChatMessage.error != null ? (
     <p>An unknown error occured</p>
   ) : getChatMessage.data ? (
@@ -58,8 +65,14 @@ export default function ChatPage() {
               alt=""
             />
             <h4>
-              {chatUser.displayName}
-              <span className={styles.username}>@{chatUser.username}</span>
+              {chatUser.displayName ? (
+                <>
+                  {chatUser.displayName}
+                  <span className={styles.username}>@{chatUser.username}</span>
+                </>
+              ) : (
+                <div className={styles.chatdetailskeleton}></div>
+              )}
             </h4>
           </div>
           <div>{messages}</div>

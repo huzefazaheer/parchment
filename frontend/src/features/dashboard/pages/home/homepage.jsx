@@ -5,6 +5,7 @@ import styles from './homepage.module.css'
 import NewItemModal from '../../components/newitemmodal/newitem'
 import { useEffect } from 'react'
 import useData from '../../../../utils/useData'
+import PostSkeleton from '../../components/post/skeleton/postskeleton'
 
 export default function Home() {
   const getPostsFetch = useData('/posts', 'GET')
@@ -14,7 +15,10 @@ export default function Home() {
   }, [])
 
   const posts = getPostsFetch.loading ? (
-    <p>Loading</p>
+    <div>
+      <PostSkeleton />
+      <PostSkeleton />
+    </div>
   ) : getPostsFetch.error != null ? (
     <p>An unknown error occured</p>
   ) : getPostsFetch.data ? (

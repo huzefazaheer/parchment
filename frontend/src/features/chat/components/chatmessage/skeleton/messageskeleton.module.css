@@ -1,0 +1,78 @@
+.message {
+  width: 320px;
+  padding-left: 30px;
+  padding-right: 30px;
+}
+
+.message.messagesent {
+  margin-left: auto;
+}
+
+.username {
+  color: #4a2c2c;
+  height: 12px;
+  font-weight: 700;
+  margin-bottom: 0;
+  border-radius: 6px;
+  width: 60px;
+  background: linear-gradient(90deg, #c9b89f 25%, #b8a085 50%, #c9b89f 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+.date {
+  color: #755b55;
+  height: 12px;
+  font-weight: 300;
+  margin-top: 0;
+  margin-bottom: 0;
+  width: 50px;
+  margin-top: 5px;
+  border-radius: 6px;
+  background: linear-gradient(90deg, #c9b89f 25%, #b8a085 50%, #c9b89f 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+.photo {
+  width: 24px;
+  height: 24px;
+  border-radius: 24px;
+  margin-top: 12px;
+  background: linear-gradient(90deg, #c9b89f 25%, #b8a085 50%, #c9b89f 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+.userdetail {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 6px;
+  justify-content: flex-start;
+}
+
+.messagesent .userdetail {
+  justify-content: flex-end;
+}
+
+.messagetext {
+  height: 15px;
+  width: 80%;
+  padding: 8px 10px;
+  border-radius: 6px;
+  margin-top: 0;
+  background: linear-gradient(90deg, #c9b89f 25%, #b8a085 50%, #c9b89f 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  margin-top: 8px;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}

@@ -8,7 +8,11 @@ export default function SignedInMenu({ user }) {
   return (
     <div className={styles.menuitems}>
       <div className={styles.profile}>
-        <img src={user.photo} alt="" />
+        {user.photo ? (
+          <img src={user.photo} alt="" />
+        ) : (
+          <div className={styles.skeletonimg}></div>
+        )}
         <div className={styles.profiletext}>
           <p>{user.displayName}</p>
           <p>@{user.username}</p>
