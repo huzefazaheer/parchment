@@ -32,7 +32,6 @@
   transition: all 400ms ease;
   border-radius: 8px;
   padding: 0 15px;
-  z-index: 1000;
 }
 
 .searchbar:focus-within {
