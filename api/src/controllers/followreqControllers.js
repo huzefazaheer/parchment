@@ -3,6 +3,8 @@ const {
   getReceivedFollowRequests,
   createFollowRequest,
   acceptFollowRequest,
+  getRequestById,
+  deleteRequest,
 } = require('../models/followreqdb')
 const status = require('../utils/status')
 
@@ -37,10 +39,25 @@ async function createFollowReqController(req, res) {
 }
 
 async function acceptFollowReqController(req, res) {
-  if (!(req.body && req.body.id)) return status.BAD_REQUEST(res)
+  if (!(req.params && req.params.id)) return status.BAD_REQUEST(res)
   try {
-    const request = await acceptFollowRequest(req.body.id)
+    const request = await acceptFollowRequest(req.params.id)
     status.OK(res, 'Follow request accepted', request)
+  } catch (error) {
+    console.log(error)
+    status.INTERNAL_SERVER_ERROR(res)
+  }
+}
+
+async function deleteFollowReqController(req, res) {
+  if (!(req.params && req.params.id)) return status.BAD_REQUEST(res)
+  try {
+    const request = await getRequestById(req.params.id)
+    if (request.senderId == req.user.id || request.receiverId == req.user.id) {
+      await deleteRequest(req.params.id)
+      return status.OK(res, 'Follow request deleted', request)
+    }
+    return status.UNAUTHORIZED(res)
   } catch (error) {
     console.log(error)
     status.INTERNAL_SERVER_ERROR(res)
@@ -52,4 +69,5 @@ module.exports = {
   acceptFollowReqController,
   getReceivedReqController,
   getSentReqController,
+  deleteFollowReqController,
 }

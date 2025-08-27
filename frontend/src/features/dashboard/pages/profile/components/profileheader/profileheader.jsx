@@ -11,6 +11,7 @@ export default function ProfileHeader({ id, setIndex, index, userId }) {
   const navigate = useNavigate()
   const userFetch = useData('/user/' + userId, 'GET')
   const [currUser, setCurrUser] = useState({ username: '', displayName: '' })
+  const requestFetch = useData('/followreq', 'POST', { id })
 
   const isSelf = userId == user.id
 
@@ -24,6 +25,11 @@ export default function ProfileHeader({ id, setIndex, index, userId }) {
       getUser()
     }
   }, [isSelf])
+
+  async function sendRequest() {
+    if (isSelf) return
+    console.log(await requestFetch.fetchData())
+  }
 
   // Show backarrow only when profile is not from left menu
   const backarrow =
@@ -71,7 +77,7 @@ export default function ProfileHeader({ id, setIndex, index, userId }) {
               <strong>172</strong> posts
             </p>
           </div>
-          <MultiButton isSelf={isSelf} userId={userId} />
+          <MultiButton isSelf={isSelf} userId={userId} btnclick={sendRequest} />
         </div>
         <ul className={styles.menu}>
           <li

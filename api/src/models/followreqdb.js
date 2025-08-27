@@ -1,8 +1,20 @@
 const prisma = require('./prisma')
 
+async function getRequestById(id) {
+  const followreq = await prisma.followRequest.findUnique({
+    where: { id: id },
+  })
+  return followreq
+}
+
 async function getReceivedFollowRequests(id) {
   const followreq = await prisma.followRequest.findMany({
     where: { receiverId: id },
+    include: {
+      sender: {
+        select: { username: true, displayName: true, id: true, photo: true },
+      },
+    },
   })
   return followreq
 }
@@ -10,6 +22,11 @@ async function getReceivedFollowRequests(id) {
 async function getSentFollowRequests(id) {
   const followreq = await prisma.followRequest.findMany({
     where: { senderId: id },
+    include: {
+      receiver: {
+        select: { username: true, displayName: true, id: true, photo: true },
+      },
+    },
   })
   return followreq
 }
@@ -31,9 +48,15 @@ async function acceptFollowRequest(id) {
   await prisma.followRequest.delete({ where: { id: followreq.id } })
 }
 
+async function deleteRequest(id) {
+  await prisma.followRequest.delete({ where: { id: id } })
+}
+
 module.exports = {
   createFollowRequest,
   acceptFollowRequest,
   getSentFollowRequests,
   getReceivedFollowRequests,
+  deleteRequest,
+  getRequestById,
 }

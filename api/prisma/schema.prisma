@@ -96,6 +96,8 @@ model FollowRequest {
   senderId   String
   receiverId String
   createdAt  DateTime @default(now())
+
+  @@unique([senderId, receiverId])
 }
 
 model Follow {

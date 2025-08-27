@@ -5,6 +5,7 @@ const {
   acceptFollowReqController,
   getSentReqController,
   getReceivedReqController,
+  deleteFollowReqController,
 } = require('../controllers/followreqControllers')
 
 const followreqRouter = Router()
@@ -12,6 +13,8 @@ const followreqRouter = Router()
 followreqRouter.post('/', isAuth, createFollowReqController)
 
 followreqRouter.patch('/:id', isAuth, acceptFollowReqController)
+
+followreqRouter.delete('/:id', isAuth, deleteFollowReqController)
 
 followreqRouter.get('/sent', isAuth, getSentReqController)
 

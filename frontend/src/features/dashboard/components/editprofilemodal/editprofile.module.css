@@ -55,9 +55,8 @@
   margin-top: auto;
   justify-content: space-between;
   border-top: 1px solid var(--color-border);
-  margin: 20px;
   margin-top: auto;
-  padding-top: 20px;
+  padding: 20px;
 }
 
 .right {

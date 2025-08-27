@@ -3,12 +3,14 @@ import styles from './multibutton.module.css'
 import useData from '../../../../utils/useData'
 import { useNavigate } from 'react-router-dom'
 import EditProfileModal from '../editprofilemodal/editprofile'
+import RequestsModal from '../requestsmodal/requests'
 
-export default function MultiButton({ isSelf, userId }) {
+export default function MultiButton({ isSelf, userId, btnclick }) {
   const [menuActive, setMenuActive] = useState(false)
   const navigate = useNavigate()
   const createChatFetch = useData('/chats', 'POST', { users: [userId] })
   const [show, toggleShow] = useState(false)
+  const [showReq, toggleShowReq] = useState(false)
 
   async function createChat() {
     const data = await createChatFetch.fetchData()
@@ -21,9 +23,14 @@ export default function MultiButton({ isSelf, userId }) {
     toggleShow(true)
   }
 
+  async function getRequests() {
+    toggleShowReq(true)
+  }
+
   const options = isSelf ? (
     <>
       <li onClick={editProfile}>Edit Profile</li>
+      <li onClick={getRequests}>Requests</li>
     </>
   ) : (
     <>
@@ -35,8 +42,10 @@ export default function MultiButton({ isSelf, userId }) {
   return (
     <>
       <EditProfileModal show={show} toggleShow={toggleShow} />
+      <RequestsModal show={showReq} toggleShow={toggleShowReq} />
       <div className={styles.button}>
         <button
+          onClick={btnclick}
           className={`${styles.firstbutton} ${isSelf ? styles.selfbtn : ''}`}
         >
           <img src="/follow.svg" alt="" /> <p>Follow</p>
