@@ -17,7 +17,7 @@ model User {
   displayName      String
   photo            String?
   backdrop         String?
-  account_type     UserAccountPrivacy @default(PRIVATE)
+  account_type     UserAccountPrivacy @default(PUBLIC)
   followers        Follow[]           @relation("user-followers")
   following        Follow[]           @relation("user-following")
   posts            Post[]             @relation("post-user")

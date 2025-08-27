@@ -109,6 +109,17 @@ async function updateUserProfile(id, displayName, photo, backdrop) {
   return users
 }
 
+async function searchUsersByUsername(username) {
+  const users = prisma.user.findMany({
+    where: {
+      username: { contains: username, mode: 'insensitive' },
+      account_type: 'PUBLIC',
+    },
+    select: { username: true, displayName: true, id: true, photo: true },
+  })
+  return users
+}
+
 module.exports = {
   getUserProfile,
   getUserPosts,
@@ -118,4 +129,5 @@ module.exports = {
   getUserFollowing,
   getUserChats,
   updateUserProfile,
+  searchUsersByUsername,
 }

@@ -1,15 +1,25 @@
 .menu {
   position: absolute;
   right: 0;
-  width: 29vw;
+  width: 412px;
   top: 0;
   padding-top: 60px;
   display: flex;
   justify-content: center;
 }
 
+.users {
+  position: absolute;
+  top: 58px;
+  right: 0px;
+  width: 441px;
+  /* margin-top: 20px; */
+}
+
 .searchbar {
   position: fixed;
+  top: 60px;
+  right: 30px;
   background-color: #d0bfa5;
   font-size: 24px;
   font-weight: 900;
@@ -19,15 +29,28 @@
   flex-direction: row;
   gap: 15px;
   align-items: center;
-  transition: all 100ms linear;
+  transition: all 400ms ease;
+  border-radius: 8px;
+  padding: 0 15px;
+  z-index: 1000;
+}
+
+.searchbar:focus-within {
+  top: 0;
+  width: 411px;
+  height: 57px;
+  right: 0;
+  border-radius: 0;
+  border-bottom: 1px solid var(--color-border);
+  /* transform: translateX(0); */
 }
 
 .searchbar input {
-  background-color: #d0bfa500;
+  background-color: transparent;
   border: none;
   width: 100%;
-  padding: 0;
   height: 100%;
+  padding: 0;
   font-size: 16px;
   color: #675752;
   font-weight: 600;
@@ -48,31 +71,6 @@
 .searchbar img {
   width: 24px;
   height: 24px;
-  margin-left: 15px;
+  margin-left: 8px;
   margin-right: 0;
 }
-
-.searchbar:hover {
-  transform: scale(1.02) translateY(10px);
-}
-
-/* .searchbar:focus-within {
-  animation-name: searchopen;
-  animation-duration: 400ms;
-  animation-fill-mode: forwards;
-}
-
-@keyframes searchopen {
-  from {
-    left: auto;
-  }
-  to {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    margin-left: 40px;
-    margin-top: 60px;
-    margin-right: 40px;
-  }
-} */

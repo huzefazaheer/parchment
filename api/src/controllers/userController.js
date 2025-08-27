@@ -8,6 +8,7 @@ const {
   getUserFollowing,
   getUserChats,
   updateUserProfile,
+  searchUsersByUsername,
 } = require('../models/userdb')
 const status = require('../utils/status')
 
@@ -78,7 +79,7 @@ async function getUserChatsController(req, res) {
 async function searchUserController(req, res) {
   if (!(req.query && req.query.username)) return status.BAD_REQUEST(res)
   try {
-    const users = await getUserByUsername(req.query.username)
+    const users = await searchUsersByUsername(req.query.username)
     return status.OK(res, 'Users reterived', users)
   } catch (error) {
     return status.INTERNAL_SERVER_ERROR(res)
