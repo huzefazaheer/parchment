@@ -9,12 +9,22 @@ const {
   getUserChats,
   updateUserProfile,
   searchUsersByUsername,
+  getSelfProfile,
 } = require('../models/userdb')
 const status = require('../utils/status')
 
 async function getUserProfileController(req, res) {
   try {
     const user = await getUserProfile(req.params.id)
+    return status.OK(res, 'User profile reterived', user)
+  } catch (error) {
+    return status.INTERNAL_SERVER_ERROR(res)
+  }
+}
+
+async function getSelfProfileController(req, res) {
+  try {
+    const user = await getSelfProfile(req.user.id)
     return status.OK(res, 'User profile reterived', user)
   } catch (error) {
     return status.INTERNAL_SERVER_ERROR(res)
@@ -114,4 +124,5 @@ module.exports = {
   getUserChatsController,
   searchUserController,
   updateUserProfileController,
+  getSelfProfileController,
 }

@@ -10,8 +10,14 @@ export default function ProfileHeader({ id, setIndex, index, userId }) {
   const { user } = useContext(appContext)
   const navigate = useNavigate()
   const userFetch = useData('/user/' + userId, 'GET')
+  const selfFetch = useData('/user/self', 'GET')
   const [currUser, setCurrUser] = useState({ username: '', displayName: '' })
   const requestFetch = useData('/followreq', 'POST', { id })
+  const [selfData, setSelfData] = useState({
+    followers: 0,
+    following: 0,
+    posts: 0,
+  })
 
   const isSelf = userId == user.id
 
@@ -19,11 +25,15 @@ export default function ProfileHeader({ id, setIndex, index, userId }) {
     async function getUser() {
       const data = await userFetch.fetchData()
       setCurrUser(data.data)
+    }
+    async function getSelfData() {
+      const data = await selfFetch.fetchData()
+      setSelfData(data.data._count)
       console.log(data)
     }
     if (!isSelf) {
       getUser()
-    }
+    } else getSelfData()
   }, [isSelf])
 
   async function sendRequest() {
@@ -70,11 +80,20 @@ export default function ProfileHeader({ id, setIndex, index, userId }) {
             </p>
             {/* Make this Work */}
             <p className={styles.stats}>
-              <strong>10m</strong> followers
+              <strong>
+                {isSelf ? selfData.followers : currUser?._count?.followers}
+              </strong>{' '}
+              followers
               <span className={styles.dot}> • </span>
-              <strong>12</strong> following
+              <strong>
+                {isSelf ? selfData.following : currUser?._count?.following}
+              </strong>{' '}
+              following
               <span className={styles.dot}> • </span>
-              <strong>172</strong> posts
+              <strong>
+                {isSelf ? selfData.posts : currUser?._count?.posts}
+              </strong>{' '}
+              posts
             </p>
           </div>
           <MultiButton isSelf={isSelf} userId={userId} btnclick={sendRequest} />

@@ -10,12 +10,15 @@ const {
   getUserChatsController,
   searchUserController,
   updateUserProfileController,
+  getSelfProfileController,
 } = require('../controllers/userController')
 const { isAuth } = require('../controllers/authControllers')
 
 const userRouter = Router()
 
 userRouter.get('/', searchUserController)
+
+userRouter.get('/self', isAuth, getSelfProfileController)
 
 userRouter.get('/chats', isAuth, getUserChatsController)
 

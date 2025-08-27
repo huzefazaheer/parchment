@@ -10,11 +10,27 @@ async function getUserProfile(id) {
       _count: {
         select: {
           posts: true,
-          comments: true,
-          reshares: true,
+          followers: true,
+          following: true,
         },
       },
       backdrop: true,
+    },
+  })
+  return user
+}
+
+async function getSelfProfile(id) {
+  const user = await prisma.user.findUnique({
+    where: { id: id },
+    select: {
+      _count: {
+        select: {
+          posts: true,
+          followers: true,
+          following: true,
+        },
+      },
     },
   })
   return user
@@ -129,5 +145,6 @@ module.exports = {
   getUserFollowing,
   getUserChats,
   updateUserProfile,
+  getSelfProfile,
   searchUsersByUsername,
 }
