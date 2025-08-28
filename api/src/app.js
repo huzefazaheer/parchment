@@ -63,8 +63,11 @@ io.on('connection', (socket) => {
   })
 
   socket.on('postcomment', (data) => {
-    console.log(data)
     io.to(`post-${data.postId}`).emit('postcomment', data)
+  })
+
+  socket.on('postupdate', (data) => {
+    io.emit('postupdate', data)
   })
 })
 

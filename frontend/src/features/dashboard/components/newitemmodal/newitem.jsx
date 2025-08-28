@@ -35,6 +35,7 @@ export default function NewItemModal() {
       '/comments?postid=' + postId,
     )
     socket.createComment(data, user, postId)
+    socket.postUpdate(postId, 'comment', 1)
     exitModal()
   }
 

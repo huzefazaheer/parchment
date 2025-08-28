@@ -117,12 +117,14 @@ async function likePost(postId, userId) {
     const post = await prisma.post.update({
       where: { id: postId },
       data: { likedBy: { connect: { id: userId } } },
+      select: { _count: { select: { likedBy: true } } },
     })
     return post
   } else {
     const post = await prisma.post.update({
       where: { id: postId },
       data: { likedBy: { disconnect: { id: userId } } },
+      select: { _count: { select: { likedBy: true } } },
     })
     return post
   }
@@ -167,12 +169,14 @@ async function resharePost(postId, userId) {
     const post = await prisma.post.update({
       where: { id: postId },
       data: { resharedBy: { connect: { id: userId } } },
+      select: { _count: { select: { resharedBy: true } } },
     })
     return post
   } else {
     const post = await prisma.post.update({
       where: { id: postId },
       data: { resharedBy: { disconnect: { id: userId } } },
+      select: { _count: { select: { resharedBy: true } } },
     })
     return post
   }

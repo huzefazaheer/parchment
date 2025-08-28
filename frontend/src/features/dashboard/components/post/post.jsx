@@ -3,7 +3,8 @@ import postTime from './getposttime'
 import styles from './post.module.css'
 import { useContext, useEffect } from 'react'
 import useData from '../../../../utils/useData'
-import { appContext } from '../../../../App'
+import { appContext, socketContext } from '../../../../App'
+import { useState } from 'react'
 
 export default function Post({
   id,
@@ -27,13 +28,37 @@ export default function Post({
   const postResharePostFetch = useData('/posts/' + id + '/reshares', 'POST', {
     id: user?.id,
   })
-
+  const socket = useContext(socketContext)
   const navigate = useNavigate()
+  const [counts, setCounts] = useState({ likes: 0, comments: 0, reshares: 0 })
 
   useEffect(() => {
-    postLikesFetch.fetchData()
-    postCommentsFetch.fetchData()
-    postReshareFetch.fetchData()
+    if (socket.updatedPost == null || socket.updatedPost.postId != id) return
+    switch (socket.updatedPost.type) {
+      case 'like':
+        setCounts({ ...counts, likes: socket.updatedPost.count })
+        break
+      case 'comment':
+        setCounts({ ...counts, comments: counts.comments + 1 })
+        break
+      case 'reshare':
+        setCounts({ ...counts, reshares: socket.updatedPost.count })
+        break
+    }
+  }, [socket.updatedPost])
+
+  useEffect(() => {
+    async function getData() {
+      const d1 = await postLikesFetch.fetchData()
+      const d2 = await postCommentsFetch.fetchData()
+      const d3 = await postReshareFetch.fetchData()
+      setCounts({
+        likes: d1.data[0]._count.likedBy,
+        comments: d2.data[0]._count.comments,
+        reshares: d3.data[0]._count.resharedBy,
+      })
+    }
+    getData()
   }, [])
 
   function postClick() {
@@ -45,11 +70,13 @@ export default function Post({
   }
 
   async function likePost() {
-    await postLikesPostFetch.fetchData()
+    const { data } = await postLikesPostFetch.fetchData()
+    socket.postUpdate(id, 'like', data._count.likedBy)
   }
 
   async function resharePost() {
-    console.log(await postResharePostFetch.fetchData())
+    const { data } = await postResharePostFetch.fetchData()
+    socket.postUpdate(id, 'reshare', data._count.resharedBy)
   }
 
   return (
@@ -89,19 +116,11 @@ export default function Post({
                 likePost()
               }}
             />
-            <p>
-              {postLikesFetch?.data
-                ? postLikesFetch.data.data[0]._count.likedBy
-                : '0'}
-            </p>
+            <p>{counts.likes}</p>
           </li>
           <li>
             <img src="/comment.svg" alt="" />
-            <p>
-              {postCommentsFetch?.data
-                ? postCommentsFetch.data.data[0]._count.comments
-                : '0'}
-            </p>
+            <p>{counts.comments}</p>
           </li>
           <li>
             <img
@@ -112,11 +131,7 @@ export default function Post({
                 resharePost()
               }}
             />
-            <p>
-              {postReshareFetch?.data
-                ? postReshareFetch.data.data[0]._count.resharedBy
-                : '0'}
-            </p>
+            <p>{counts.reshares}</p>
           </li>
         </ul>
       </div>

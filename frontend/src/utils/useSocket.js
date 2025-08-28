@@ -13,6 +13,7 @@ export default function useSocket() {
   const [newChat, setNewChat] = useState(null)
   const [newPost, setNewPost] = useState(null)
   const [newComment, setNewComment] = useState(null)
+  const [updatedPost, setUpdatedPost] = useState(null)
 
   useEffect(() => {
     if (socketRef.current == null)
@@ -44,6 +45,10 @@ export default function useSocket() {
     socketRef.current.on('postcomment', (comment) => {
       console.log(comment)
       setNewComment(comment)
+    })
+
+    socketRef.current.on('postupdate', (data) => {
+      setUpdatedPost(data)
     })
 
     return () => {
@@ -89,6 +94,11 @@ export default function useSocket() {
     socketRef.current.emit('postcomment', { comment, user, postId })
   }
 
+  function postUpdate(postId, type, count) {
+    if (socketRef.current == null) return
+    socketRef.current.emit('postupdate', { postId, type, count })
+  }
+
   return {
     isConnected,
     socketRef,
@@ -103,5 +113,7 @@ export default function useSocket() {
     openPost,
     createComment,
     newComment,
+    postUpdate,
+    updatedPost,
   }
 }
