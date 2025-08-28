@@ -56,12 +56,14 @@ async function likeComment(commentId, userId) {
     const comment = await prisma.comment.update({
       where: { id: commentId },
       data: { likedBy: { connect: { id: userId } } },
+      select: { _count: { select: { likedBy: true } } },
     })
     return comment
   } else {
     const comment = await prisma.comment.update({
       where: { id: commentId },
       data: { likedBy: { disconnect: { id: userId } } },
+      select: { _count: { select: { likedBy: true } } },
     })
     return comment
   }

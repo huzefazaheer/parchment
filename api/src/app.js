@@ -69,6 +69,10 @@ io.on('connection', (socket) => {
   socket.on('postupdate', (data) => {
     io.emit('postupdate', data)
   })
+
+  socket.on('commentupdate', (data) => {
+    io.emit('commentupdate', data)
+  })
 })
 
 app.use((req, res) => {

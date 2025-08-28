@@ -3,7 +3,8 @@ import styles from './comment.module.css'
 import commentTime from './getcommenttime'
 import { useContext, useEffect } from 'react'
 import useData from '../../../../utils/useData'
-import { appContext } from '../../../../App'
+import { appContext, socketContext } from '../../../../App'
+import { useState } from 'react'
 
 export default function Comment({ id, text, author, date, isLiked = false }) {
   const { user } = useContext(appContext)
@@ -14,19 +15,32 @@ export default function Comment({ id, text, author, date, isLiked = false }) {
   const commentLikesPostFetch = useData('/comments/' + id + '/likes', 'POST', {
     id: user?.id,
   })
+  const socket = useContext(socketContext)
+  const [likes, setLikes] = useState(0)
 
   const navigate = useNavigate()
 
   useEffect(() => {
-    commentLikesFetch.fetchData()
+    async function getData() {
+      const { data } = await commentLikesFetch.fetchData()
+      setLikes(data[0]._count.likedBy)
+    }
+    getData()
   }, [])
+
+  useEffect(() => {
+    if (socket.updatedComment == null || socket.updatedComment.commentId != id)
+      return
+    setLikes(socket.updatedComment.count)
+  }, [socket.updatedComment])
 
   function goToProfile() {
     navigate('/profile/' + author.id)
   }
 
   async function likeComment() {
-    await commentLikesPostFetch.fetchData()
+    const { data } = await commentLikesPostFetch.fetchData()
+    socket.commentUpdate(id, data._count.likedBy)
   }
 
   return (
@@ -53,11 +67,7 @@ export default function Comment({ id, text, author, date, isLiked = false }) {
           <ul>
             <li>
               <img src="/star.svg" alt="" onClick={likeComment} />
-              <p>
-                {commentLikesFetch?.data
-                  ? commentLikesFetch.data.data[0]._count.likedBy
-                  : '0'}
-              </p>
+              <p>{likes}</p>
             </li>
           </ul>
         ) : (
