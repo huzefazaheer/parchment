@@ -136,6 +136,18 @@ async function searchUsersByUsername(username) {
   return users
 }
 
+async function getReqStatus(senderId, receiverId) {
+  const isReqSent = await prisma.followRequest.findFirst({
+    where: { senderId: senderId, receiverId: receiverId },
+  })
+  if (isReqSent) return 'req'
+  const following = await prisma.follow.findFirst({
+    where: { followerId: senderId, followingId: receiverId },
+  })
+  if (following) return 'follow'
+  return 'none'
+}
+
 module.exports = {
   getUserProfile,
   getUserPosts,
@@ -147,4 +159,5 @@ module.exports = {
   updateUserProfile,
   getSelfProfile,
   searchUsersByUsername,
+  getReqStatus,
 }

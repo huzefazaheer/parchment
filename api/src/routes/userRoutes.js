@@ -11,6 +11,7 @@ const {
   searchUserController,
   updateUserProfileController,
   getSelfProfileController,
+  requestStatusController,
 } = require('../controllers/userController')
 const { isAuth } = require('../controllers/authControllers')
 
@@ -25,6 +26,8 @@ userRouter.get('/chats', isAuth, getUserChatsController)
 userRouter.get('/:id', getUserProfileController)
 
 userRouter.put('/', isAuth, updateUserProfileController)
+
+userRouter.get('/:id/followstatus', isAuth, requestStatusController)
 
 userRouter.get('/:id/posts', getUserPostsController)
 

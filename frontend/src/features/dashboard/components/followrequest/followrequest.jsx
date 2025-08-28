@@ -10,6 +10,7 @@ export default function FollowRequest({ id, user, isSent }) {
 
   async function acceptRequest() {
     await acceptReqFetch.fetchData()
+    socket.deleteRequest(id, user.id)
   }
 
   async function deleteRequest() {

@@ -10,6 +10,7 @@ const {
   updateUserProfile,
   searchUsersByUsername,
   getSelfProfile,
+  getReqStatus,
 } = require('../models/userdb')
 const status = require('../utils/status')
 
@@ -114,6 +115,16 @@ async function updateUserProfileController(req, res) {
   }
 }
 
+async function requestStatusController(req, res) {
+  if (!(req.params && req.params.id)) return status.BAD_REQUEST(res)
+  try {
+    const _status = await getReqStatus(req.user.id, req.params.id)
+    return status.OK(res, 'Done', _status)
+  } catch (error) {
+    return status.INTERNAL_SERVER_ERROR(res)
+  }
+}
+
 module.exports = {
   getUserCommentsController,
   getUserPostsController,
@@ -125,4 +136,5 @@ module.exports = {
   searchUserController,
   updateUserProfileController,
   getSelfProfileController,
+  requestStatusController,
 }

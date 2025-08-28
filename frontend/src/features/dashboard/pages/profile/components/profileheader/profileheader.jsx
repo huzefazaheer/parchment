@@ -13,6 +13,8 @@ export default function ProfileHeader({ id, setIndex, index, userId }) {
   const selfFetch = useData('/user/self', 'GET')
   const [currUser, setCurrUser] = useState({ username: '', displayName: '' })
   const requestFetch = useData('/followreq', 'POST', { id })
+  const reqStatusFetch = useData(`/user/${userId}/followstatus`, 'GET')
+  const [followStatusData, setFollowStatusData] = useState('none')
   const [selfData, setSelfData] = useState({
     followers: 0,
     following: 0,
@@ -27,20 +29,32 @@ export default function ProfileHeader({ id, setIndex, index, userId }) {
     async function getUser() {
       const data = await userFetch.fetchData()
       setCurrUser(data.data)
+      await getRequestStatus()
     }
     async function getSelfData() {
       const data = await selfFetch.fetchData()
       setSelfData(data.data._count)
-      console.log(data)
     }
+
     if (!isSelf) {
       getUser()
     } else getSelfData()
   }, [isSelf, user, jwt])
 
+  async function getRequestStatus() {
+    if (isSelf) return
+    const { data } = await reqStatusFetch.fetchData()
+    setFollowStatusData(data)
+  }
+
   async function sendRequest() {
     if (isSelf) return
-    console.log(await requestFetch.fetchData())
+    if (followStatusData == 'none') {
+      const res = await requestFetch.fetchData()
+      if (res.success == true) {
+        setFollowStatusData('req')
+      }
+    }
   }
 
   // Show backarrow only when profile is not from left menu
@@ -92,12 +106,12 @@ export default function ProfileHeader({ id, setIndex, index, userId }) {
             {/* Make this Work */}
             <p className={styles.stats}>
               <strong>
-                {isSelf ? selfData.followers : currUser?._count?.followers}
+                {isSelf ? selfData.following : currUser?._count?.following}
               </strong>{' '}
               followers
               <span className={styles.dot}> • </span>
               <strong>
-                {isSelf ? selfData.following : currUser?._count?.following}
+                {isSelf ? selfData.followers : currUser?._count?.followers}
               </strong>{' '}
               following
               <span className={styles.dot}> • </span>
@@ -107,7 +121,12 @@ export default function ProfileHeader({ id, setIndex, index, userId }) {
               posts
             </p>
           </div>
-          <MultiButton isSelf={isSelf} userId={userId} btnclick={sendRequest} />
+          <MultiButton
+            isSelf={isSelf}
+            userId={userId}
+            btnclick={sendRequest}
+            followStatusData={followStatusData}
+          />
         </div>
         <ul className={styles.menu}>
           <li

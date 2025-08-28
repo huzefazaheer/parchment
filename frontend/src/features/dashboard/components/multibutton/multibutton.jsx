@@ -7,7 +7,12 @@ import RequestsModal from '../requestsmodal/requests'
 import { useContext } from 'react'
 import { appContext, socketContext } from '../../../../App'
 
-export default function MultiButton({ isSelf, userId, btnclick }) {
+export default function MultiButton({
+  isSelf,
+  userId,
+  btnclick,
+  followStatusData,
+}) {
   const [menuActive, setMenuActive] = useState(false)
   const navigate = useNavigate()
   const createChatFetch = useData('/chats', 'POST', { users: [userId] })
@@ -68,7 +73,15 @@ export default function MultiButton({ isSelf, userId, btnclick }) {
           onClick={btnclick}
           className={`${styles.firstbutton} ${isSelf ? styles.selfbtn : ''}`}
         >
-          <img src="/follow.svg" alt="" /> <p>Follow</p>
+          {followStatusData == 'none' ? (
+            <>
+              <img src="/follow.svg" alt="" /> <p>Follow</p>
+            </>
+          ) : followStatusData == 'req' ? (
+            <p className={styles.center}>Sent</p>
+          ) : (
+            <p>Following</p>
+          )}
         </button>
         <button
           onClick={() => setMenuActive((prev) => !prev)}
