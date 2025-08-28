@@ -9,6 +9,7 @@ import PostSkeleton from '../../components/post/skeleton/postskeleton'
 import { useContext } from 'react'
 import { appContext, socketContext } from '../../../../App'
 import { useState } from 'react'
+import PostEmbed from '../../components/post/components/postembed'
 
 export default function Home() {
   const getPostsFetch = useData('/posts', 'GET')
@@ -26,10 +27,10 @@ export default function Home() {
   }, [user, jwt])
 
   useEffect(() => {
+    console.log(socket.newPost)
     if (socket.newPost == null) return
     const post = socket.newPost
     setPostData([
-      ...postData,
       {
         id: post.data.id,
         text: post.data.text,
@@ -40,7 +41,9 @@ export default function Home() {
           displayName: post.user.displayName,
           photo: post.user.photo,
         },
+        post_embed: post.data.post_embed,
       },
+      ...postData,
     ])
   }, [socket.newPost])
 
@@ -53,13 +56,18 @@ export default function Home() {
     <p>An unknown error occured</p>
   ) : getPostsFetch.data ? (
     postData.map((post) => {
+      // console.log(post)
       return (
         <Post
           id={post.id}
           text={post.text}
           author={post.author}
           date={post.createdAt}
-        ></Post>
+        >
+          {post.post_embed && post.post_embed.type === 'link' ? (
+            <PostEmbed url={post.post_embed.value} />
+          ) : null}
+        </Post>
       )
     })
   ) : (

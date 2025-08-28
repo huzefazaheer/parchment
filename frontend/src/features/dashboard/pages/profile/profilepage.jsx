@@ -11,6 +11,7 @@ import Comment from '../../components/comment/comment'
 import ProfileHeader from './components/profileheader/profileheader'
 import CommentSkeleton from '../../components/comment/skeleton/commentskeleton'
 import PostSkeleton from '../../components/post/skeleton/postskeleton'
+import PostEmbed from '../../components/post/components/postembed'
 
 export default function ProfilePage() {
   const [index, setIndex] = useState(0)
@@ -53,7 +54,11 @@ export default function ProfilePage() {
           text={post.text}
           author={post.author}
           date={post.createdAt}
-        ></Post>
+        >
+          {post.post_embed && post.post_embed.type === 'link' ? (
+            <PostEmbed url={post.post_embed.value} />
+          ) : null}
+        </Post>
       )
     })
   ) : (

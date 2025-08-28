@@ -14,6 +14,24 @@ const userRouter = require('./routes/userRoutes')
 const followreqRouter = require('./routes/followreqRoutes')
 const chatRouter = require('./routes/chatRoutes')
 
+const got = require('got').default
+const metascraper = require('metascraper')
+const metascraperTitle = require('metascraper-title')
+const metascraperDescription = require('metascraper-description')
+const metascraperImage = require('metascraper-image')
+const metascraperLogo = require('metascraper-logo')
+const metascraperUrl = require('metascraper-url')
+const metascraperPublisher = require('metascraper-publisher')
+
+const scraper = metascraper([
+  metascraperTitle(),
+  metascraperDescription(),
+  metascraperImage(),
+  metascraperLogo(),
+  metascraperUrl(),
+  metascraperPublisher(),
+])
+
 const httpServer = createServer(app)
 const io = new Server(httpServer, {
   cors: {
@@ -79,6 +97,18 @@ io.on('connection', (socket) => {
     console.log(data)
     socket.to(data.userId).emit('deletereq', data)
   })
+})
+
+app.get('/embed', async (req, res) => {
+  if (!(req.query && req.query.url)) return status.BAD_REQUEST(res)
+  try {
+    const { url } = req.query
+    const { body: html } = await got(url)
+    const metadata = await scraper({ html, url })
+    status.OK(res, 'Embed', metadata)
+  } catch (error) {
+    return status.INTERNAL_SERVER_ERROR(res)
+  }
 })
 
 app.use((req, res) => {

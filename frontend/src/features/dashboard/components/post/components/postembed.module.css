@@ -6,6 +6,13 @@
   margin-bottom: 15px;
 }
 
+.fallbacklink {
+  font-size: 14px;
+  color: blue;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
 .textwrapper {
   padding: 5px 20px;
 }
@@ -41,9 +48,12 @@
 .emded_img {
   width: 500px;
   height: 260px;
-  background-image: url('sampleimg.png'), url('grain_overlay.png');
+  background-image: url('grain_overlay.png');
   background-size: cover, cover;
   background-position: center, center;
+  border-bottom: 1px solid var(--color-border);
+  border-top-left-radius: 24px;
+  border-top-right-radius: 24px;
 }
 
 .embed:hover {

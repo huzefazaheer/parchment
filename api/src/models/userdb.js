@@ -64,7 +64,9 @@ async function getUserReshares(id) {
   const posts = await prisma.post.findMany({
     where: { resharedBy: { some: { id: id } } },
     include: {
-      author: { select: { username: true, displayName: true, id: true } },
+      author: {
+        select: { username: true, displayName: true, id: true, photo: true },
+      },
     },
   })
   return posts

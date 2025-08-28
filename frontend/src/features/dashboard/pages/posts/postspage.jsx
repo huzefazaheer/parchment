@@ -12,6 +12,7 @@ import Comment from '../../components/comment/comment'
 import PostSkeleton from '../../components/post/skeleton/postskeleton'
 import CommentSkeleton from '../../components/comment/skeleton/commentskeleton'
 import { useState } from 'react'
+import PostEmbed from '../../components/post/components/postembed'
 
 export default function PostsPage() {
   const { setShowModal } = useContext(appContext)
@@ -64,7 +65,12 @@ export default function PostsPage() {
       text={getPostFetch.data.data.text}
       author={getPostFetch.data.data.author}
       date={getPostFetch.data.data.createdAt}
-    ></Post>
+    >
+      {getPostFetch.data.data.post_embed &&
+      getPostFetch.data.data.post_embed.type === 'link' ? (
+        <PostEmbed url={getPostFetch.data.data.post_embed.value} />
+      ) : null}
+    </Post>
   ) : (
     ''
   )

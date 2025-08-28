@@ -7,11 +7,12 @@ import { useContext, useEffect, useState } from 'react'
 import { appContext, socketContext } from '../../../../App'
 import useData from '../../../../utils/useData'
 import { useLocation } from 'react-router-dom'
+import getLink, { removeLinks } from './getlink'
 
 export default function NewItemModal() {
   const { showModal, setShowModal } = useContext(appContext)
   const [text, setText] = useState('')
-  const createPostFetch = useData('/posts', 'POST', { text })
+  const createPostFetch = useData('/posts', 'POST', {})
   const createCommentFetch = useData('/comments?postid=', 'POST', { text })
   const { user } = useContext(appContext)
   const socket = useContext(socketContext)
@@ -24,7 +25,15 @@ export default function NewItemModal() {
   }
 
   async function createPost() {
-    const { data } = await createPostFetch.fetchData()
+    let embed = ''
+    const link = getLink(text)
+    if (link != null) embed = { type: 'link', value: link }
+    const postText = removeLinks(text)
+    console.log(postText)
+    const { data } = await createPostFetch.fetchData(undefined, {
+      text: postText,
+      post_embed: embed,
+    })
     socket.createPost(data, user)
     exitModal()
   }
