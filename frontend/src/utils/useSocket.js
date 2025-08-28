@@ -11,6 +11,8 @@ export default function useSocket() {
   const { user } = useContext(appContext)
   const [latestMessage, setLatestMessage] = useState(null)
   const [newChat, setNewChat] = useState(null)
+  const [newPost, setNewPost] = useState(null)
+  const [newComment, setNewComment] = useState(null)
 
   useEffect(() => {
     if (socketRef.current == null)
@@ -33,6 +35,15 @@ export default function useSocket() {
 
     socketRef.current.on('chatcreated', (chat) => {
       setNewChat(chat)
+    })
+
+    socketRef.current.on('createpost', (post) => {
+      setNewPost(post)
+    })
+
+    socketRef.current.on('postcomment', (comment) => {
+      console.log(comment)
+      setNewComment(comment)
     })
 
     return () => {
@@ -59,9 +70,23 @@ export default function useSocket() {
   }
 
   function createChat(data) {
-    console.log(data)
     if (socketRef.current == null) return
     socketRef.current.emit('createchat', data)
+  }
+
+  function createPost(data, user) {
+    if (socketRef.current == null) return
+    socketRef.current.emit('createpost', { data, user })
+  }
+
+  function openPost(postId) {
+    if (socketRef.current == null) return
+    socketRef.current.emit('openpost', postId)
+  }
+
+  function createComment(comment, user, postId) {
+    if (socketRef.current == null) return
+    socketRef.current.emit('postcomment', { comment, user, postId })
   }
 
   return {
@@ -73,5 +98,10 @@ export default function useSocket() {
     init,
     newChat,
     createChat,
+    newPost,
+    createPost,
+    openPost,
+    createComment,
+    newComment,
   }
 }

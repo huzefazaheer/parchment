@@ -27,7 +27,6 @@ export default function ChatsPage() {
 
   useEffect(() => {
     if (socket.newChat == null) return
-    console.log(JSON.stringify(socket.newChat, null, 2), 'chat full payload')
 
     setChatsData([
       ...chatsData,

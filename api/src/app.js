@@ -36,7 +36,6 @@ io.on('connection', (socket) => {
   console.log('Connected')
 
   socket.on('userjoin', (data) => {
-    console.log(data)
     socket.join(data.id)
   })
 
@@ -52,8 +51,20 @@ io.on('connection', (socket) => {
   })
 
   socket.on('createchat', (data) => {
-    console.log(data)
     socket.to(data.otherId).emit('chatcreated', data)
+  })
+
+  socket.on('createpost', (data) => {
+    io.emit('createpost', data)
+  })
+
+  socket.on('openpost', (postId) => {
+    socket.join(`post-${postId}`)
+  })
+
+  socket.on('postcomment', (data) => {
+    console.log(data)
+    io.to(`post-${data.postId}`).emit('postcomment', data)
   })
 })
 

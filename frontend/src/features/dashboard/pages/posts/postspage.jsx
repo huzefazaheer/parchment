@@ -7,10 +7,11 @@ import { useContext, useEffect } from 'react'
 import useData from '../../../../utils/useData'
 
 import { useNavigate, useParams } from 'react-router-dom'
-import { appContext } from '../../../../App'
+import { appContext, socketContext } from '../../../../App'
 import Comment from '../../components/comment/comment'
 import PostSkeleton from '../../components/post/skeleton/postskeleton'
 import CommentSkeleton from '../../components/comment/skeleton/commentskeleton'
+import { useState } from 'react'
 
 export default function PostsPage() {
   const { setShowModal } = useContext(appContext)
@@ -18,11 +19,38 @@ export default function PostsPage() {
   const getPostFetch = useData('/posts/' + id, 'GET')
   const getCommentFetch = useData('/posts/' + id + '/comments', 'GET')
   const navigate = useNavigate()
+  const [commentData, setCommentData] = useState([])
+  const socket = useContext(socketContext)
 
   useEffect(() => {
-    getPostFetch.fetchData()
-    console.log(getCommentFetch.fetchData())
+    async function getData() {
+      getPostFetch.fetchData()
+      const { data } = await getCommentFetch.fetchData()
+      setCommentData(data)
+    }
+    getData()
+    socket.openPost(id)
   }, [])
+
+  useEffect(() => {
+    if (socket.newComment == null) return
+
+    const comment = socket.newComment
+    setCommentData([
+      ...commentData,
+      {
+        id: comment.comment.id,
+        text: comment.comment.text,
+        createdAt: comment.comment.createdAt,
+        author: {
+          id: comment.user.id,
+          displayName: comment.user.displayName,
+          username: comment.user.username,
+          photo: comment.user.photo,
+        },
+      },
+    ])
+  }, [socket.newComment])
 
   const post = getPostFetch.loading ? (
     <div style={{ borderBottom: '1px solid var(--color-border)' }}>
@@ -49,7 +77,7 @@ export default function PostsPage() {
   ) : getCommentFetch.error != null ? (
     <p>An unknown error occured</p>
   ) : getCommentFetch.data ? (
-    getCommentFetch.data.data.map((comment) => {
+    commentData.map((comment) => {
       return (
         <Comment
           id={comment.id}

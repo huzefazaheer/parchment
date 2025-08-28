@@ -20,6 +20,9 @@ async function getPosts(jump = 0) {
         select: { username: true, displayName: true, id: true, photo: true },
       },
     },
+    orderBy: {
+      createdAt: 'desc',
+    },
   })
   return posts
 }
