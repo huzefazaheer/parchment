@@ -6,7 +6,7 @@ import ChatMessage from '../../components/chatmessage/chatmessage'
 import useData from '../../../../utils/useData'
 import { useContext, useEffect, useState } from 'react'
 import { getOtherUser } from '../../components/utils/directchat_utils'
-import { appContext } from '../../../../App'
+import { appContext, socketContext } from '../../../../App'
 import MsgSender from './component/messagesender'
 import CommentSkeleton from '../../../dashboard/components/comment/skeleton/commentskeleton'
 import MessageSkeleton from '../../components/chatmessage/skeleton/messageskeleton'
@@ -18,15 +18,34 @@ export default function ChatPage() {
   const [chatUser, setChatUser] = useState({ username: '', displayName: '' })
   const getChatFetch = useData('/chats/' + id, 'GET')
   const getChatMessage = useData('/chats/' + id + '/messages', 'get')
+  const socket = useContext(socketContext)
+  const [messagesData, setMessagesData] = useState([])
 
   useEffect(() => {
     async function getChat() {
       const chat = await getChatFetch.fetchData()
       setChatUser(getOtherUser(user, chat.data.users))
+      const { data } = await getChatMessage.fetchData()
+      setMessagesData(data)
     }
     getChat()
-    getChatMessage.fetchData()
+
+    socket.joinChat(id)
   }, [])
+
+  useEffect(() => {
+    const msg = socket.latestMessage
+    if (msg == null) return
+    setMessagesData([
+      ...messagesData,
+      {
+        text: msg.text,
+        timestamp: new Date(),
+        sender: { displayName: msg.user.displayName },
+        chatUser: { photo: msg.user.photo },
+      },
+    ])
+  }, [socket.latestMessage])
 
   const messages = getChatMessage.loading ? (
     <div>
@@ -38,7 +57,7 @@ export default function ChatPage() {
   ) : getChatMessage.error != null ? (
     <p>An unknown error occured</p>
   ) : getChatMessage.data ? (
-    getChatMessage.data.data.map((msg) => {
+    messagesData.map((msg) => {
       return (
         <ChatMessage
           text={msg.text}
@@ -75,7 +94,7 @@ export default function ChatPage() {
               )}
             </h4>
           </div>
-          <div>{messages}</div>
+          <div className={styles.messages}>{messages}</div>
           <MsgSender id={id} />
         </div>
         <RightMenu />

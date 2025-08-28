@@ -1,0 +1,52 @@
+import { useEffect } from 'react'
+import { useContext } from 'react'
+import { useRef } from 'react'
+import { useState } from 'react'
+import { io } from 'socket.io-client'
+import { appContext } from '../App'
+
+export default function useSocket() {
+  const [isConnected, setIsConnected] = useState(false)
+  const socketRef = useRef(null)
+  const { user } = useContext(appContext)
+  const [latestMessage, setLatestMessage] = useState(null)
+
+  useEffect(() => {
+    if (socketRef.current == null)
+      socketRef.current = io('http://localhost:8080')
+
+    socketRef.current.on('connect', () => {
+      console.log('Connected')
+      setIsConnected(true)
+    })
+
+    socketRef.current.on('disconnect', () => {
+      console.log('Disconnected')
+      setIsConnected(false)
+    })
+
+    socketRef.current.on('message', (msg) => {
+      console.log(msg)
+      setLatestMessage(msg)
+    })
+
+    return () => {
+      if (socketRef.current) {
+        socketRef.current.disconnect()
+        socketRef.current = null
+      }
+    }
+  }, [])
+
+  function joinChat(chatId) {
+    if (socketRef.current == null) return
+    socketRef.current.emit('chatjoin', { chatId })
+  }
+
+  function sendMessage(chatId, text, user) {
+    if (socketRef.current == null) return
+    socketRef.current.emit('messagesend', { chatId, text, user })
+  }
+
+  return { isConnected, socketRef, joinChat, sendMessage, latestMessage }
+}

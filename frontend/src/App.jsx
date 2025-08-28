@@ -9,27 +9,32 @@ import ProfilePage from './features/dashboard/pages/profile/profilepage'
 import ChatsPage from './features/chat/pages/chats/chatspage'
 import ChatPage from './features/chat/pages/chat/chatpage'
 import SettingsPage from './features/dashboard/pages/settings/settingspage'
+import useSocket from './utils/useSocket'
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const appContext = createContext({ jwt: null, setJwt: null })
+export const socketContext = createContext({ socket: null })
 
 function App() {
   const app = useApp()
+  const socket = useSocket()
   return (
     <appContext.Provider value={app}>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/settings" element={<SettingsPage />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/signup" element={<SignUpPage />} />
-          <Route path="/posts/:id" element={<PostsPage />} />
-          <Route path="/profile" element={<ProfilePage />} />
-          <Route path="/profile/:id" element={<ProfilePage />} />
-          <Route path="/chats" element={<ChatsPage />} />
-          <Route path="/chats/:id" element={<ChatPage />} />
-        </Routes>
-      </BrowserRouter>
+      <socketContext.Provider value={socket}>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/settings" element={<SettingsPage />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/signup" element={<SignUpPage />} />
+            <Route path="/posts/:id" element={<PostsPage />} />
+            <Route path="/profile" element={<ProfilePage />} />
+            <Route path="/profile/:id" element={<ProfilePage />} />
+            <Route path="/chats" element={<ChatsPage />} />
+            <Route path="/chats/:id" element={<ChatPage />} />
+          </Routes>
+        </BrowserRouter>
+      </socketContext.Provider>
     </appContext.Provider>
   )
 }

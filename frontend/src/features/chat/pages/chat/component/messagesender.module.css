@@ -1,15 +1,16 @@
 .sendMessage {
-  position: absolute;
+  position: fixed;
+  background-color: var(--color-bg);
   display: flex;
   bottom: 0;
   align-items: center;
-  width: 510px;
+  width: fit-content;
   gap: 20px;
   padding: 10px 20px;
 }
 
 .sendMessage input {
-  flex-basis: 96%;
+  width: 490px;
   resize: none;
   margin: 0;
   height: 100%;
