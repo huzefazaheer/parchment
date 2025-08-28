@@ -29,6 +29,11 @@ async function createChat(
       type: type,
       photo: photo,
     },
+    include: {
+      users: {
+        select: { id: true, displayName: true, username: true, photo: true },
+      },
+    },
   })
   return chat
 }

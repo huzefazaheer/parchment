@@ -6,13 +6,17 @@ import NewItemModal from '../../components/newitemmodal/newitem'
 import { useEffect } from 'react'
 import useData from '../../../../utils/useData'
 import PostSkeleton from '../../components/post/skeleton/postskeleton'
+import { useContext } from 'react'
+import { appContext } from '../../../../App'
 
 export default function Home() {
   const getPostsFetch = useData('/posts', 'GET')
+  const { user, jwt } = useContext(appContext)
 
   useEffect(() => {
+    if (!user || !jwt) return
     getPostsFetch.fetchData()
-  }, [])
+  }, [user, jwt])
 
   const posts = getPostsFetch.loading ? (
     <div>

@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react'
 import { jwtDecode } from 'jwt-decode'
 import useData from './useData'
+import { useContext } from 'react'
+import { socketContext } from '../App'
 
 export default function useApp() {
   const [jwt, setJwt] = useState(null)
@@ -12,7 +14,6 @@ export default function useApp() {
       setJwt(localStorage.getItem('jsonwebtoken'))
       const _user = jwtDecode(localStorage.getItem('jsonwebtoken'))
       setUser(_user)
-      console.log(_user)
     }
   }, [jwt])
 

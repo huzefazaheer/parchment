@@ -35,18 +35,25 @@ app.use('/followreq', followreqRouter)
 io.on('connection', (socket) => {
   console.log('Connected')
 
-  socket.on('chatjoin', (data) => {
+  socket.on('userjoin', (data) => {
     console.log(data)
+    socket.join(data.id)
+  })
+
+  socket.on('chatjoin', (data) => {
     socket.join(`chat-${data.chatId}`)
   })
 
   socket.on('messagesend', (data) => {
-    console.log(data)
-
     io.to(`chat-${data.chatId}`).emit('message', {
       text: data.text,
       user: data.user,
     })
+  })
+
+  socket.on('createchat', (data) => {
+    console.log(data)
+    socket.to(data.otherId).emit('chatcreated', data)
   })
 })
 

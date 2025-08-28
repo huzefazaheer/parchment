@@ -10,6 +10,7 @@ export default function useSocket() {
   const socketRef = useRef(null)
   const { user } = useContext(appContext)
   const [latestMessage, setLatestMessage] = useState(null)
+  const [newChat, setNewChat] = useState(null)
 
   useEffect(() => {
     if (socketRef.current == null)
@@ -30,6 +31,10 @@ export default function useSocket() {
       setLatestMessage(msg)
     })
 
+    socketRef.current.on('chatcreated', (chat) => {
+      setNewChat(chat)
+    })
+
     return () => {
       if (socketRef.current) {
         socketRef.current.disconnect()
@@ -37,6 +42,11 @@ export default function useSocket() {
       }
     }
   }, [])
+
+  function init(id) {
+    if (socketRef.current == null) return
+    socketRef.current.emit('userjoin', { id })
+  }
 
   function joinChat(chatId) {
     if (socketRef.current == null) return
@@ -48,5 +58,20 @@ export default function useSocket() {
     socketRef.current.emit('messagesend', { chatId, text, user })
   }
 
-  return { isConnected, socketRef, joinChat, sendMessage, latestMessage }
+  function createChat(data) {
+    console.log(data)
+    if (socketRef.current == null) return
+    socketRef.current.emit('createchat', data)
+  }
+
+  return {
+    isConnected,
+    socketRef,
+    joinChat,
+    sendMessage,
+    latestMessage,
+    init,
+    newChat,
+    createChat,
+  }
 }

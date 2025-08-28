@@ -42,7 +42,7 @@ export default function NewItemModal() {
     >
       <div className={styles.modal}>
         <div className={styles.top}>
-          <img src={user.photo} alt="" />
+          <img src={user?.photo} alt="" />
           <div className={styles.right}>
             <textarea
               name=""

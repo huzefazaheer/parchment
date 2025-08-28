@@ -10,14 +10,23 @@ import ChatsPage from './features/chat/pages/chats/chatspage'
 import ChatPage from './features/chat/pages/chat/chatpage'
 import SettingsPage from './features/dashboard/pages/settings/settingspage'
 import useSocket from './utils/useSocket'
+import { useEffect } from 'react'
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const appContext = createContext({ jwt: null, setJwt: null })
+// eslint-disable-next-line react-refresh/only-export-components
 export const socketContext = createContext({ socket: null })
 
 function App() {
   const app = useApp()
   const socket = useSocket()
+
+  useEffect(() => {
+    if (app.jwt != null && app.user != null) {
+      socket.init(app.user.id)
+    }
+  }, [app.jwt])
+
   return (
     <appContext.Provider value={app}>
       <socketContext.Provider value={socket}>

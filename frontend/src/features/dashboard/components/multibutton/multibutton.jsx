@@ -4,6 +4,8 @@ import useData from '../../../../utils/useData'
 import { useNavigate } from 'react-router-dom'
 import EditProfileModal from '../editprofilemodal/editprofile'
 import RequestsModal from '../requestsmodal/requests'
+import { useContext } from 'react'
+import { appContext, socketContext } from '../../../../App'
 
 export default function MultiButton({ isSelf, userId, btnclick }) {
   const [menuActive, setMenuActive] = useState(false)
@@ -11,12 +13,24 @@ export default function MultiButton({ isSelf, userId, btnclick }) {
   const createChatFetch = useData('/chats', 'POST', { users: [userId] })
   const [show, toggleShow] = useState(false)
   const [showReq, toggleShowReq] = useState(false)
+  const socket = useContext(socketContext)
+  const { user } = useContext(appContext)
 
   async function createChat() {
     const data = await createChatFetch.fetchData()
+    console.log(data.data)
     if (data.error == 'CONFLICT') {
       navigate('/chats/' + data.conflict)
-    } else navigate('/chats/' + data.data.id)
+    } else {
+      navigate('/chats/' + data.data.id)
+
+      socket.createChat({
+        id: data.data.id,
+        lastmsg: null,
+        users: data.data.users,
+        otherId: userId,
+      })
+    }
   }
 
   async function editProfile() {
