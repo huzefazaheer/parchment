@@ -1,16 +1,20 @@
+import { useContext } from 'react'
 import useData from '../../../../utils/useData'
 import styles from './followrequest.module.css'
+import { socketContext } from '../../../../App'
 
 export default function FollowRequest({ id, user, isSent }) {
   const acceptReqFetch = useData('/followreq/' + id, 'PATCH')
   const delReqFetch = useData('/followreq/' + id, 'delete')
+  const socket = useContext(socketContext)
 
   async function acceptRequest() {
-    console.log(await acceptReqFetch.fetchData())
+    await acceptReqFetch.fetchData()
   }
 
   async function deleteRequest() {
-    console.log(await delReqFetch.fetchData())
+    await delReqFetch.fetchData()
+    socket.deleteRequest(id, user.id)
   }
 
   return (

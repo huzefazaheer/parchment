@@ -73,6 +73,12 @@ io.on('connection', (socket) => {
   socket.on('commentupdate', (data) => {
     io.emit('commentupdate', data)
   })
+
+  socket.on('deletereq', (data) => {
+    socket.emit('deletereq', data)
+    console.log(data)
+    socket.to(data.userId).emit('deletereq', data)
+  })
 })
 
 app.use((req, res) => {

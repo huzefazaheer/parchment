@@ -15,6 +15,7 @@ export default function useSocket() {
   const [newComment, setNewComment] = useState(null)
   const [updatedPost, setUpdatedPost] = useState(null)
   const [updatedComment, setUpdatedComment] = useState(null)
+  const [deletedReq, setDeletedReq] = useState(null)
 
   useEffect(() => {
     if (socketRef.current == null)
@@ -53,6 +54,10 @@ export default function useSocket() {
 
     socketRef.current.on('commentupdate', (data) => {
       setUpdatedComment(data)
+    })
+
+    socketRef.current.on('deletereq', (data) => {
+      setDeletedReq(data)
     })
 
     return () => {
@@ -108,6 +113,11 @@ export default function useSocket() {
     socketRef.current.emit('commentupdate', { commentId, count })
   }
 
+  function deleteRequest(reqId, userId) {
+    if (socketRef.current == null) return
+    socketRef.current.emit('deletereq', { reqId, userId })
+  }
+
   return {
     isConnected,
     socketRef,
@@ -126,5 +136,7 @@ export default function useSocket() {
     updatedPost,
     updatedComment,
     commentUpdate,
+    deleteRequest,
+    deletedReq,
   }
 }

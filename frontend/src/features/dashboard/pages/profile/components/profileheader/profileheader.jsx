@@ -7,7 +7,7 @@ import useData from '../../../../../../utils/useData'
 import MultiButton from '../../../../components/multibutton/multibutton'
 
 export default function ProfileHeader({ id, setIndex, index, userId }) {
-  const { user } = useContext(appContext)
+  const { user, jwt } = useContext(appContext)
   const navigate = useNavigate()
   const userFetch = useData('/user/' + userId, 'GET')
   const selfFetch = useData('/user/self', 'GET')
@@ -22,6 +22,8 @@ export default function ProfileHeader({ id, setIndex, index, userId }) {
   const isSelf = userId == user.id
 
   useEffect(() => {
+    if (user == null || jwt == null) return
+
     async function getUser() {
       const data = await userFetch.fetchData()
       setCurrUser(data.data)
@@ -34,7 +36,7 @@ export default function ProfileHeader({ id, setIndex, index, userId }) {
     if (!isSelf) {
       getUser()
     } else getSelfData()
-  }, [isSelf])
+  }, [isSelf, user, jwt])
 
   async function sendRequest() {
     if (isSelf) return

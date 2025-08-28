@@ -3,16 +3,42 @@ import { SecondaryButton } from '../../../../components/ui/buttons/buttons'
 import { useEffect, useState } from 'react'
 import useData from '../../../../utils/useData'
 import FollowRequest from '../followrequest/followrequest'
+import { useContext } from 'react'
+import { appContext, socketContext } from '../../../../App'
 
 export default function RequestsModal({ show, toggleShow }) {
   const [index, setIndex] = useState(0)
   const sentRequestsFetch = useData('/followreq/sent', 'GET')
   const receivedRequestsFetch = useData('/followreq/received', 'GET')
+  const socket = useContext(socketContext)
+  const { user, jwt } = useContext(appContext)
+  const [sentReqData, setSentReqData] = useState([])
+  const [receivedReqData, setReceivedReqData] = useState([])
 
   useEffect(() => {
-    sentRequestsFetch.fetchData()
-    receivedRequestsFetch.fetchData()
+    async function getData() {
+      const d1 = await sentRequestsFetch.fetchData()
+      const d2 = await receivedRequestsFetch.fetchData()
+      setSentReqData(d1.data)
+      setReceivedReqData(d2.data)
+    }
+    getData()
   }, [])
+
+  useEffect(() => {
+    if (user == null || jwt == null) return
+
+    if (socket.deletedReq == null) return
+    const deletedReq = socket.deletedReq
+    if (receivedReqData) {
+      setReceivedReqData(
+        receivedReqData.filter((item) => item.id != deletedReq.reqId),
+      )
+    }
+    if (sentReqData) {
+      setSentReqData(sentReqData.filter((item) => item.id != deletedReq.reqId))
+    }
+  }, [socket.deletedReq, jwt])
 
   function exitModal() {
     toggleShow(false)
@@ -23,7 +49,7 @@ export default function RequestsModal({ show, toggleShow }) {
   ) : sentRequestsFetch.error != null ? (
     <p>An unknown error occured</p>
   ) : sentRequestsFetch.data ? (
-    sentRequestsFetch.data.data.map((req) => {
+    sentReqData.map((req) => {
       return <FollowRequest user={req.receiver} isSent={true} id={req.id} />
     })
   ) : (
@@ -35,7 +61,7 @@ export default function RequestsModal({ show, toggleShow }) {
   ) : receivedRequestsFetch.error != null ? (
     <p>An unknown error occured</p>
   ) : receivedRequestsFetch.data ? (
-    receivedRequestsFetch.data.data.map((req) => {
+    receivedReqData.map((req) => {
       return <FollowRequest user={req.sender} isSent={false} id={req.id} />
     })
   ) : (

@@ -55,8 +55,14 @@ export default function MultiButton({ isSelf, userId, btnclick }) {
 
   return (
     <>
-      <EditProfileModal show={show} toggleShow={toggleShow} />
-      <RequestsModal show={showReq} toggleShow={toggleShowReq} />
+      {isSelf ? (
+        <>
+          <EditProfileModal show={show} toggleShow={toggleShow} />
+          <RequestsModal show={showReq} toggleShow={toggleShowReq} />
+        </>
+      ) : (
+        ''
+      )}
       <div className={styles.button}>
         <button
           onClick={btnclick}
