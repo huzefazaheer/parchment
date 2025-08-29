@@ -17,7 +17,7 @@
 .modal {
   background-color: #d9cab3;
   border: 1px solid #bca890;
-  width: 500px;
+  width: min(100%, 500px);
   height: 500px;
   /* padding: 20px; */
   display: flex;

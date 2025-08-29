@@ -6,7 +6,13 @@ import { PrimaryButton } from '../../../../../../components/ui/buttons/buttons'
 import useData from '../../../../../../utils/useData'
 import MultiButton from '../../../../components/multibutton/multibutton'
 
-export default function ProfileHeader({ id, setIndex, index, userId }) {
+export default function ProfileHeader({
+  id,
+  setIndex,
+  index,
+  userId,
+  scrollProgress,
+}) {
   const { user, jwt } = useContext(appContext)
   const navigate = useNavigate()
   const userFetch = useData('/user/' + userId, 'GET')
@@ -22,6 +28,7 @@ export default function ProfileHeader({ id, setIndex, index, userId }) {
   })
 
   const isSelf = userId == user.id
+  const isScrolled = scrollProgress >= 0.044 ? true : false
 
   useEffect(() => {
     if (user == null || jwt == null) return
@@ -71,55 +78,57 @@ export default function ProfileHeader({ id, setIndex, index, userId }) {
     )
 
   return (
-    <div className={styles.heading}>
-      <div className={styles.topheading}>
-        {backarrow}
-        {user.backdrop || currUser.backdrop ? (
-          <img
-            className={styles.coverphoto}
-            src={isSelf ? user.backdrop : currUser.backdrop}
-            alt=""
-          />
-        ) : (
-          <div className={styles.skeletonbackdrop}></div>
-        )}
-
-        {user.photo || currUser.photo ? (
-          <img
-            className={styles.profilephoto}
-            src={isSelf ? user.photo : currUser.photo}
-            alt=""
-          />
-        ) : (
-          <div className={styles.skeletonimg}></div>
-        )}
+    <>
+      <div className={styles.heading}>
+        <div className={styles.topheading}>
+          {backarrow}
+          {user.backdrop || currUser.backdrop ? (
+            <img
+              className={styles.coverphoto}
+              src={isSelf ? user.backdrop : currUser.backdrop}
+              alt=""
+            />
+          ) : (
+            <div className={styles.skeletonbackdrop}></div>
+          )}
+        </div>
       </div>
-      <div>
+      <div className={`${styles.sticky} ${isScrolled ? styles.scrolled : ''}`}>
         <div className={styles.profileinfo}>
           <div className={styles.left}>
-            <p className={styles.displayname}>
-              {isSelf ? user.displayName : currUser.displayName}
-            </p>
-            <p className={styles.username}>
-              @{isSelf ? user.username : currUser.username}
-            </p>
-            {/* Make this Work */}
-            <p className={styles.stats}>
-              <strong>
-                {isSelf ? selfData.following : currUser?._count?.following}
-              </strong>{' '}
-              followers
-              <span className={styles.dot}> • </span>
-              <strong>
-                {isSelf ? selfData.followers : currUser?._count?.followers}
-              </strong>{' '}
-              following
-              <span className={styles.dot}> • </span>
-              <strong>
-                {isSelf ? selfData.posts : currUser?._count?.posts}
-              </strong>{' '}
-              posts
-            </p>
+            {user.photo || currUser.photo ? (
+              <img
+                className={styles.profilephoto}
+                src={isSelf ? user.photo : currUser.photo}
+                alt=""
+              />
+            ) : (
+              <div className={styles.skeletonimg}></div>
+            )}
+            <div>
+              <p className={styles.displayname}>
+                {isSelf ? user.displayName : currUser.displayName}
+              </p>
+              <p className={styles.username}>
+                @{isSelf ? user.username : currUser.username}
+              </p>
+              <p className={styles.stats}>
+                <strong>
+                  {isSelf ? selfData.following : currUser?._count?.following}
+                </strong>{' '}
+                followers
+                <span className={styles.dot}> • </span>
+                <strong>
+                  {isSelf ? selfData.followers : currUser?._count?.followers}
+                </strong>{' '}
+                following
+                <span className={styles.dot}> • </span>
+                <strong>
+                  {isSelf ? selfData.posts : currUser?._count?.posts}
+                </strong>{' '}
+                posts
+              </p>
+            </div>
           </div>
           <MultiButton
             isSelf={isSelf}
@@ -149,6 +158,6 @@ export default function ProfileHeader({ id, setIndex, index, userId }) {
           </li>
         </ul>
       </div>
-    </div>
+    </>
   )
 }

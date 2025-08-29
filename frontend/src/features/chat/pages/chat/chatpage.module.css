@@ -1,17 +1,12 @@
-.body {
-  height: 100vh;
-  position: relative;
-}
-
 .chats {
   flex-shrink: 1fr;
   scrollbar-width: none;
   -ms-overflow-style: none;
   border-right: 1px solid var(--color-border);
   border-left: 1px solid var(--color-border);
-  margin-left: 29vw;
-  width: min-content;
-  min-height: 100vh;
+  flex-basis: 1fr;
+  flex: 1;
+  height: 100%;
 }
 
 .chats::-webkit-scrollbar {

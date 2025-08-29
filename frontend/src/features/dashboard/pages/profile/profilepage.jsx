@@ -12,11 +12,13 @@ import ProfileHeader from './components/profileheader/profileheader'
 import CommentSkeleton from '../../components/comment/skeleton/commentskeleton'
 import PostSkeleton from '../../components/post/skeleton/postskeleton'
 import PostEmbed from '../../components/post/components/postembed'
+import handleScroll from '../../../../utils/scroll'
 
 export default function ProfilePage() {
   const [index, setIndex] = useState(0)
   const { id } = useParams()
   const { user } = useContext(appContext)
+  const [scrollProgress, setScrollProgress] = useState(0)
 
   let userId
   if (id == undefined) {
@@ -24,6 +26,18 @@ export default function ProfilePage() {
   } else userId = id
 
   const itemFetch = useData('/user/' + userId + '/posts', 'GET')
+
+  function scrollHandler(e) {
+    const el = e.target
+    const progress = el.scrollTop / (el.scrollHeight - el.clientHeight)
+    console.log(progress)
+    setScrollProgress(progress)
+  }
+
+  useEffect(() => {
+    const scroll = handleScroll()
+    return scroll
+  }, [])
 
   useEffect(() => {
     switch (index) {
@@ -91,19 +105,21 @@ export default function ProfilePage() {
   return (
     <>
       <NewItemModal />
-      <div className={styles.body}>
-        <LeftMenu />
-        <div className={styles.profile}>
-          <ProfileHeader
-            id={id}
-            index={index}
-            setIndex={setIndex}
-            userId={userId}
-          />
-          <div>{index == 0 ? posts : index == 1 ? comments : posts}</div>
-        </div>
-        <RightMenu />
+      <LeftMenu />
+      <div
+        className={`${styles.profile} scroll`}
+        onScroll={(e) => scrollHandler(e)}
+      >
+        <ProfileHeader
+          id={id}
+          index={index}
+          setIndex={setIndex}
+          userId={userId}
+          scrollProgress={scrollProgress}
+        />
+        <div>{index == 0 ? posts : index == 1 ? comments : posts}</div>
       </div>
+      <RightMenu />
     </>
   )
 }

@@ -10,6 +10,8 @@ import { appContext, socketContext } from '../../../../App'
 import MsgSender from './component/messagesender'
 import CommentSkeleton from '../../../dashboard/components/comment/skeleton/commentskeleton'
 import MessageSkeleton from '../../components/chatmessage/skeleton/messageskeleton'
+import NewItemModal from '../../../dashboard/components/newitemmodal/newitem'
+import handleScroll from '../../../../utils/scroll'
 
 export default function ChatPage() {
   const navigate = useNavigate()
@@ -20,6 +22,11 @@ export default function ChatPage() {
   const getChatMessage = useData('/chats/' + id + '/messages', 'get')
   const socket = useContext(socketContext)
   const [messagesData, setMessagesData] = useState([])
+
+  useEffect(() => {
+    const scroll = handleScroll()
+    return scroll
+  }, [])
 
   useEffect(() => {
     async function getChat() {
@@ -73,32 +80,27 @@ export default function ChatPage() {
 
   return (
     <>
-      <div className={styles.body}>
-        <LeftMenu />
+      <LeftMenu />
+      <NewItemModal />
 
-        <div className={styles.chats}>
-          <div className={styles.topheading}>
-            <img
-              onClick={() => navigate('/chats')}
-              src="/backarrow.svg"
-              alt=""
-            />
-            <h4>
-              {chatUser.displayName ? (
-                <>
-                  {chatUser.displayName}
-                  <span className={styles.username}>@{chatUser.username}</span>
-                </>
-              ) : (
-                <div className={styles.chatdetailskeleton}></div>
-              )}
-            </h4>
-          </div>
-          <div className={styles.messages}>{messages}</div>
-          <MsgSender id={id} />
+      <div className={`${styles.chats} scroll`}>
+        <div className={styles.topheading}>
+          <img onClick={() => navigate('/chats')} src="/backarrow.svg" alt="" />
+          <h4>
+            {chatUser.displayName ? (
+              <>
+                {chatUser.displayName}
+                <span className={styles.username}>@{chatUser.username}</span>
+              </>
+            ) : (
+              <div className={styles.chatdetailskeleton}></div>
+            )}
+          </h4>
         </div>
-        <RightMenu />
+        <div className={styles.messages}>{messages}</div>
+        <MsgSender id={id} />
       </div>
+      <RightMenu />
     </>
   )
 }

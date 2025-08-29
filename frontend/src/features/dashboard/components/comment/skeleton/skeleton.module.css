@@ -44,6 +44,7 @@
   background: linear-gradient(90deg, #c9b89f 25%, #b8a085 50%, #c9b89f 75%);
   background-size: 200% 100%;
   animation: shimmer 1.5s infinite;
+  flex-shrink: 0;
 }
 
 .displayname {
@@ -67,44 +68,6 @@
 .text:last-of-type {
   margin-top: 10px;
   width: 80%;
-}
-
-.embed {
-  max-width: 500px;
-  border: 1px solid #bca890;
-  border-radius: 24px;
-  margin-bottom: 15px;
-  margin-left: 70px;
-}
-
-.embed_text {
-  height: 14px;
-  border-radius: 6px;
-  background: linear-gradient(90deg, #c9b89f 25%, #b8a085 50%, #c9b89f 75%);
-  background-size: 200% 100%;
-  animation: shimmer 1.5s infinite;
-  width: 55%;
-  margin-left: 20px;
-}
-
-.link_text {
-  height: 16px;
-  border-radius: 6px;
-  background: linear-gradient(90deg, #c9b89f 25%, #b8a085 50%, #c9b89f 75%);
-  background-size: 200% 100%;
-  animation: shimmer 1.5s infinite;
-  width: 80%;
-  margin-left: 20px;
-}
-
-.emded_img {
-  width: 500px;
-  height: 260px;
-  background: linear-gradient(90deg, #c9b89f 25%, #b8a085 50%, #c9b89f 75%);
-  background-size: 200% 100%;
-  animation: shimmer 1.5s infinite;
-  border-top-left-radius: 24px;
-  border-top-right-radius: 24px;
 }
 
 .link {

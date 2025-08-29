@@ -14,6 +14,12 @@ body {
   padding: 0;
 }
 
+#root {
+  height: 100vh;
+  display: flex;
+  overflow: hidden;
+}
+
 a {
   color: var(--color-accent);
   text-decoration: none;
@@ -32,4 +38,15 @@ input:-webkit-autofill {
 input:-webkit-autofill:focus {
   -webkit-box-shadow: 0 0 0 1000px #d0bfa5 inset;
   -webkit-text-fill-color: #675752;
+}
+
+.scroll {
+  overflow-y: auto;
+  flex-shrink: 0;
+}
+
+@media only screen and (max-width: 1200px) {
+  #root {
+    flex-direction: column;
+  }
 }

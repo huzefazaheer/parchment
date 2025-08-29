@@ -1,5 +1,5 @@
 .post {
-  max-width: 600px;
+  width: 100%;
   display: flex;
   flex-direction: row;
   align-items: flex-start;
@@ -98,4 +98,12 @@
 
 .post:hover {
   background-color: #d0bfa5;
+}
+
+@media only screen and (max-width: 600px) {
+  .post {
+    box-sizing: border-box;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
 }

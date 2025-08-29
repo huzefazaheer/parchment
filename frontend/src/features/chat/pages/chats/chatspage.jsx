@@ -8,12 +8,19 @@ import CommentSkeleton from '../../../dashboard/components/comment/skeleton/comm
 import { useState } from 'react'
 import { useContext } from 'react'
 import { appContext, socketContext } from '../../../../App'
+import NewItemModal from '../../../dashboard/components/newitemmodal/newitem'
+import handleScroll from '../../../../utils/scroll'
 
 export default function ChatsPage() {
   const chatsFetch = useData('/user/chats', 'GET')
   const [chatsData, setChatsData] = useState([])
   const socket = useContext(socketContext)
   const { user, jwt } = useContext(appContext)
+
+  useEffect(() => {
+    const scroll = handleScroll()
+    return scroll
+  }, [])
 
   useEffect(() => {
     if (!user || !jwt) return
@@ -58,17 +65,16 @@ export default function ChatsPage() {
 
   return (
     <>
-      <div className={styles.body}>
-        <LeftMenu />
+      <NewItemModal />
+      <LeftMenu />
 
-        <div className={styles.chats}>
-          <div className={styles.topheading}>
-            <h4>Chats</h4>
-          </div>
-          <div>{chats}</div>
+      <div className={`${styles.chats} scroll`}>
+        <div className={styles.topheading}>
+          <h4>Chats</h4>
         </div>
-        <RightMenu />
+        <div>{chats}</div>
       </div>
+      <RightMenu />
     </>
   )
 }

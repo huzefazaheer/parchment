@@ -3,10 +3,11 @@
   margin-right: 40px;
   display: flex;
   height: 100vh;
+  width: 100%;
 }
 
 .login h1 {
-  font-size: 64px;
+  font-size: max(4.44vw, 32px);
   color: #675752;
   font-weight: 900;
   border-right: 1px solid #bca890;
@@ -20,7 +21,8 @@
 .login form {
   margin-top: 16vh;
   margin-left: 60px;
-  width: 600px;
+  max-width: 600px;
+  flex: 1;
 }
 
 .step {
@@ -97,4 +99,30 @@
 
 .errorhidden {
   display: none;
+}
+
+@media only screen and (max-width: 768px) {
+  .login {
+    flex-direction: column;
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  .login h1 {
+    border-bottom: 1px solid #bca890;
+    /* padding-right: 60px; */
+    border-right: none;
+    padding: 20px 40px;
+  }
+
+  .login form {
+    box-sizing: border-box;
+    margin-top: 16vh;
+    padding-left: 40px;
+    padding-right: 40px;
+    width: 100%;
+    margin: 0;
+    margin-top: 8vh;
+    max-height: 100vh;
+  }
 }

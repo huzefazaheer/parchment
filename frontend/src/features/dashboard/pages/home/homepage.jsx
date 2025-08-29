@@ -3,19 +3,25 @@ import LeftMenu from '../../../../components/menu/leftmenu/menu'
 import RightMenu from '../../../../components/menu/rightmenu/menu'
 import styles from './homepage.module.css'
 import NewItemModal from '../../components/newitemmodal/newitem'
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import useData from '../../../../utils/useData'
 import PostSkeleton from '../../components/post/skeleton/postskeleton'
 import { useContext } from 'react'
 import { appContext, socketContext } from '../../../../App'
 import { useState } from 'react'
 import PostEmbed from '../../components/post/components/postembed'
+import handleScroll from '../../../../utils/scroll'
 
 export default function Home() {
   const getPostsFetch = useData('/posts', 'GET')
   const { user, jwt } = useContext(appContext)
   const socket = useContext(socketContext)
   const [postData, setPostData] = useState([])
+
+  useEffect(() => {
+    const scroll = handleScroll()
+    return scroll
+  }, [])
 
   useEffect(() => {
     if (!user || !jwt) return
@@ -27,7 +33,6 @@ export default function Home() {
   }, [user, jwt])
 
   useEffect(() => {
-    console.log(socket.newPost)
     if (socket.newPost == null) return
     const post = socket.newPost
     setPostData([
@@ -77,14 +82,12 @@ export default function Home() {
   return (
     <>
       <NewItemModal />
-      <div className={styles.body}>
-        <LeftMenu />
-        <div className={styles.posts}>
-          <h4 className={styles.topheading}>Discover</h4>
-          <div>{posts}</div>
-        </div>
-        <RightMenu />
+      <LeftMenu />
+      <div className={`${styles.posts} scroll`}>
+        <h4 className={styles.topheading}>Discover</h4>
+        <div className={styles.postwrapper}>{posts}</div>
       </div>
+      <RightMenu />
     </>
   )
 }

@@ -91,12 +91,32 @@
   cursor: pointer;
 }
 
-.heading {
+.sticky {
   position: sticky;
-  z-index: 1000;
-  width: 588px;
-  background-color: var(--color-bg);
   top: 0;
+  background-color: var(--color-bg); /* Add background */
+  z-index: 1000; /* Add z-index */
+}
+
+.sticky.scrolled .profileinfo div img {
+  position: static;
+}
+
+.sticky.scrolled .left {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 20px;
+}
+
+.sticky.scrolled .displayname {
+  margin-top: 10px;
+}
+
+.heading {
+  position: relative;
+  z-index: 1000;
+  background-color: var(--color-bg);
   margin: 0;
 }
 

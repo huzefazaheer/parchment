@@ -13,6 +13,7 @@ import PostSkeleton from '../../components/post/skeleton/postskeleton'
 import CommentSkeleton from '../../components/comment/skeleton/commentskeleton'
 import { useState } from 'react'
 import PostEmbed from '../../components/post/components/postembed'
+import handleScroll from '../../../../utils/scroll'
 
 export default function PostsPage() {
   const { setShowModal } = useContext(appContext)
@@ -22,6 +23,11 @@ export default function PostsPage() {
   const navigate = useNavigate()
   const [commentData, setCommentData] = useState([])
   const socket = useContext(socketContext)
+
+  useEffect(() => {
+    const scroll = handleScroll()
+    return scroll
+  }, [])
 
   useEffect(() => {
     async function getData() {
@@ -100,24 +106,22 @@ export default function PostsPage() {
   return (
     <>
       <NewItemModal />
-      <div className={styles.body}>
-        <LeftMenu />
-        <div className={styles.posts}>
-          <div className={styles.topheading}>
-            <img onClick={() => navigate('/')} src="/backarrow.svg" alt="" />
-            <h4>Comments</h4>
-          </div>
-          <div>{post}</div>
-          <button
-            className={styles.addcomment}
-            onClick={() => setShowModal({ show: true, type: 'comment' })}
-          >
-            Leave a comment
-          </button>
-          <div>{comments}</div>
+      <LeftMenu />
+      <div className={`${styles.posts} scroll`}>
+        <div className={styles.topheading}>
+          <img onClick={() => navigate('/')} src="/backarrow.svg" alt="" />
+          <h4>Comments</h4>
         </div>
-        <RightMenu />
+        <div>{post}</div>
+        <button
+          className={styles.addcomment}
+          onClick={() => setShowModal({ show: true, type: 'comment' })}
+        >
+          Leave a comment
+        </button>
+        <div>{comments}</div>
       </div>
+      <RightMenu />
     </>
   )
 }

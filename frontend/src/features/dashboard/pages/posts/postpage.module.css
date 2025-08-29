@@ -1,17 +1,10 @@
-.body {
-  height: 100vh;
-  position: relative;
-}
-
 .posts {
-  flex-shrink: 1fr;
   scrollbar-width: none;
   -ms-overflow-style: none;
   border-right: 1px solid var(--color-border);
   border-left: 1px solid var(--color-border);
-  margin-left: 29vw;
-  width: fit-content;
-  height: 100vh;
+  flex: 1 0 auto;
+  height: 100%;
 }
 
 .posts::-webkit-scrollbar {
@@ -19,9 +12,9 @@
 }
 
 .topheading {
+  width: 100%;
   text-align: left;
   z-index: 1000;
-  width: 588px;
   background-color: var(--color-bg);
   display: block;
   position: sticky;

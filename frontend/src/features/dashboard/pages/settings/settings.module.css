@@ -1,17 +1,10 @@
-.body {
-  height: 100vh;
-  position: relative;
-}
-
 .profile {
-  flex-shrink: 1fr;
   scrollbar-width: none;
   -ms-overflow-style: none;
   border-right: 1px solid var(--color-border);
   border-left: 1px solid var(--color-border);
-  margin-left: 29vw;
-  width: fit-content;
-  min-height: 100vh;
+  flex: 1 0 auto;
+  height: 100%;
 }
 
 .profile::-webkit-scrollbar {

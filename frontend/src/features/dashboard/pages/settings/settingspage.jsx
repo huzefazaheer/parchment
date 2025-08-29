@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import LeftMenu from '../../../../components/menu/leftmenu/menu'
 import RightMenu from '../../../../components/menu/rightmenu/menu'
 import styles from './settings.module.css'
@@ -13,6 +13,7 @@ import {
 import { PasswordInputField } from '../../../../components/ui/inputfield/passwordinputfield'
 import useData from '../../../../utils/useData'
 import checkPassword from './checkpass'
+import handleScroll from '../../../../utils/scroll'
 
 export default function SettingsPage() {
   const { user } = useContext(appContext)
@@ -26,6 +27,11 @@ export default function SettingsPage() {
   })
   const navigate = useNavigate()
   const updatePasswordFetch = useData('/auth/update', 'POST', password)
+
+  useEffect(() => {
+    const scroll = handleScroll()
+    return scroll
+  }, [])
 
   function toggleSetting(num) {
     if (index == num) setIndex(null)
@@ -54,85 +60,83 @@ export default function SettingsPage() {
 
   return (
     <>
-      <div className={styles.body}>
-        <LeftMenu />
-        <div className={styles.profile}>
-          <div className={styles.topheading}>
-            <h4>Settings</h4>
+      <LeftMenu />
+      <div className={`${styles.profile} scroll`}>
+        <div className={styles.topheading}>
+          <h4>Settings</h4>
+        </div>
+        <div className={styles.userprofile}>
+          {user.photo ? (
+            <img src={user.photo} alt="" />
+          ) : (
+            <div className={styles.photoskeleton}></div>
+          )}
+          <p className={styles.displayname}>{user.displayName}</p>
+          <p className={styles.username}>@{user.username}</p>
+        </div>
+        <div>
+          <div onClick={() => toggleSetting(0)}>
+            <Setting
+              name={'Account Settings'}
+              icon={'/account.svg'}
+              isActive={index == 0}
+            >
+              <SettingAction name={'Logout'} clickfn={logout} />
+            </Setting>
           </div>
-          <div className={styles.userprofile}>
-            {user.photo ? (
-              <img src={user.photo} alt="" />
-            ) : (
-              <div className={styles.photoskeleton}></div>
-            )}
-            <p className={styles.displayname}>{user.displayName}</p>
-            <p className={styles.username}>@{user.username}</p>
+          <div onClick={() => toggleSetting(1)}>
+            <Setting
+              name={'Privacy and Security'}
+              icon={'/security.svg'}
+              isActive={index == 1}
+            >
+              <SettingAction
+                name={'Change Password'}
+                clickfn={() => setOpenPass((prev) => !prev)}
+              >
+                {openPass ? (
+                  <div className={styles.changepass}>
+                    <PasswordInputField
+                      label={'Old password'}
+                      value={password.oldpassword}
+                      onChange={(e) =>
+                        setPassword({
+                          ...password,
+                          oldpassword: e.target.value,
+                        })
+                      }
+                    />
+                    <PasswordInputField
+                      label={'New password'}
+                      value={password.newpassword}
+                      onChange={(e) =>
+                        setPassword({
+                          ...password,
+                          newpassword: e.target.value,
+                        })
+                      }
+                    />
+                    <p>{password.error}</p>
+                    <SecondaryButton onClick={updatePassword} width="100%">
+                      Update
+                    </SecondaryButton>
+                  </div>
+                ) : (
+                  ''
+                )}
+              </SettingAction>
+            </Setting>
           </div>
-          <div>
-            <div onClick={() => toggleSetting(0)}>
-              <Setting
-                name={'Account Settings'}
-                icon={'/account.svg'}
-                isActive={index == 0}
-              >
-                <SettingAction name={'Logout'} clickfn={logout} />
-              </Setting>
-            </div>
-            <div onClick={() => toggleSetting(1)}>
-              <Setting
-                name={'Privacy and Security'}
-                icon={'/security.svg'}
-                isActive={index == 1}
-              >
-                <SettingAction
-                  name={'Change Password'}
-                  clickfn={() => setOpenPass((prev) => !prev)}
-                >
-                  {openPass ? (
-                    <div className={styles.changepass}>
-                      <PasswordInputField
-                        label={'Old password'}
-                        value={password.oldpassword}
-                        onChange={(e) =>
-                          setPassword({
-                            ...password,
-                            oldpassword: e.target.value,
-                          })
-                        }
-                      />
-                      <PasswordInputField
-                        label={'New password'}
-                        value={password.newpassword}
-                        onChange={(e) =>
-                          setPassword({
-                            ...password,
-                            newpassword: e.target.value,
-                          })
-                        }
-                      />
-                      <p>{password.error}</p>
-                      <SecondaryButton onClick={updatePassword} width="100%">
-                        Update
-                      </SecondaryButton>
-                    </div>
-                  ) : (
-                    ''
-                  )}
-                </SettingAction>
-              </Setting>
-            </div>
-            <div onClick={() => toggleSetting(2)}>
-              <Setting
-                name={'Accessibility'}
-                icon={'/accessibility.svg'}
-                isActive={index == 2}
-              />
-            </div>
+          <div onClick={() => toggleSetting(2)}>
+            <Setting
+              name={'Accessibility'}
+              icon={'/accessibility.svg'}
+              isActive={index == 2}
+            />
           </div>
         </div>
-        <RightMenu />
       </div>
+      <RightMenu />
     </>
   )
 }
