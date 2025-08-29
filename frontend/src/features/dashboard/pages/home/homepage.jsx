@@ -26,7 +26,6 @@ export default function Home() {
   }, [])
 
   useEffect(() => {
-    if (!user || !jwt) return
     async function getData() {
       if (index == 0) {
         const { data } = await getPostsFetch.fetchData()
@@ -37,7 +36,7 @@ export default function Home() {
       }
     }
     getData()
-  }, [user, jwt, index])
+  }, [index])
 
   useEffect(() => {
     if (socket.newPost == null) return

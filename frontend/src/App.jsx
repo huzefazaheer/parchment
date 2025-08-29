@@ -34,7 +34,7 @@ function App() {
     <appContext.Provider value={app}>
       <socketContext.Provider value={socket}>
         <BrowserRouter>
-          {app.jwt != null ? (
+          {app.jwt != null && app.user != null ? (
             <>
               <NewItemModal />
               <EditProfileModal />

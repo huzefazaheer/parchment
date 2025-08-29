@@ -14,10 +14,12 @@ export default function NewItemModal() {
   const [text, setText] = useState('')
   const createPostFetch = useData('/posts', 'POST', {})
   const createCommentFetch = useData('/comments?postid=', 'POST', { text })
-  const { user } = useContext(appContext)
+  const { user, jwt } = useContext(appContext)
   const socket = useContext(socketContext)
 
   const location = useLocation()
+
+  if (jwt == null) return
 
   function exitModal() {
     setText('')

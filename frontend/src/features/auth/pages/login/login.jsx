@@ -1,7 +1,10 @@
 import styles from './login.module.css'
 
 import { useContext, useState } from 'react'
-import { PrimaryButton } from '../../../../components/ui/buttons/buttons'
+import {
+  PrimaryButton,
+  SecondaryButton,
+} from '../../../../components/ui/buttons/buttons'
 import { Link, useNavigate } from 'react-router-dom'
 import { EmailInputField } from '../../../../components/ui/inputfield/emailinputfield'
 import { PasswordInputField } from '../../../../components/ui/inputfield/passwordinputfield'
@@ -26,6 +29,20 @@ export default function LoginPage() {
       return
     }
     const data = await loginFetch.fetchData()
+    if (data.success) {
+      setJwt(data.data)
+      localStorage.setItem('jsonwebtoken', data.data)
+      navigate('/')
+    } else {
+      setError(data.message)
+    }
+  }
+
+  async function handleGuestLogin() {
+    const data = await loginFetch.fetchData(undefined, {
+      email: 'user@example.com',
+      password: 'User12345!',
+    })
     if (data.success) {
       setJwt(data.data)
       localStorage.setItem('jsonwebtoken', data.data)
@@ -65,6 +82,15 @@ export default function LoginPage() {
         </p>
 
         <div className={styles.buttongroup}>
+          <SecondaryButton
+            width="200px"
+            onClick={(e) => {
+              e.preventDefault()
+              handleGuestLogin()
+            }}
+          >
+            Continue as Guest
+          </SecondaryButton>
           <PrimaryButton
             width="140px"
             onClick={(e) => {

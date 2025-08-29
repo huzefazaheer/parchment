@@ -20,12 +20,11 @@ export default function RequestsModal() {
     async function getData() {
       const d1 = await sentRequestsFetch.fetchData()
       const d2 = await receivedRequestsFetch.fetchData()
-      console.log(d1)
       setSentReqData(d1.data)
       setReceivedReqData(d2.data)
     }
     getData()
-  }, [])
+  }, [showRequestsModal])
 
   useEffect(() => {
     if (user == null || jwt == null) return
@@ -41,6 +40,8 @@ export default function RequestsModal() {
       setSentReqData(sentReqData.filter((item) => item.id != deletedReq.reqId))
     }
   }, [socket.deletedReq, jwt])
+
+  if (jwt == null) return
 
   function exitModal() {
     setShowRequestsModal(false)

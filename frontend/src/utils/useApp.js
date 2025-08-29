@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { use, useEffect, useState } from 'react'
 import { jwtDecode } from 'jwt-decode'
 import useData from './useData'
 import { useContext } from 'react'
@@ -15,6 +15,13 @@ export default function useApp() {
     if (localStorage.getItem('jsonwebtoken')) {
       setJwt(localStorage.getItem('jsonwebtoken'))
       const _user = jwtDecode(localStorage.getItem('jsonwebtoken'))
+      setUser(_user)
+    }
+  }, [])
+
+  useEffect(() => {
+    if (jwt != null) {
+      const _user = jwtDecode(jwt)
       setUser(_user)
     }
   }, [jwt])

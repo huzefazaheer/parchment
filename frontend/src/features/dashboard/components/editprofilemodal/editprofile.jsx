@@ -10,8 +10,13 @@ import useData from '../../../../utils/useData'
 import uploadPhoto from './uploadphoto'
 
 export default function EditProfileModal() {
-  const { user, updateJwt, setShowEditProfileModal, showEditProfileModal } =
-    useContext(appContext)
+  const {
+    user,
+    jwt,
+    updateJwt,
+    setShowEditProfileModal,
+    showEditProfileModal,
+  } = useContext(appContext)
   const photouploadRef = useRef(null)
   const backdropuploadRef = useRef(null)
   const [data, setData] = useState({
@@ -24,6 +29,8 @@ export default function EditProfileModal() {
     photo: user.photo,
     backdrop: user.backdrop,
   })
+
+  if (jwt == null) return
 
   function exitModal() {
     setShowEditProfileModal(false)
