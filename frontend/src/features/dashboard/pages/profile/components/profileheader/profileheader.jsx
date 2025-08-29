@@ -114,12 +114,12 @@ export default function ProfileHeader({
               </p>
               <p className={styles.stats}>
                 <strong>
-                  {isSelf ? selfData.following : currUser?._count?.following}
+                  {isSelf ? selfData.following : currUser?._count?.followers}
                 </strong>{' '}
                 followers
                 <span className={styles.dot}> • </span>
                 <strong>
-                  {isSelf ? selfData.followers : currUser?._count?.followers}
+                  {isSelf ? selfData.followers : currUser?._count?.following}
                 </strong>{' '}
                 following
                 <span className={styles.dot}> • </span>

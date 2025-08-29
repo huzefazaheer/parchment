@@ -13,7 +13,9 @@ import PostEmbed from '../../components/post/components/postembed'
 import handleScroll from '../../../../utils/scroll'
 
 export default function Home() {
+  const [index, setIndex] = useState(0)
   const getPostsFetch = useData('/posts', 'GET')
+  const getFollowingPostsFetch = useData('/user/posts/following', 'GET')
   const { user, jwt } = useContext(appContext)
   const socket = useContext(socketContext)
   const [postData, setPostData] = useState([])
@@ -26,11 +28,16 @@ export default function Home() {
   useEffect(() => {
     if (!user || !jwt) return
     async function getData() {
-      const { data } = await getPostsFetch.fetchData()
-      setPostData(data)
+      if (index == 0) {
+        const { data } = await getPostsFetch.fetchData()
+        setPostData(data)
+      } else {
+        const { data } = await getFollowingPostsFetch.fetchData()
+        setPostData(data)
+      }
     }
     getData()
-  }, [user, jwt])
+  }, [user, jwt, index])
 
   useEffect(() => {
     if (socket.newPost == null) return
@@ -61,7 +68,6 @@ export default function Home() {
     <p>An unknown error occured</p>
   ) : getPostsFetch.data ? (
     postData.map((post) => {
-      // console.log(post)
       return (
         <Post
           id={post.id}
@@ -84,7 +90,20 @@ export default function Home() {
       <NewItemModal />
       <LeftMenu />
       <div className={`${styles.posts} scroll`}>
-        <h4 className={styles.topheading}>Discover</h4>
+        <h4 className={styles.topheading}>
+          <span
+            onClick={() => setIndex(0)}
+            className={index == 0 ? styles.active : ''}
+          >
+            Discover
+          </span>
+          <span
+            onClick={() => setIndex(1)}
+            className={index == 1 ? styles.active : ''}
+          >
+            Following
+          </span>
+        </h4>
         <div className={styles.postwrapper}>{posts}</div>
       </div>
       <RightMenu />

@@ -102,9 +102,9 @@ model FollowRequest {
 
 model Follow {
   id          String   @id @default(uuid())
-  follower    User     @relation("user-followers", fields: [followerId], references: [id])
+  follower    User     @relation("user-following", fields: [followerId], references: [id])
   followerId  String
-  following   User     @relation("user-following", fields: [followingId], references: [id])
+  following   User     @relation("user-followers", fields: [followingId], references: [id])
   followingId String
   createdAt   DateTime @default(now())
 

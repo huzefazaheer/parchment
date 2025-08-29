@@ -34,4 +34,10 @@
   font-size: 18px;
   font-weight: 700;
   padding-top: 20px;
+  display: flex;
+  justify-content: space-around;
+}
+
+.topheading .active {
+  color: var(--color-accent);
 }

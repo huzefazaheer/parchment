@@ -46,6 +46,7 @@ async function acceptFollowRequest(id) {
     data: { followerId: followreq.senderId, followingId: followreq.receiverId },
   })
   await prisma.followRequest.delete({ where: { id: followreq.id } })
+  return follow
 }
 
 async function deleteRequest(id) {

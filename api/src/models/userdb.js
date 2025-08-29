@@ -150,6 +150,25 @@ async function getReqStatus(senderId, receiverId) {
   return 'none'
 }
 
+async function getFollowingPosts(id) {
+  const user = await prisma.user.findUnique({
+    where: { id: id },
+    select: { following: true },
+  })
+  const followingIds = user.following.map((f) => f.followingId)
+  if (followingIds.length > 0) {
+    const posts = await prisma.post.findMany({
+      where: { authorId: { in: followingIds } },
+      include: {
+        author: {
+          select: { username: true, displayName: true, id: true, photo: true },
+        },
+      },
+    })
+    return posts
+  } else return []
+}
+
 module.exports = {
   getUserProfile,
   getUserPosts,
@@ -162,4 +181,5 @@ module.exports = {
   getSelfProfile,
   searchUsersByUsername,
   getReqStatus,
+  getFollowingPosts,
 }

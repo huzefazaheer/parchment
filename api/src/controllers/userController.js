@@ -11,6 +11,7 @@ const {
   searchUsersByUsername,
   getSelfProfile,
   getReqStatus,
+  getFollowingPosts,
 } = require('../models/userdb')
 const status = require('../utils/status')
 
@@ -125,6 +126,15 @@ async function requestStatusController(req, res) {
   }
 }
 
+async function followingPostsController(req, res) {
+  try {
+    const posts = await getFollowingPosts(req.user.id)
+    return status.OK(res, 'Posts reterived', posts)
+  } catch (error) {
+    return status.INTERNAL_SERVER_ERROR(res)
+  }
+}
+
 module.exports = {
   getUserCommentsController,
   getUserPostsController,
@@ -136,5 +146,6 @@ module.exports = {
   searchUserController,
   updateUserProfileController,
   getSelfProfileController,
+  followingPostsController,
   requestStatusController,
 }
