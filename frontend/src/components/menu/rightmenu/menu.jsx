@@ -4,7 +4,7 @@ import styles from './menu.module.css'
 import User from './components/user/user'
 import CommentSkeleton from '../../../features/dashboard/components/comment/skeleton/commentskeleton'
 
-export default function RightMenu() {
+export default function RightMenu({ hidden = true }) {
   const [search, setSearch] = useState('')
   const usersFetch = useData('/user', 'get')
 
@@ -32,7 +32,7 @@ export default function RightMenu() {
   )
 
   return (
-    <div className={`${styles.menu}`}>
+    <div className={`${styles.menu} ${hidden ? styles.smallhidden : ''}`}>
       <div className={`${styles.wrapper}`}>
         <div className={styles.searchbar}>
           <img src="/search.svg" alt="" />

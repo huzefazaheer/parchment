@@ -76,6 +76,10 @@
 }
 
 @media only screen and (max-width: 1200px) {
+  .smallhidden {
+    display: none;
+  }
+
   .menu {
     width: 100vw;
     z-index: 10000;

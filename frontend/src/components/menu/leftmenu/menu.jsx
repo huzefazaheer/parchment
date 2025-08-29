@@ -47,7 +47,7 @@ export default function LeftMenu() {
       <div
         className={`${styles.submenu2} ${showRightMenu ? styles.active : ''}`}
       >
-        <RightMenu />
+        <RightMenu hidden={false} />
       </div>
       {jwt == null ? (
         <div className={`${styles.submenu} ${showMenu ? styles.active : ''}`}>

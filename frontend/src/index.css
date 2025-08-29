@@ -50,4 +50,8 @@ input:-webkit-autofill:focus {
     flex-direction: column;
     overflow-x: none;
   }
+
+  .scroll {
+    padding-bottom: 100px;
+  }
 }
