@@ -19,7 +19,7 @@ export default function useSocket() {
 
   useEffect(() => {
     if (socketRef.current == null)
-      socketRef.current = io('http://localhost:8080')
+      socketRef.current = io('https://parchment-wd2p.onrender.com')
 
     socketRef.current.on('connect', () => {
       console.log('Connected')

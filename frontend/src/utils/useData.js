@@ -4,7 +4,7 @@ import { appContext } from '../App'
 export default function useData(endpoint, method, body = {}) {
   const { jwt } = useContext(appContext)
 
-  const api = 'http://localhost:8080'
+  const api = 'https://parchment-wd2p.onrender.com'
 
   const [data, setData] = useState(null)
   const [loading, setLoading] = useState(false)
