@@ -99,6 +99,10 @@ io.on('connection', (socket) => {
   })
 })
 
+app.get('/ping', (req, res) =>
+  res.redirect('https://parchment-sigma.vercel.app/'),
+)
+
 app.get('/embed', async (req, res) => {
   if (!(req.query && req.query.url)) return status.BAD_REQUEST(res)
   try {
