@@ -87,7 +87,6 @@ export default function Home() {
 
   return (
     <>
-      <NewItemModal />
       <LeftMenu />
       <div className={`${styles.posts} scroll`}>
         <h4 className={styles.topheading}>

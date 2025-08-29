@@ -104,7 +104,6 @@ export default function ProfilePage() {
 
   return (
     <>
-      <NewItemModal />
       <LeftMenu />
       <div
         className={`${styles.profile} scroll`}

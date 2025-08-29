@@ -113,6 +113,10 @@
   margin-top: 10px;
 }
 
+.sticky.scrolled .multibutton {
+  margin-top: 20px;
+}
+
 .heading {
   position: relative;
   z-index: 1000;
@@ -137,5 +141,11 @@
   }
   100% {
     background-position: 200% 0;
+  }
+}
+
+@media only screen and (max-width: 400px) {
+  .profilephoto {
+    bottom: 185px;
   }
 }

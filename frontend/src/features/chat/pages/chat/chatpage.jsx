@@ -81,7 +81,6 @@ export default function ChatPage() {
   return (
     <>
       <LeftMenu />
-      <NewItemModal />
 
       <div className={`${styles.chats} scroll`}>
         <div className={styles.topheading}>

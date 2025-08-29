@@ -48,5 +48,6 @@ input:-webkit-autofill:focus {
 @media only screen and (max-width: 1200px) {
   #root {
     flex-direction: column;
+    overflow-x: none;
   }
 }

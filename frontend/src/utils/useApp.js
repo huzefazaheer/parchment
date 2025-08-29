@@ -8,6 +8,8 @@ export default function useApp() {
   const [jwt, setJwt] = useState(null)
   const [user, setUser] = useState({ photo: '', displayName: '', username: '' })
   const [showModal, setShowModal] = useState({ show: false, type: 'post' })
+  const [showEditProfileModal, setShowEditProfileModal] = useState(false)
+  const [showRequestsModal, setShowRequestsModal] = useState(false)
 
   useEffect(() => {
     if (localStorage.getItem('jsonwebtoken')) {
@@ -24,5 +26,17 @@ export default function useApp() {
     setJwt(data)
   }
 
-  return { jwt, setJwt, user, setUser, showModal, setShowModal, updateJwt }
+  return {
+    jwt,
+    setJwt,
+    user,
+    setUser,
+    showModal,
+    setShowModal,
+    updateJwt,
+    setShowEditProfileModal,
+    showEditProfileModal,
+    setShowRequestsModal,
+    showRequestsModal,
+  }
 }

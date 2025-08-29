@@ -6,12 +6,13 @@ import FollowRequest from '../followrequest/followrequest'
 import { useContext } from 'react'
 import { appContext, socketContext } from '../../../../App'
 
-export default function RequestsModal({ show, toggleShow }) {
+export default function RequestsModal() {
   const [index, setIndex] = useState(0)
   const sentRequestsFetch = useData('/followreq/sent', 'GET')
   const receivedRequestsFetch = useData('/followreq/received', 'GET')
   const socket = useContext(socketContext)
-  const { user, jwt } = useContext(appContext)
+  const { user, jwt, setShowRequestsModal, showRequestsModal } =
+    useContext(appContext)
   const [sentReqData, setSentReqData] = useState([])
   const [receivedReqData, setReceivedReqData] = useState([])
 
@@ -19,6 +20,7 @@ export default function RequestsModal({ show, toggleShow }) {
     async function getData() {
       const d1 = await sentRequestsFetch.fetchData()
       const d2 = await receivedRequestsFetch.fetchData()
+      console.log(d1)
       setSentReqData(d1.data)
       setReceivedReqData(d2.data)
     }
@@ -41,7 +43,7 @@ export default function RequestsModal({ show, toggleShow }) {
   }, [socket.deletedReq, jwt])
 
   function exitModal() {
-    toggleShow(false)
+    setShowRequestsModal(false)
   }
 
   const sent = sentRequestsFetch.loading ? (
@@ -70,7 +72,9 @@ export default function RequestsModal({ show, toggleShow }) {
 
   return (
     <div
-      className={`${styles.modalcontainer} ${show ? '' : styles.modalhidden}`}
+      className={`${styles.modalcontainer} ${
+        showRequestsModal ? '' : styles.modalhidden
+      }`}
     >
       <div className={styles.modal}>
         <div className={styles.top}>

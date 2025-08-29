@@ -11,6 +11,9 @@ import ChatPage from './features/chat/pages/chat/chatpage'
 import SettingsPage from './features/dashboard/pages/settings/settingspage'
 import useSocket from './utils/useSocket'
 import { useEffect } from 'react'
+import NewItemModal from './features/dashboard/components/newitemmodal/newitem'
+import EditProfileModal from './features/dashboard/components/editprofilemodal/editprofile'
+import RequestsModal from './features/dashboard/components/requestsmodal/requests'
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const appContext = createContext({ jwt: null, setJwt: null })
@@ -31,6 +34,15 @@ function App() {
     <appContext.Provider value={app}>
       <socketContext.Provider value={socket}>
         <BrowserRouter>
+          {app.jwt != null ? (
+            <>
+              <NewItemModal />
+              <EditProfileModal />
+              <RequestsModal />
+            </>
+          ) : (
+            ''
+          )}
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/settings" element={<SettingsPage />} />

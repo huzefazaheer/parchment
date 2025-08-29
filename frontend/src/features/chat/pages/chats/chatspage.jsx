@@ -65,7 +65,6 @@ export default function ChatsPage() {
 
   return (
     <>
-      <NewItemModal />
       <LeftMenu />
 
       <div className={`${styles.chats} scroll`}>

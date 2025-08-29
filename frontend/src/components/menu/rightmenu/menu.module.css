@@ -6,14 +6,21 @@
 }
 
 .users {
-  /* width: 441px; */
-  /* margin-top: 20px; */
+  width: 100%;
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-items: center;
 }
 
 .searchbar {
+  margin-top: 60px;
+  box-sizing: border-box;
   background-color: #d0bfa5;
   font-size: 24px;
-  margin-top: 60px;
   font-weight: 900;
   height: 50px;
   width: 80%;
@@ -70,6 +77,28 @@
 
 @media only screen and (max-width: 1200px) {
   .menu {
-    display: none;
+    width: 100vw;
+    z-index: 10000;
+    margin-left: 0;
+    height: fit-content;
+    padding-left: 0;
+    background-color: var(--color-bg);
+    flex: 0;
+  }
+
+  .submenu {
+    transform: translateY(-400px);
+    transition: transform 400ms ease;
+    height: 0;
+    overflow: hidden;
+  }
+
+  .submenu.active {
+    transform: translateY(0);
+    height: fit-content;
+  }
+
+  .menu.active {
+    min-height: 100% !important;
   }
 }

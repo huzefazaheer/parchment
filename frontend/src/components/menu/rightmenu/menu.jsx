@@ -2,6 +2,7 @@ import { useRef, useState } from 'react'
 import useData from '../../../utils/useData'
 import styles from './menu.module.css'
 import User from './components/user/user'
+import CommentSkeleton from '../../../features/dashboard/components/comment/skeleton/commentskeleton'
 
 export default function RightMenu() {
   const [search, setSearch] = useState('')
@@ -16,7 +17,10 @@ export default function RightMenu() {
   }
 
   const users = usersFetch.loading ? (
-    <p>Loading</p>
+    <div>
+      <CommentSkeleton />
+      <CommentSkeleton />
+    </div>
   ) : usersFetch.error != null ? (
     <p>An unknown error occured</p>
   ) : usersFetch.data ? (
@@ -29,24 +33,26 @@ export default function RightMenu() {
 
   return (
     <div className={`${styles.menu}`}>
-      <div className={styles.searchbar}>
-        <img src="/search.svg" alt="" />
-        <input
-          type="text"
-          placeholder="Search"
-          value={search}
-          onChange={(e) => {
-            setSearch(e.target.value)
-            searchUsers(e.target.value)
-          }}
-          onBlur={(e) =>
-            setTimeout(() => {
-              setSearch('')
-            }, 500)
-          }
-        />
+      <div className={`${styles.wrapper}`}>
+        <div className={styles.searchbar}>
+          <img src="/search.svg" alt="" />
+          <input
+            type="text"
+            placeholder="Search"
+            value={search}
+            onChange={(e) => {
+              setSearch(e.target.value)
+              searchUsers(e.target.value)
+            }}
+            onBlur={(e) =>
+              setTimeout(() => {
+                setSearch('')
+              }, 500)
+            }
+          />
+        </div>
+        <div className={styles.users}>{search != '' ? users : ''}</div>
       </div>
-      <div className={styles.users}>{search != '' ? users : ''}</div>
     </div>
   )
 }

@@ -9,8 +9,9 @@ import { appContext } from '../../../../App'
 import useData from '../../../../utils/useData'
 import uploadPhoto from './uploadphoto'
 
-export default function EditProfileModal({ show, toggleShow }) {
-  const { user, updateJwt } = useContext(appContext)
+export default function EditProfileModal() {
+  const { user, updateJwt, setShowEditProfileModal, showEditProfileModal } =
+    useContext(appContext)
   const photouploadRef = useRef(null)
   const backdropuploadRef = useRef(null)
   const [data, setData] = useState({
@@ -25,7 +26,7 @@ export default function EditProfileModal({ show, toggleShow }) {
   })
 
   function exitModal() {
-    toggleShow(false)
+    setShowEditProfileModal(false)
   }
 
   async function updateProfile() {
@@ -43,7 +44,6 @@ export default function EditProfileModal({ show, toggleShow }) {
       const photo = await uploadPhoto('profilephotos', newphoto)
       updatedData = { ...updatedData, photo: photo }
     }
-    console.log(updatedData)
     setData(updatedData)
     console.log(await editProfileData.fetchData(undefined, updatedData))
     await updateJwt()
@@ -68,7 +68,9 @@ export default function EditProfileModal({ show, toggleShow }) {
 
   return (
     <div
-      className={`${styles.modalcontainer} ${show ? '' : styles.modalhidden}`}
+      className={`${styles.modalcontainer} ${
+        showEditProfileModal ? '' : styles.modalhidden
+      }`}
     >
       <div className={styles.modal}>
         <div className={styles.top}>

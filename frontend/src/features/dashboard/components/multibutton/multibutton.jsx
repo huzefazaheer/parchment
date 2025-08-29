@@ -16,10 +16,9 @@ export default function MultiButton({
   const [menuActive, setMenuActive] = useState(false)
   const navigate = useNavigate()
   const createChatFetch = useData('/chats', 'POST', { users: [userId] })
-  const [show, toggleShow] = useState(false)
-  const [showReq, toggleShowReq] = useState(false)
   const socket = useContext(socketContext)
-  const { user } = useContext(appContext)
+  const { setShowEditProfileModal, setShowRequestsModal } =
+    useContext(appContext)
 
   async function createChat() {
     const data = await createChatFetch.fetchData()
@@ -39,11 +38,11 @@ export default function MultiButton({
   }
 
   async function editProfile() {
-    toggleShow(true)
+    setShowEditProfileModal(true)
   }
 
   async function getRequests() {
-    toggleShowReq(true)
+    setShowRequestsModal(true)
   }
 
   const options = isSelf ? (
@@ -60,14 +59,6 @@ export default function MultiButton({
 
   return (
     <>
-      {isSelf ? (
-        <>
-          <EditProfileModal show={show} toggleShow={toggleShow} />
-          <RequestsModal show={showReq} toggleShow={toggleShowReq} />
-        </>
-      ) : (
-        ''
-      )}
       <div className={styles.button}>
         <button
           onClick={btnclick}
